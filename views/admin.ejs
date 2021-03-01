@@ -1,12 +1,102 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <span><%=username%></span>
-</body>
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="../public/fonts/icomoon/style.css">
+
+    <link rel="stylesheet" href="../public/css/owl.carousel.min.css">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="../public/css/bootstrap.min.css">
+    
+    <!-- Style -->
+    <link rel="stylesheet" href="../public/css/style.css">
+    <link rel="shortcut icon" type="image/x-icon" href="../public/icon.ico" />
+    <title>Login</title>
+  </head>
+  <body>
+  <div class="navbar">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <!--<button type="button" class="navbar-toggle">
+          <span class="glyphicon glyphicon-menu-hamburger"></span>
+        </button>!-->
+        <a id="logo" class="navbar-brand" href="#">FilesPro</a>
+      </div>
+    </div>
+  </div>
+  <div class="content">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6">
+          <img src="../public/images/undraw_remotely_2j6y.svg" alt="Image" class="img-fluid">
+        </div>
+        <div class="col-md-6 contents">
+          <div class="row justify-content-center">
+            <div class="col-md-8">
+              <div class="mb-4">
+              <h3>Login</h3>
+              <p class="mb-4">Welcome back!</p>
+            </div>
+
+            <!-- <form action="http://localhost:3000/login" method="POST"> -->
+              <div class="form-group first">
+                <label for="username">Username</label>
+                <input type="text" class="form-control" id="username" name="username">
+
+              </div>
+              <div class="form-group last mb-4">
+                <label for="password">Password</label>
+                <input type="password" class="form-control" id="password" name="password">
+                
+              </div>
+              
+              <div class="d-flex mb-5 align-items-center">
+                <label class="control control--checkbox mb-0"><span class="caption">Remember me</span>
+                  <input type="checkbox" checked="checked"/>
+                  <div class="control__indicator"></div>
+                </label>
+                <span class="ml-auto"><a href="#" class="forgot-pass">Forgot Password</a></span> 
+              </div>
+              <div class="d-flex mb-5 align-items-center">
+
+                <input type="radio" id="admin" name="logintype" value="admin">
+                <input type="radio" id="faculty" name="logintype" value="faculty">
+                <input type="radio" id="student" name="logintype" value="student">
+
+                <div class="usertypes">
+                  <label class="admin" for="admin">&#128273;</label>
+                  <label class="faculty" for="faculty">&#128104;&#8205;&#127979;</label>
+                  <label class="student" for="student">&#128104;&#8205;&#127891;</label>
+                </div>
+              </div>
+
+              <input type="submit" id="submit" value="Log In" class="btn btn-block btn-primary">
+            <!-- </form> -->
+
+            <div id="display"></div>
+            <span><%=username%></span>
+
+            </div>
+          </div>
+          
+        </div>
+        
+      </div>
+    </div>
+  </div>
+
+  
+    <script src="../public/js/jquery-3.3.1.min.js"></script>
+    <!-- <script src="../public/js/popper.min.js"></script> -->
+    <!-- <script src="../public/js/bootstrap.min.js"></script> -->
+    <script src="../public/js/main.js"></script>
+    <script src="../public/js/Scriptlogin.js"></script>
+    <script src="../public/js/jquery.js"></script>
+    <!-- <script src="../test.js"></script> -->
+  </body>
 </html>
