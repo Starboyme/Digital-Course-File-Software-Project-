@@ -6,6 +6,46 @@ p {
   color: #b3b3b3;
   font-weight: 300; }
 
+.login-sel input{
+  margin:0;padding:0;
+  -webkit-appearance:none;
+  -moz-appearance:none;
+  appearance:none;
+}
+.admin{
+  background-image: url("/public/images/admin.png");
+}
+.faculty{
+  background-image: url("/public/images/faculty.png");
+}
+.student{
+  background-image: url("/public/images/student.png");
+}
+.login-sel input:active +.options-cc{opacity: .9;}
+.login-sel input:checked +.options-cc {
+  -webkit-filter: none;
+       -moz-filter: none;
+            filter: none;
+}
+.options-cc{
+  cursor:pointer;
+    background-size:contain;
+    background-repeat:no-repeat;
+    display:inline-block;
+    width:100px;height:70px;
+    -webkit-transition: all 100ms ease-in;
+       -moz-transition: all 100ms ease-in;
+            transition: all 100ms ease-in;
+    -webkit-filter: brightness(1.5) grayscale(1) opacity(.7);
+       -moz-filter: brightness(1.5) grayscale(1) opacity(.7);
+            filter: brightness(1.5) grayscale(1) opacity(.7);
+}
+.options-cc:hover{
+  -webkit-filter: brightness(1.2) grayscale(.5) opacity(.9);
+       -moz-filter: brightness(1.2) grayscale(.5) opacity(.9);
+            filter: brightness(1.2) grayscale(.5) opacity(.9);
+}
+
 h1, h2, h3, h4, h5, h6,
 .h1, .h2, .h3, .h4, .h5, .h6 {
   font-family: "Roboto", sans-serif; }

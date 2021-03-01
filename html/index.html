@@ -62,15 +62,13 @@
                 </label>
                 <span class="ml-auto"><a href="#" class="forgot-pass">Forgot Password</a></span> 
               </div>
-              <div class="d-flex mb-5 align-items-center">
+              <div class="d-flex mb-5 align-items-center login-sel">
                 <input type="radio" id="admin" name="logintype" value="admin">
+                <label class="options-cc admin" for="admin"></label>
                 <input type="radio" id="faculty" name="logintype" value="faculty">
-                <input type="radio" id="student" name="logintype" value="">
-                <div class="usertypes">
-                  <label class="admin" for="admin">&#128273;</label>
-                  <label class="faculty" for="faculty">&#128104;&#8205;&#127979;</label>
-                  <label class="student" for="student">&#128104;&#8205;&#127891;</label>
-                </div>
+                <label class="options-cc faculty" for="faculty"></label>
+                <input type="radio" id="student" name="logintype" value="student">
+                <label class="options-cc student" for="student"></label>
               </div>
 
               <input type="submit" id="sbmt" value="Log In" class="btn btn-block btn-primary">
