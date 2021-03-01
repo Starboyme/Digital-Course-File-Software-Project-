@@ -12,91 +12,48 @@
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="../public/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     
     <!-- Style -->
     <link rel="stylesheet" href="../public/css/style.css">
     <link rel="shortcut icon" type="image/x-icon" href="../public/icon.ico" />
-    <title>Login</title>
+    <title>Portal</title>
   </head>
   <body>
-  <div class="navbar">
-    <div class="container-fluid">
-      <div class="navbar-header">
-        <!--<button type="button" class="navbar-toggle">
-          <span class="glyphicon glyphicon-menu-hamburger"></span>
-        </button>!-->
-        <a id="logo" class="navbar-brand" href="#">FilesPro</a>
+    <div class="navbar navbar-expand-md navbar-light bg-light">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <!--<button type="button" class="navbar-toggle">
+            <span class="glyphicon glyphicon-menu-hamburger"></span>
+          </button>!-->
+          <a id="logo" class="navbar-brand" href="#">FilesPro</a>
+        </div>
+        <div id="navbarCollapse" class="collapse navbar-collapse">
+            <ul class="nav navbar-nav ml-auto">
+                <li class="nav-item dropdown">
+                    <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Admin</a>
+                    <div class="dropdown-menu dropdown-menu-right">
+                        <a href="/html/index.html" class="dropdown-item">Logout</a>
+                    </div>
+                </li>
+            </ul>
+        </div>
       </div>
     </div>
-  </div>
-  <div class="content">
-    <div class="container">
-      <div class="row">
-        <div class="col-md-6">
-          <img src="../public/images/undraw_remotely_2j6y.svg" alt="Image" class="img-fluid">
-        </div>
-        <div class="col-md-6 contents">
-          <div class="row justify-content-center">
-            <div class="col-md-8">
-              <div class="mb-4">
-              <h3>Login</h3>
-              <p class="mb-4">Welcome back!</p>
+    <div class="content">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-6">
+                <img src="../public/images/undraw_remotely_2j6y.svg" alt="Image" class="img-fluid">
             </div>
-
-            <!-- <form action="http://localhost:3000/login" method="POST"> -->
-              <div class="form-group first">
-                <label for="username">Username</label>
-                <input type="text" class="form-control" id="username" name="username">
-
-              </div>
-              <div class="form-group last mb-4">
-                <label for="password">Password</label>
-                <input type="password" class="form-control" id="password" name="password">
-                
-              </div>
-              
-              <div class="d-flex mb-5 align-items-center">
-                <label class="control control--checkbox mb-0"><span class="caption">Remember me</span>
-                  <input type="checkbox" checked="checked"/>
-                  <div class="control__indicator"></div>
-                </label>
-                <span class="ml-auto"><a href="#" class="forgot-pass">Forgot Password</a></span> 
-              </div>
-              <div class="d-flex mb-5 align-items-center">
-
-                <input type="radio" id="admin" name="logintype" value="admin">
-                <input type="radio" id="faculty" name="logintype" value="faculty">
-                <input type="radio" id="student" name="logintype" value="student">
-
-                <div class="usertypes">
-                  <label class="admin" for="admin">&#128273;</label>
-                  <label class="faculty" for="faculty">&#128104;&#8205;&#127979;</label>
-                  <label class="student" for="student">&#128104;&#8205;&#127891;</label>
+            <div class="col-md-6 contents">
+                <div class="row justify-content-center">
+                    <p class="writing"><%=username%></p>
                 </div>
-              </div>
-
-              <input type="submit" id="submit" value="Log In" class="btn btn-block btn-primary">
-            <!-- </form> -->
-
-            <div id="display"></div>
-            <span><%=username%></span>
-
             </div>
-          </div>
-          
         </div>
-        
-      </div>
     </div>
-  </div>
-
-  
     <script src="../public/js/jquery-3.3.1.min.js"></script>
-    <!-- <script src="../public/js/popper.min.js"></script> -->
-    <!-- <script src="../public/js/bootstrap.min.js"></script> -->
-    <script src="../public/js/main.js"></script>
-    <script src="../public/js/Scriptlogin.js"></script>
-    <script src="../public/js/jquery.js"></script>
-    <!-- <script src="../test.js"></script> -->
-  </body>
+</body>
 </html>

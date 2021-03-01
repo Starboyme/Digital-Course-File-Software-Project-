@@ -21,7 +21,7 @@ $(function () {
             success: function (response) {
 
                 // window.close()
-                var w = window.open();
+                var w = window.open('about:blank');
                 w.document.open();
                 w.document.write(response);
                 w.document.close();
