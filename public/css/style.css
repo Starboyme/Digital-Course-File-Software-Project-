@@ -2,13 +2,12 @@ body {
   font-family: "Roboto", sans-serif;
   background-color: #f8fafb;
  }
-.portal-bg{
-  background-image: url("/public/images/undraw_remotely_2j6y.svg");
-  background-repeat: no-repeat;
-}
 p {
   color: #b3b3b3;
   font-weight: 300; }
+.writing{
+  color:#7e0cf5;
+}
 
 .login-sel input{
   margin:0;padding:0;
