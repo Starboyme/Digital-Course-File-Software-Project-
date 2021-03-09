@@ -6,6 +6,7 @@ var fs = require('fs');
 var path = require('path');
 var m1=require('./test.js');
 
+
 var con = mysql.createConnection({
     host: "127.0.0.1",
     user: "root",
@@ -17,7 +18,7 @@ var urlencodedParser = bodyParser.urlencoded({ extended: true });
 
 app.set('view engine','ejs');
 app.use(bodyParser.urlencoded({extended: true}));
-app.use(express.static("public"));
+app.use(express.static("./public"));
 app.use(bodyParser.json());
 
 var otp=0;
