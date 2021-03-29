@@ -19,6 +19,7 @@
     
     <!-- Style -->
     <link rel="stylesheet" href="../public/css/style.css">
+    <link rel="stylesheet" href="../public/css/style_index.css">
     <link rel="shortcut icon" type="image/x-icon" href="./icon.ico" />
     <title>Login</title>
   </head>
@@ -29,7 +30,7 @@
         <!--<button type="button" class="navbar-toggle">
           <span class="glyphicon glyphicon-menu-hamburger"></span>
         </button>!-->
-        <a id="logo" class="navbar-brand" href="#">FilesPro</a>
+        <a id="logo" class="navbar-brand" href="../html/portal.html">FilesPro</a>
       </div>
     </div>
   </div>
@@ -37,15 +38,15 @@
     <div class="container">
       <div class="row">
         <div class="col-md-6">
-          <img src="../public/images/undraw_remotely_2j6y.svg" alt="Image" class="img-fluid">
+          <!-- <img src="../public/images/undraw_remotely_2j6y.svg" alt="Image" class="img-fluid"> -->
         </div>
         <div class="col-md-6 contents">
-          <div class="row justify-content-center">
+          <div class="row justify-content-center mt-20px mb-20px" id="LoginBox">
             <div class="col-md-8">
               <div class="mb-4">
               <h3>Login</h3>
               <p class="mb-4">Welcome back!</p>
-            </div>
+              </div>
 
             <!-- <form action="http://localhost:3000/login" method="POST"> -->
               <div class="form-group first">
@@ -66,7 +67,7 @@
                 </label>
                 <span class="ml-auto"><a href="./forget_password.html" class="forgot-pass" target="_blank">Forgot Password</a></span> 
               </div>
-              <div class="d-flex mb-5 align-items-center login-sel">
+              <div class="d-flex mb-5 align-items-center login-sel ml-auto">
                 <input type="radio" id="admin" name="logintype" value="admin">
                 <label class="options-cc admin" for="admin"></label>
                 <input type="radio" id="faculty" name="logintype" value="faculty">

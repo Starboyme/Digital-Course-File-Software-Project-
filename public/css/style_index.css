@@ -1,0 +1,18 @@
+body{
+    background-image: url("../images/bg_login_cropped.jpg");
+    background-repeat: no-repeat;
+    background-size: 100%;
+    /* filter: blur(1px);
+    -webkit-filter: blur(1px); */
+}
+#LoginBox
+{
+    background-color:white ;
+    padding-top: 25px;
+    padding-bottom: 25px;
+}
+#logo
+{
+    color: black;
+    size: 5em;
+}
