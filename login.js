@@ -86,13 +86,14 @@ app.post('/f2submit', urlencodedParser, function (req, res) {
     else{res.send("0");}
 });
 
-app.post('/newpasswordreset', urlencodedParser, function (req, res) {
-    
+app.post('/newpasswordreset', urlencodedParser, function (req, res) {  
+
     con.connect(function(err){
         con.query(`update login set password='${req.body.newpassword}' where username="${req.body.username}";`,function(){
             res.send("Password changed");
         });
     });
+    
 });
 
 var server = app.listen(3000, function () {});
