@@ -14,5 +14,12 @@ body{
 #logo
 {
     color: black;
-    size: 5em;
+    size: 10em;
+}
+#GoogleLogo
+{
+    width:40px;
+    height:40px;
+    margin-left: auto;
+
 }
