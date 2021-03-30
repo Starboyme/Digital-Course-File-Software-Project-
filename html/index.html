@@ -3,6 +3,10 @@
   <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
+    <meta charset="UTF-8">
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <meta name="google-signin-client_id" content="733850488636-ncqlhpb9c9gu1iiq53tjqvf7kb1lum71.apps.googleusercontent.com">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400&display=swap" rel="stylesheet">
 
@@ -15,7 +19,8 @@
     
     <!-- Style -->
     <link rel="stylesheet" href="../public/css/style.css">
-    <link rel="shortcut icon" type="image/x-icon" href="../public/icon.ico" />
+    <link rel="stylesheet" href="../public/css/style_index.css">
+    <link rel="shortcut icon" type="image/x-icon" href="./icon.ico" />
     <title>Login</title>
   </head>
   <body>
@@ -25,7 +30,7 @@
         <!--<button type="button" class="navbar-toggle">
           <span class="glyphicon glyphicon-menu-hamburger"></span>
         </button>!-->
-        <a id="logo" class="navbar-brand" href="#">FilesPro</a>
+        <a id="logo" class="navbar-brand ml-auto" href="../html/portal.html">FilesPro</a>
       </div>
     </div>
   </div>
@@ -33,17 +38,17 @@
     <div class="container">
       <div class="row">
         <div class="col-md-6">
-          <img src="../public/images/undraw_remotely_2j6y.svg" alt="Image" class="img-fluid">
+          <!-- <img src="../public/images/undraw_remotely_2j6y.svg" alt="Image" class="img-fluid"> -->
         </div>
         <div class="col-md-6 contents">
-          <div class="row justify-content-center">
+          <div class="row justify-content-center mt-20px mb-20px" id="LoginBox">
             <div class="col-md-8">
               <div class="mb-4">
               <h3>Login</h3>
               <p class="mb-4">Welcome back!</p>
-            </div>
+              </div>
 
-            <!-- <form action="http://localhost:3000/login" method="POST"> -->
+            <form action="http://localhost:3000/login" method="POST">
               <div class="form-group first">
                 <label for="username">Username</label>
                 <input type="text" class="form-control" id="username" name="username">
@@ -60,9 +65,9 @@
                   <input type="checkbox" checked="checked"/>
                   <div class="control__indicator"></div>
                 </label>
-                <span class="ml-auto"><a href="./forget_password.html" class="forgot-pass" target="_blank">Forgot Password</a></span> 
+                
               </div>
-              <div class="d-flex mb-5 align-items-center login-sel">
+              <div class="d-flex mb-5 align-items-center login-sel ml-auto">
                 <input type="radio" id="admin" name="logintype" value="admin">
                 <label class="options-cc admin" for="admin"></label>
                 <input type="radio" id="faculty" name="logintype" value="faculty">
@@ -70,13 +75,19 @@
                 <input type="radio" id="student" name="logintype" value="student">
                 <label class="options-cc student" for="student"></label>
               </div>
-
               <input type="submit" id="submit" value="Log In" class="btn btn-block btn-primary">
-            <!-- </form> -->
+            </form>
+            <form action="http://localhost:3000/forgotpassword" method="POST">
+              <span class="ml-auto"><button class="forgot-pass" target="_blank">Forgot Password</button></span> 
+            </form>
 
-            <div id="display"></div>
 
-
+            <div id="display">
+            </div>
+            <div class="mb-4">
+              <hr>
+              <a href="#"><img src="../public/images/google_logo.png" id="GoogleLogo"></a>
+            </div>
             </div>
           </div>
           

@@ -1,6 +1,13 @@
-var m1=require('./test.js');
-function getRndInteger(min, max) {
-  return Math.floor(Math.random() * (max - min + 1) ) + min;
-}  
-x=getRndInteger(111111,999999)
-console.log(m1.sendmail('rajpradeepkrr@gmail.com',x))
+var MongoClient = require('mongodb').MongoClient;
+var url = "mongodb://localhost:27017/";
+
+MongoClient.connect(url, function(err, db) {
+  if (err) throw err;
+  var dbo = db.db("mydb");
+  var myobj = { name: "Ocean Tex", address: "Kamarajapuram" };
+  dbo.collection("customers").insertOne(myobj, function(err, res) {
+    if (err) throw err;
+    console.log("1 document inserted");
+    db.close();
+  });
+});
