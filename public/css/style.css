@@ -16,13 +16,13 @@ p {
   appearance:none;
 }
 .admin{
-  background-image: url("/public/images/admin.png");
+  background-image: url("/images/admin.png");
 }
 .faculty{
-  background-image: url("/public/images/faculty.png");
+  background-image: url("/images/faculty.png");
 }
 .student{
-  background-image: url("/public/images/student.png");
+  background-image: url("/images/student.png");
 }
 .login-sel input:active +.options-cc{opacity: .9;}
 .login-sel input:checked +.options-cc {
