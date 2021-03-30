@@ -48,7 +48,7 @@
               <p class="mb-4">Welcome back!</p>
               </div>
 
-            <!-- <form action="http://localhost:3000/login" method="POST"> -->
+            <form action="http://localhost:3000/login" method="POST">
               <div class="form-group first">
                 <label for="username">Username</label>
                 <input type="text" class="form-control" id="username" name="username">
@@ -65,7 +65,7 @@
                   <input type="checkbox" checked="checked"/>
                   <div class="control__indicator"></div>
                 </label>
-                <span class="ml-auto"><a href="./forget_password.html" class="forgot-pass" target="_blank">Forgot Password</a></span> 
+                
               </div>
               <div class="d-flex mb-5 align-items-center login-sel ml-auto">
                 <input type="radio" id="admin" name="logintype" value="admin">
@@ -76,7 +76,12 @@
                 <label class="options-cc student" for="student"></label>
               </div>
               <input type="submit" id="submit" value="Log In" class="btn btn-block btn-primary">
-            <!-- </form> -->
+            </form>
+            <form action="http://localhost:3000/forgotpassword" method="POST">
+              <span class="ml-auto"><button class="forgot-pass" target="_blank">Forgot Password</button></span> 
+            </form>
+
+
             <div id="display">
             </div>
             <div class="mb-4">
