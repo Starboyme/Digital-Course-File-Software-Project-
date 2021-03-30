@@ -3,9 +3,8 @@
   <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
-    <meta charset="UTF-8">
     <script src="https://apis.google.com/js/platform.js" async defer></script>
-    <meta name="google-signin-client_id" content="733850488636-ncqlhpb9c9gu1iiq53tjqvf7kb1lum71.apps.googleusercontent.com">
+    <meta name="google-signin-client_id" content="702568242650-7mth13f0ce7gfdbp3jqkn731dquqi45q.apps.googleusercontent.com">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400&display=swap" rel="stylesheet">
@@ -14,16 +13,16 @@
 <link href="https://fonts.googleapis.com/css2?family=Recursive&family=Rubik&display=swap" rel="stylesheet">
 
 
-    <link rel="stylesheet" href="../public/fonts/icomoon/style.css">
+    <link rel="stylesheet" href="../fonts/icomoon/style.css">
 
-    <link rel="stylesheet" href="../public/css/owl.carousel.min.css">
+    <link rel="stylesheet" href="../css/owl.carousel.min.css">
 
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="../public/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
     
     <!-- Style -->
-    <link rel="stylesheet" href="../public/css/style.css">
-    <link rel="stylesheet" href="../public/css/style_index.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/style_index.css">
     <link rel="shortcut icon" type="image/x-icon" href="./icon.ico" />
     <title>Login</title>
   </head>
@@ -42,7 +41,7 @@
     <div class="container">
       <div class="row">
         <div class="col-md-6">
-          <!-- <img src="../public/images/undraw_remotely_2j6y.svg" alt="Image" class="img-fluid"> -->
+          <!-- <img src="../images/undraw_remotely_2j6y.svg" alt="Image" class="img-fluid"> -->
         </div>
         <div class="col-md-6 contents">
           <div class="row justify-content-center mt-20px mb-20px" id="LoginBox">
@@ -52,17 +51,19 @@
               <!-- <p class="mb-4">Welcome back!</p> -->
               <!-- </div> -->
 
-            <form action="http://localhost:3000/login" method="POST" class="box">
-              <!-- <div class="form-group first"> -->
-                <!-- <label for="username">Username</label> -->
-                <input type="text" placeholder="Username" id="username" name="username">
-              <!-- </div> -->
-              <!-- <div class="form-group last mb-4"> -->
-                <!-- <label for="password">Password</label> -->
-                <input type="password" placeholder="Password" id="password" name="password">
-              <!-- </div> -->
+            <form action="http://localhost:3000/login" method="POST">
+              <div class="form-group first">
+                <label for="username">Username</label>
+                <input type="text" class="form-control" id="username" name="username">
+
+              </div>
+              <div class="form-group last mb-4">
+                <label for="password">Password</label>
+                <input type="password" class="form-control" id="password" name="password">
+                
+              </div>
               
-              <!-- <div class="d-flex mb-5 align-items-center">
+              <div class="d-flex mb-5 align-items-center">
                 <label class="control control--checkbox mb-0"><span class="caption">Remember me</span>
                   <input type="checkbox" checked="checked"/>
                   <div class="control__indicator"></div>
@@ -89,7 +90,7 @@
                 <input type="radio" id="student" name="logintype" value="student">
                 <label class="options-cc student" for="student"></label> -->
               </div>
-              <input type="submit" id="submit" value="Log In" class="loginn">
+              <input type="submit" id="submit" value="Log In" class="btn btn-block btn-primary">
             </form>
             <hr>
             <form action="http://localhost:3000/forgotpassword" method="POST" style="margin-left: 88px;">
@@ -101,8 +102,42 @@
             </div>
             <div class="mb-4">
               <hr>
-              <a href="#"><img src="../public/images/google_logo.png" id="GoogleLogo" style="margin-left: 153px;"></a>
+              <!-- <a href="#" data-onsuccess="onSignIn"><img src="../images/google_logo.png" id="GoogleLogo"></a> -->
+              
             </div>
+            <div class="g-signin2" data-onsuccess="onSignIn"></div>
+              <script>
+                
+                function onSignIn(googleUser) 
+                {
+                  var id_token = googleUser.getAuthResponse().id_token;
+                  
+                  console.log(id_token);
+              
+                  var xhr = new XMLHttpRequest();
+                  xhr.open('POST', '/googlelogin');
+                  xhr.setRequestHeader('Content-Type', 'application/json');
+                  xhr.onload = function() 
+                  {
+                    console.log('Signed in as: ' + xhr.responseText);
+                    if(xhr.responseText == 'success')
+                    {
+                      signOut();
+                      location.assign('/dashboard');
+                    }
+                  };
+                  xhr.send(JSON.stringify({token : id_token}));
+                }
+              </script>
+              <!-- <a href="#" onclick="signOut();">Sign out</a> -->
+              <script>
+                function signOut() {
+                  var auth2 = gapi.auth2.getAuthInstance();
+                  auth2.signOut().then(function () {
+                    console.log('User signed out.');
+                  });
+                }
+              </script>
             </div>
           </div>
           
@@ -112,12 +147,10 @@
     </div>
   </div>
 
-  
-    <script src="../public/js/jquery-3.3.1.min.js"></script>
-    <!-- <script src="../public/js/popper.min.js"></script> -->
-    <!-- <script src="../public/js/bootstrap.min.js"></script> -->
-    <script src="../public/js/main.js"></script>
-    <script src="../public/js/jquery.js"></script>
+    <!-- <script src="../js/popper.min.js"></script> -->
+    <!-- <script src="../js/bootstrap.min.js"></script> -->
+    <script src="../js/main.js"></script>
+    <script src="../js/jquery.js"></script>
     <!-- <script src="../test.js"></script> -->
   </body>
 </html>

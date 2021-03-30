@@ -1,12 +1,19 @@
+const cookieParser = require('cookie-parser');
 var express = require('express');
 var app = express();
 var mysql = require('mysql');
 var bodyParser = require('body-parser');
 var fs = require('fs');
 var path = require('path');
-var m1=require('./test.js');
+var m1=require('./email.js');
 var path=require('path');
 const { urlencoded } = require('express');
+
+//Google Auth library - checks the integrity of the token_ID sent to your server
+const {OAuth2Client} = require('google-auth-library');
+const CLIENT_ID = '702568242650-7mth13f0ce7gfdbp3jqkn731dquqi45q.apps.googleusercontent.com';
+const client = new OAuth2Client(CLIENT_ID);
+
 
 
 var con = mysql.createConnection({
@@ -23,6 +30,9 @@ app.use(bodyParser.urlencoded({extended: true}));
 // app.use(express.static("public"));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.json());
+app.use(cookieParser());
+app.use(require('express-post-redirect'));
+
 
 var otp=0;
 function getRndInteger(min, max) {
@@ -76,4 +86,78 @@ app.post('/newpasswordreset', urlencodedParser, function (req, res) {
 app.post('/forgotpassword',urlencodedParser,function(req,res){
     res.render('forgotpassword',{flag:1});
 });
+
+app.get('/loginpage',function(req,res){
+    res.render('login');
+});
+
+
+
+app.post('/googlelogin', function(req,res)
+{
+    var token_id = req.body.token;
+    console.log(token_id);
+    
+    async function verify() 
+    {
+        const ticket = await client.verifyIdToken(
+        {
+            idToken: token_id,
+            audience: CLIENT_ID, 
+        });
+        const payload = ticket.getPayload(); //payload stores user details
+        const userid = payload['sub'];
+        console.log(payload);
+    }
+    verify()
+    .then(function()
+    {
+        res.cookie('session-token',token_id);
+        res.send('success');
+    }).
+    catch(console.error);
+});
+
+app.get('/dashboard', checkAuthenticated, function(req,res)
+{
+    let user = req.user;
+    res.render('admin', {user});
+});
+
+app.get('/logout', function(req,res)
+{
+    res.clearCookie('session-token');
+    res.redirect('/loginpage');
+});
+
+function checkAuthenticated(req, res, next)
+{
+    let token_id = req.cookies['session-token'];
+
+    let user = {};
+    async function verify() 
+    {
+        const ticket = await client.verifyIdToken(
+        {
+            idToken: token_id,
+            audience: CLIENT_ID, 
+        });
+        const payload = ticket.getPayload(); //stores user details
+        user.name = payload.name;
+        user.email = payload.email;
+        user.picture = payload.picture;
+    }
+    verify()
+    .then(function()
+    {
+        req.user = user;
+        next();
+    }).
+    catch(function(err)
+    {
+        res.redirect('/loginpage');
+    });
+}
+
+
 var server = app.listen(3000, function () {});
