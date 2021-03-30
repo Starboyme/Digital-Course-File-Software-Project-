@@ -121,7 +121,17 @@ app.post('/googlelogin', function(req,res)
 app.get('/dashboard', checkAuthenticated, function(req,res)
 {
     let user = req.user;
-    res.render('admin', {user});
+    con.connect(function(err){
+        con.query(`select * from login where email='${user.email}';`,function(err,results){
+            if(results.length==0){res.redirect('/loginpage');}
+            else{
+                if(results[0].role=="admin"){res.render('admin', {user});}
+                else if(results[0].role=="faculty"){res.render('faculty', {user});}
+                else{res.render('student', {user});}
+            }
+        });
+    });
+    
 });
 
 app.get('/logout', function(req,res)
