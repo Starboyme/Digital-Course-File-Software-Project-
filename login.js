@@ -124,15 +124,10 @@ app.get('/dashboard', checkAuthenticated, function(req,res)
     res.render('admin', {user});
 });
 
-// app.get('/protected',checkAuthenticated, function(req,res)
-// {
-//     res.render('protected');
-// });
-
 app.get('/logout', function(req,res)
 {
     res.clearCookie('session-token');
-    res.redirect(307,'/loginpage');
+    res.redirect('/loginpage');
 });
 
 function checkAuthenticated(req, res, next)
