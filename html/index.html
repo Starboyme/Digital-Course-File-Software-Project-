@@ -45,28 +45,26 @@
             <div class="col-md-8">
               <div class="mb-4">
               <h3>Login</h3>
-              <p class="mb-4">Welcome back!</p>
+              <!-- <p class="mb-4">Welcome back!</p> -->
               </div>
 
-            <form action="http://localhost:3000/login" method="POST">
-              <div class="form-group first">
-                <label for="username">Username</label>
-                <input type="text" class="form-control" id="username" name="username">
-
-              </div>
-              <div class="form-group last mb-4">
-                <label for="password">Password</label>
-                <input type="password" class="form-control" id="password" name="password">
-                
-              </div>
+            <form action="http://localhost:3000/login" method="POST" class="box">
+              <!-- <div class="form-group first"> -->
+                <!-- <label for="username">Username</label> -->
+                <input type="text" placeholder="Username" id="username" name="username">
+              <!-- </div> -->
+              <!-- <div class="form-group last mb-4"> -->
+                <!-- <label for="password">Password</label> -->
+                <input type="password" placeholder="Password" id="password" name="password">
+              <!-- </div> -->
               
-              <div class="d-flex mb-5 align-items-center">
+              <!-- <div class="d-flex mb-5 align-items-center">
                 <label class="control control--checkbox mb-0"><span class="caption">Remember me</span>
                   <input type="checkbox" checked="checked"/>
                   <div class="control__indicator"></div>
                 </label>
                 
-              </div>
+              </div> -->
               <div class="d-flex mb-5 align-items-center login-sel ml-auto">
                 <input type="radio" id="admin" name="logintype" value="admin">
                 <label class="options-cc admin" for="admin"></label>
@@ -75,7 +73,7 @@
                 <input type="radio" id="student" name="logintype" value="student">
                 <label class="options-cc student" for="student"></label>
               </div>
-              <input type="submit" id="submit" value="Log In" class="btn btn-block btn-primary">
+              <input type="submit" id="submit" value="Log In" class="loginn">
             </form>
             <form action="http://localhost:3000/forgotpassword" method="POST">
               <span class="ml-auto"><button class="forgot-pass" target="_blank">Forgot Password</button></span> 
