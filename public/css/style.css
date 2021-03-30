@@ -24,7 +24,7 @@ p {
 .student{
   background-image: url("/public/images/student.png");
 }
-.login-sel input:active +.options-cc{opacity: .9;}
+/* .login-sel input:active +.options-cc{opacity: .9;}
 .login-sel input:checked +.options-cc {
   -webkit-filter: none;
        -moz-filter: none;
@@ -43,11 +43,11 @@ p {
        -moz-filter: brightness(1.5) grayscale(1) opacity(.7);
             filter: brightness(1.5) grayscale(1) opacity(.7);
 }
-.options-cc:hover{
+.options-cc{
   -webkit-filter: brightness(1.2) grayscale(.5) opacity(.9);
        -moz-filter: brightness(1.2) grayscale(.5) opacity(.9);
             filter: brightness(1.2) grayscale(.5) opacity(.9);
-}
+} */
 
 h1, h2, h3, h4, h5, h6,
 .h1, .h2, .h3, .h4, .h5, .h6 {
