@@ -4,7 +4,7 @@ var app = express();
 var bodyParser = require('body-parser');
 var fs = require('fs');
 var path = require('path');
-var m1=require('./server/email.js');
+
 require('./server/login.js')(app);
 // require('./server/googlelogin.js')(app);
 const { urlencoded } = require('express');
@@ -32,12 +32,6 @@ app.use(bodyParser.json());
 app.use(require('express-post-redirect'));
 app.use(express.json());
 app.use(cookieParser());
-
-
-var otp=0;
-function getRndInteger(min, max) {
-    return Math.floor(Math.random() * (max - min + 1) ) + min;
-}  
 
 app.post('/googlelogin', urlencodedParser, function(req,res)
 {

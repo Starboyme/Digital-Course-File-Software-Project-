@@ -3,6 +3,7 @@ var app = express();
 var mysql = require('mysql');
 var path = require('path');
 var bodyParser = require('body-parser');
+var m1=require('./email.js');
 const { urlencoded } = require('express');
 
 
@@ -12,6 +13,11 @@ var con = mysql.createConnection({
     password: "password",
     database: "digitalcoursefile_db"
   });
+
+var otp=0;
+function getRndInteger(min, max) {
+    return Math.floor(Math.random() * (max - min + 1) ) + min;
+}  
 
 var urlencodedParser = bodyParser.urlencoded({ extended: true });
 app.set('view engine','ejs');
@@ -23,7 +29,6 @@ app.use(express.json());
 
 
 module.exports = function(app){
- 
 
     app.post('/login', urlencodedParser, function (req, res) {
         console.log(req.body);
@@ -76,7 +81,4 @@ module.exports = function(app){
     app.get('/loginpage',function(req,res){
         res.render('login');
     });
-    
-
-
 }
