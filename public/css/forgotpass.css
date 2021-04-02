@@ -1,0 +1,52 @@
+body
+{
+    background-image: url("../images/bg_blurred.jpg");
+    background-repeat: no-repeat;
+    background-size: 100%;
+}
+.box input[type="text"],.box input[type="password"]{
+    border:0;
+    background:none;
+    display: block;
+    margin: 20px auto;
+    text-align: center;
+    border: 2px solid slateblue;
+    padding: 14px 10px;
+    width: 300px;
+    outline: none;
+    color:black;
+    border-radius:24px;
+    transition: 0.25s;
+}
+.box input[type="text"]:focus, .box input[type="password"]:focus{
+    width: 350px;
+    border-color:skyblue;
+}
+#LoginBox
+{
+    background-color: white;
+    padding-top: 25px;
+    padding-bottom: 35px;
+    margin-top:100px;
+    /* height:400px; */
+}
+.submit
+{
+    background: none;
+    text-align: center;
+    border: 2px solid skyblue;
+    background-color:skyblue;
+    padding: 8px 8px;
+    margin-left: 20px;
+    width:100px;
+    outline: none;
+    color:black;
+    border-radius:24px;
+    margin-left: 35%;
+}
+.submit:hover
+{
+    background-color:slateblue;
+    color:white;
+    border-color: slateblue;
+}
