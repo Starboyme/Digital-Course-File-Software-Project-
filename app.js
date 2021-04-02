@@ -1,19 +1,19 @@
 const cookieParser = require('cookie-parser');
 var express = require('express');
 var app = express();
-var mysql = require('mysql');
 var bodyParser = require('body-parser');
 var fs = require('fs');
 var path = require('path');
-var m1=require('./email.js');
-var path=require('path');
+var m1=require('./server/email.js');
+require('./server/login.js')(app);
+// require('./server/googlelogin.js')(app);
 const { urlencoded } = require('express');
+var mysql = require('mysql');
 
-//Google Auth library - checks the integrity of the token_ID sent to your server
+// Google Auth library - checks the integrity of the token_ID sent to your server
 const {OAuth2Client} = require('google-auth-library');
 const CLIENT_ID = '702568242650-7mth13f0ce7gfdbp3jqkn731dquqi45q.apps.googleusercontent.com';
 const client = new OAuth2Client(CLIENT_ID);
-
 
 
 var con = mysql.createConnection({
@@ -27,11 +27,11 @@ var urlencodedParser = bodyParser.urlencoded({ extended: true });
 
 app.set('view engine','ejs');
 app.use(bodyParser.urlencoded({extended: true}));
-// app.use(express.static("public"));
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname,'public')));
 app.use(bodyParser.json());
-app.use(cookieParser());
 app.use(require('express-post-redirect'));
+app.use(express.json());
+app.use(cookieParser());
 
 
 var otp=0;
@@ -39,61 +39,7 @@ function getRndInteger(min, max) {
     return Math.floor(Math.random() * (max - min + 1) ) + min;
 }  
 
-app.post('/login', urlencodedParser, function (req, res) {
-    console.log(req.body);
-    con.connect(function(err){
-        con.query(`select * from login where ( username='${req.body.username}' && password='${req.body.password}' && role='${req.body.logintype}'); `,function(err,results){
-            if(results.length == 0){res.send("No admin records with this credentials");}
-            else{
-                let role;
-                if(req.body.logintype=="admin"){role="admin";}
-                else if(req.body.logintype=="faculty"){role="faculty"}
-                else{role="student"}   
-                res.render(role,{username: req.body.username});             
-            }
-        });
-    });        
-});
-
-app.post('/f1submit', urlencodedParser, function (req, res) {
-    con.connect(function(err){
-        con.query(`select * from login where ( username='${req.body.username}' && email='${req.body.email}'); `,function(err,results){
-            if(results.length == 0){res.render('forgotpassword',{flag:2.2});}
-            else{
-                x=getRndInteger(111111,999999);
-                m1.sendmail(req.body.email,x);
-                res.render('forgotpassword',{flag:2});
-            }
-        });
-    });
-});
-
-app.post('/f2submit', urlencodedParser, function (req, res) {
-    if(req.body.otp==x){res.render('forgotpassword',{flag:3});}
-    else{res.render('forgotpassword',{flag:3.3});}
-});
-
-app.post('/newpasswordreset', urlencodedParser, function (req, res) {  
-
-    con.connect(function(err){
-        con.query(`update login set password='${req.body.newpassword}' where username="${req.body.username}";`,function(){
-            res.render('forgotpassword',{flag:4});
-        });
-    });
-    
-});
-
-app.post('/forgotpassword',urlencodedParser,function(req,res){
-    res.render('forgotpassword',{flag:1});
-});
-
-app.get('/loginpage',function(req,res){
-    res.render('login');
-});
-
-
-
-app.post('/googlelogin', function(req,res)
+app.post('/googlelogin', urlencodedParser, function(req,res)
 {
     var token_id = req.body.token;
     console.log(token_id);
@@ -118,6 +64,7 @@ app.post('/googlelogin', function(req,res)
     catch(console.error);
 });
 
+   
 app.get('/dashboard', checkAuthenticated, function(req,res)
 {
     let user = req.user;
@@ -125,9 +72,9 @@ app.get('/dashboard', checkAuthenticated, function(req,res)
         con.query(`select * from login where email='${user.email}';`,function(err,results){
             if(results.length==0){res.redirect('/loginpage');}
             else{
-                if(results[0].role=="admin"){res.render('admin', {user});}
-                else if(results[0].role=="faculty"){res.render('faculty', {user});}
-                else{res.render('student', {user});}
+                if(results[0].role=="admin"){res.render('admin', {username: results[0].username});}
+                else if(results[0].role=="faculty"){res.render('faculty_portal_page', {username: results[0].username});}
+                else{res.render('student', {username: results[0].username});}
             }
         });
     });
@@ -168,6 +115,5 @@ function checkAuthenticated(req, res, next)
         res.redirect('/loginpage');
     });
 }
-
 
 var server = app.listen(3000, function () {});
