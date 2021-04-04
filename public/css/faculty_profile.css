@@ -14,9 +14,9 @@
 }
 #ProfileBox
 {
-    border-color: gray;
+    border-color:black;
     border-left-style: solid;
-    border-left-width: 1px;
+    border-left-width: 3px;
     background-color: white;
 }
 #namee
