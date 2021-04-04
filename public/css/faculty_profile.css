@@ -1,0 +1,21 @@
+.navbar
+{
+    background-color: #8e48d4;
+    opacity: 0.9;
+}
+#logo
+{
+    color:white;
+}
+#navbarDropdown
+{
+    color:whitesmoke;
+    font-weight: 300;
+}
+#ProfileBox
+{
+    border-color: gray;
+    border-left-style: solid;
+    border-left-width: 1px;
+    background-color: white;
+}
