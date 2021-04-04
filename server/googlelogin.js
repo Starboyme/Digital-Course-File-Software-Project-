@@ -1,20 +1,14 @@
-const cookieParser = require('cookie-parser');
 var express = require('express');
 var app = express();
-var bodyParser = require('body-parser');
-var fs = require('fs');
-var path = require('path');
-
-require('./server/login.js')(app);
-// require('./server/googlelogin.js')(app);
-const { urlencoded } = require('express');
 var mysql = require('mysql');
+const cookieParser = require('cookie-parser');
+var bodyParser = require('body-parser');
+const { urlencoded } = require('express');
 
-// Google Auth library - checks the integrity of the token_ID sent to your server
+
 const {OAuth2Client} = require('google-auth-library');
 const CLIENT_ID = '702568242650-7mth13f0ce7gfdbp3jqkn731dquqi45q.apps.googleusercontent.com';
 const client = new OAuth2Client(CLIENT_ID);
-
 
 var con = mysql.createConnection({
     host: "127.0.0.1",
@@ -23,40 +17,16 @@ var con = mysql.createConnection({
     database: "digitalcoursefile_db"
   });
 
-var urlencodedParser = bodyParser.urlencoded({ extended: true });
+  var urlencodedParser = bodyParser.urlencoded({ extended: true });
+  app.set('view engine','ejs');
+  app.use(bodyParser.urlencoded({extended: true}));
+  app.use(bodyParser.json());
+  app.use(require('express-post-redirect'));
+  app.use(express.json());
+  app.use(cookieParser());
 
-app.set('view engine','ejs');
-app.use(bodyParser.urlencoded({extended: true}));
-app.use(express.static(path.join(__dirname,'public')));
-app.use(bodyParser.json());
-app.use(require('express-post-redirect'));
-app.use(express.json());
-app.use(cookieParser());
-
-app.post('/googlelogin', urlencodedParser, function(req,res)
-{
-    var token_id = req.body.token;
-    console.log(req.body);
-    
-    async function verify() 
-    {
-        const ticket = await client.verifyIdToken(
-        {
-            idToken: token_id,
-            audience: CLIENT_ID, 
-        });
-        const payload = ticket.getPayload(); //payload stores user details
-        const userid = payload['sub'];
-        console.log(payload);
-    }
-    verify()
-    .then(function()
-    {
-        res.cookie('session-token',token_id);
-        res.send('success');
-    }).
-    catch(console.error);
-});
+ module.exports = function(app){
+   
 app.get('/dashboard', checkAuthenticated, function(req,res)
 {
     let user = req.user;
@@ -72,11 +42,14 @@ app.get('/dashboard', checkAuthenticated, function(req,res)
     });
     
 });
+
 app.get('/logout', function(req,res)
 {
     res.clearCookie('session-token');
     res.redirect('/loginpage');
 });
+
+
 function checkAuthenticated(req, res, next)
 {
     let token_id = req.cookies['session-token'];
@@ -105,5 +78,4 @@ function checkAuthenticated(req, res, next)
         res.redirect('/loginpage');
     });
 }
-
-var server = app.listen(3000, function () {});
+ }

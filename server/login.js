@@ -67,6 +67,8 @@ module.exports = function(app){
     app.post('/newpasswordreset', urlencodedParser, function (req, res) {  
     
         con.connect(function(err){
+            console.log(req.body.newpassword);
+            console.log(req.body.username);
             con.query(`update login set password='${req.body.newpassword}' where username="${req.body.username}";`,function(){
                 res.render('forgotpassword',{flag:4});
             });
