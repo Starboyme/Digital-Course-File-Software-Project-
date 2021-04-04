@@ -6,6 +6,7 @@ var fs = require('fs');
 var path = require('path');
 
 require('./server/login.js')(app);
+require('./server/faculty.js')(app);
 // require('./server/googlelogin.js')(app);
 const { urlencoded } = require('express');
 var mysql = require('mysql');

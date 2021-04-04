@@ -40,7 +40,7 @@ module.exports = function(app){
                     if(req.body.logintype=="admin"){role="admin";}
                     else if(req.body.logintype=="faculty"){role="faculty_portal_page"}
                     else{role="student"}   
-                    res.render(role,{username: req.body.username});             
+                    res.render(role,{username: req.body.username,course:false});             
                 }
             });
         });        
