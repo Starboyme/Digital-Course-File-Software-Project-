@@ -18,12 +18,13 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     
     <!-- Style -->
-    <link rel="stylesheet" href="../css/style.css">
+    <!-- <link rel="stylesheet" href="../css/style.css"> -->
+    <link rel="stylesheet" href="../public/css/faculty_course.css">
     <link rel="shortcut icon" type="image/x-icon" href="../icon.ico" />
     <title>Portal</title>
   </head>
   <body>
-    <div class="navbar navbar-expand-md navbar-light bg-light">
+    <div class="navbar navbar-expand-lg navbar-fixed-top">
       <div class="container-fluid">
         <div class="navbar-header">
           <!--<button type="button" class="navbar-toggle">
@@ -42,8 +43,8 @@
                 </li> -->
                 <li class="nav-item dropdown mr-5">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      <p><%=username%></p>
-                      <a href="/logout">Sign Out</a>
+                      Raj
+                      <!-- <a href="/logout">Sign Out</a> -->
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                       <a class="dropdown-item" href="#">Profile</a>
@@ -79,26 +80,102 @@
                         15CSE312
                     </p>
                 </div>
-                <div class="row ml-3">
+                <div class="row ml-3 mb-1">
                     <div class="d-flex bd-highlight" id="namee">
-                        <div class="flex bd-highlight" id='headerr'>Sylabus:</div>
-                        <div class="flex bd-highlight" id='username'>PDF Link  
-                            <!-- <button class="btn btn-light p-0 mb-1"><svg class="bi" width="16" height="16" fill="currentColor">
-                                <use xlink:href="../node_modules/bootstrap-icons/bootstrap-icons.svg#pencil-square">
+                        <div class="flex bd-highlight" id='headerr'>Syllabus: <button class="ml-2 p-1 btn btn-dark">View</button></div>
+                        <div class="flex bd-highlight" id='username'>  
+                            <!-- <button class="btn btn-light p-0 mb-1"><svg class="bi" width="32" height="32" fill="currentColor">
+                                <use xlink:href="../node_modules/bootstrap-icons/bootstrap-icons.svg#upload">
                                 </svg>
                             </button> -->
+                            <span class="control-fileupload">
+                                <label for="file">Choose a file :</label>
+                                <input type="file" id="file">
+                            </span>
                         </div>
                     </div>
                 </div>
-                <div class="row ml-3">
+                <div class="row ml-3 mb-1">
                     <div class="d-flex bd-highlight" id="namee">
-                        <div class="flex bd-highlight" id='headerr'>POs & COs</div>
-                        <div class="flex bd-highlight" id='username'>PDF Link  
-                            <!-- <button class="btn btn-light p-0 mb-1"><svg class="bi" width="16" height="16" fill="currentColor">
-                                <use xlink:href="../node_modules/bootstrap-icons/bootstrap-icons.svg#pencil-square">
+                        <div class="flex bd-highlight" id='headerr'>PO & CO: <button class="ml-2 p-1 btn btn-dark">View</button></div>
+                        <div class="flex bd-highlight" id='username'>  
+                            <!-- <button class="btn btn-light p-0 mb-1"><svg class="bi" width="32" height="32" fill="currentColor">
+                                <use xlink:href="../node_modules/bootstrap-icons/bootstrap-icons.svg#upload">
                                 </svg>
                             </button> -->
+                            <span class="control-fileupload">
+                                <label for="file">Choose a file :</label>
+                                <input type="file" id="file">
+                              </span>
                         </div>
+                    </div>
+                </div>
+                <div class="row ml-3 mb-1">
+                    <div class="d-flex bd-highlight" id="namee">
+                        <div class="flex bd-highlight" id='headerr'>Class Materials:</div>
+                    </div>
+                </div>
+                <div class="row ml-3 mb-1">
+                    <div class="col">
+                        <div class="card-deck">
+                            <div class="card">
+                              <div class="card-body">
+                                <a href="../public/images/ashwith.jpg" target="_blank">Blaah</a>
+                              </div>
+                            </div>
+                          </div>
+                    </div>
+                    <div class="col">
+                        <div class="card-deck">
+                            <div class="card">
+                              <div class="card-body">
+                                <a href="../public/images/raj.jpg">Blahhh</a>
+                              </div>
+                            </div>
+                          </div>
+                    </div>
+                    <div class="col">
+                        <div class="card-deck">
+                            <div class="card">
+                              <div class="card-body">
+                                <a href="filename" target="_blank">Blahhh</a>
+                              </div>
+                            </div>
+                          </div>
+                    </div>
+                </div>
+                <div class="row ml-3 mb-1">
+                    <div class="d-flex bd-highlight" id="namee">
+                        <div class="flex bd-highlight" id='headerr'>Question Papers:</div>
+                    </div>
+                </div>
+                <div class="row ml-3 mb-1">
+                    <div class="col">
+                        <div class="card-deck">
+                            <div class="card">
+                              <div class="card-body">
+                                <a href="../public/images/ashwith.jpg" target="_blank">Blaah</a>
+                              </div>
+                            </div>
+                          </div>
+                    </div>
+                    <div class="col">
+                        <div class="card-deck">
+                            <div class="card">
+                              <div class="card-body">
+                                <a href="../public/images/raj.jpg">Blahhh</a>
+                              </div>
+                            </div>
+                          </div>
+                    </div>
+                    <div class="col">
+                        <div class="card-deck">
+                            <div class="card">
+                              <div class="card-body">
+                                <a href="filename" target="_blank">Blahhh</a>
+                              </div>
+                            </div>
+                          </div>
                     </div>
                 </div>
             </div>
