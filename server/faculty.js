@@ -111,26 +111,26 @@ module.exports = function(app){
         con.connect(function(err){
         con.query(`select * from fc_conn where faculty_id='F.001';`,function(err,results){
             console.log(results);
-            res.render('faculty_portal_page',{username:req.param('username'),course:results});
+            res.render('faculty_portal_page',{username:req.param('username'),course:results,type:0});
         });
       });
     });
 
     app.get('/coursepage',function(req,res){
-        res.render('faculty_course_page',{username:req.param('username'),courseid:req.param('courseid')});
+        res.render('faculty_course_page',{username:req.param('username'),courseid:req.param('courseid'),type:0});
     });
 
     app.post('/uploadquestionpaper', upload1.single('file'), (req, res) => {
-        res.render('faculty_course_page',{username:req.param('username'),courseid:req.param('courseid')});
+        res.render('faculty_course_page',{username:req.param('username'),courseid:req.param('courseid'),type:0});
     });
     app.post('/uploadprojectmaterial', upload2.single('file'), (req, res) => {
-        res.render('faculty_course_page',{username:req.param('username'),courseid:req.param('courseid')});
+        res.render('faculty_course_page',{username:req.param('username'),courseid:req.param('courseid'),type:0});
     });
     app.post('/uploadclassmaterial', upload3.single('file'), (req, res) => {
-        res.render('faculty_course_page',{username:req.param('username'),courseid:req.param('courseid')});
+        res.render('faculty_course_page',{username:req.param('username'),courseid:req.param('courseid'),type:0});
     });
     app.post('/uploadgrades', upload4.single('file'), (req, res) => {
-        res.render('faculty_course_page',{username:req.param('username'),courseid:req.param('courseid')});
+        res.render('faculty_course_page',{username:req.param('username'),courseid:req.param('courseid'),type:0});
     });
 
 }
