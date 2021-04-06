@@ -120,17 +120,25 @@ module.exports = function(app){
         res.render('faculty_course_page',{username:req.param('username'),courseid:req.param('courseid'),type:0});
     });
 
+    app.get('/type',function(req,res){
+      res.render('faculty_course_page',{username:req.param('username'),courseid:req.param('courseid'),type:req.param('a')});
+    });
+
     app.post('/uploadquestionpaper', upload1.single('file'), (req, res) => {
-        res.render('faculty_course_page',{username:req.param('username'),courseid:req.param('courseid'),type:0});
+      console.log("1");
+        res.render('faculty_course_page',{username:req.param('username'),courseid:req.param('courseid'),type:1});
     });
     app.post('/uploadprojectmaterial', upload2.single('file'), (req, res) => {
-        res.render('faculty_course_page',{username:req.param('username'),courseid:req.param('courseid'),type:0});
+      console.log("2");
+        res.render('faculty_course_page',{username:req.param('username'),courseid:req.param('courseid'),type:2});
     });
     app.post('/uploadclassmaterial', upload3.single('file'), (req, res) => {
-        res.render('faculty_course_page',{username:req.param('username'),courseid:req.param('courseid'),type:0});
+      console.log("3");
+        res.render('faculty_course_page',{username:req.param('username'),courseid:req.param('courseid'),type:3});
     });
     app.post('/uploadgrades', upload4.single('file'), (req, res) => {
-        res.render('faculty_course_page',{username:req.param('username'),courseid:req.param('courseid'),type:0});
+      console.log("4");
+        res.render('faculty_course_page',{username:req.param('username'),courseid:req.param('courseid'),type:4});
     });
 
 }

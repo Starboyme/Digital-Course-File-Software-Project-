@@ -39,7 +39,7 @@
                 </li> -->
                 <li class="nav-item dropdown mr-5">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      Raj
+                      <%=username%>
                       <!-- <a href="/logout">Sign Out</a> -->
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -99,7 +99,7 @@
                   DBMS
                 </h1>
                 <p class="lead">
-                  15CSE312
+                  <%=courseid%>
                 </p>
               </div>
             </div>
@@ -124,7 +124,44 @@
         <div class="col-10">
           <div class="d-flex bd-highlight" id="ProfileBox">
             <div  class="p-2 flex-grow-1 bd-highlight">
-                
+              <% if(type==1){ %>
+                <h1 class="text-center display-4 my-4">Question paper</h1>
+                <form action="/uploadquestionpaper?courseid=<%=courseid %>&username=<%=username%>" method="POST" enctype="multipart/form-data">
+                  <div class="custom-file mb-3">
+                    <input type="file" name="file" id="file" class="custom-file-input">
+                    <label for="file" id="fileInput" class="custom-file-label">Choose File</label>
+                  </div>
+                  <input type="submit" value="Submit" class="btn btn-primary btn-block">
+                </form>
+                <% } else if(type==2){ %>
+                <h1 class="text-center display-4 my-4">Project Materials</h1>
+                <form action="/uploadprojectmaterial?courseid=<%=courseid %>&username=<%=username%>" method="POST" enctype="multipart/form-data">
+                  <div class="custom-file mb-3">
+                    <input type="file" name="file" id="file" class="custom-file-input">
+                    <label for="file" id="fileInput" class="custom-file-label">Choose File</label>
+                  </div>
+                  <input type="submit" value="Submit" class="btn btn-primary btn-block">
+                </form>
+                <% } else if(type==3){ %>
+                <h1 class="text-center display-4 my-4">Class Materials</h1>
+                <form action="/uploadclassmaterial?courseid=<%=courseid %>&username=<%=username%>" method="POST" enctype="multipart/form-data">
+                  <div class="custom-file mb-3">
+                    <input type="file" name="file" id="file" class="custom-file-input">
+                    <label for="file" id="fileInput" class="custom-file-label">Choose File</label>
+                  </div>
+                  <input type="submit" value="Submit" class="btn btn-primary btn-block">
+                </form>
+                <% } else if(type==4){ %>
+                <h1 class="text-center display-4 my-4">Grades</h1>
+                <form action="/uploadgrades?courseid=<%=courseid %>&username=<%=username%>" method="POST" enctype="multipart/form-data">
+                  <div class="custom-file mb-3">
+                    <input type="file" name="file" id="file" class="custom-file-input">
+                    <label for="file" id="fileInput" class="custom-file-label">Choose File</label>
+                  </div>
+                  <input type="submit" value="Submit" class="btn btn-primary btn-block">
+                </form>
+                <% } %>
+              </div>   
             </div>
             <!-- <div class="p-2 bd-highlight">Flex item</div>
             <div class="p-2 bd-highlight">Third flex item</div> -->
