@@ -53,3 +53,14 @@
 .search-icon:hover {
     color: #fff !important
 }
+.navbar
+{
+    background-color: #8e48d4;
+    opacity: 0.9;
+}
+.sidebarr
+{
+    background-color:#8e48d4;
+    color:white;
+    font-style: bold;
+}

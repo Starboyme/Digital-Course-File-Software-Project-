@@ -19,6 +19,7 @@
     
     <!-- Style -->
     <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../public/css/faculty.css">
     <link rel="shortcut icon" type="image/x-icon" href="../icon.ico" />
     <title>Portal</title>
   </head>
@@ -55,51 +56,46 @@
         </div>
       </div>
     </div>
-    <!-- <div class="content">
-        <div class="container">
-          <div class="row">
-            <div class="col-md-6">
-                <img src="../images/undraw_remotely_2j6y.svg" alt="Image" class="img-fluid">
-            </div>
-            <div class="col-md-6 contents">
-                <div class="row justify-content-center">
-                    <p class="writing">Raj</p>
-                </div>
-            </div>
+    <div class="container mt-5">
+      <div class="row">
+        <div class="col-2 pl-auto">
         </div>
-    </div> -->
-    <!-- <div class="container mt-4">
-        <div class="row d-flex justify-content-center">
-            <div class="col-md-9">
-                <div class="card p-4 mt-3">
-                    <h3 class="heading mt-1 text-center">Hi! You can search files here!</h3>
-                    <div class="d-flex justify-content-center px-5 mt-3">
-                        <div class="search"> <input type="text" class="search-input" placeholder="Search..." name=""> <a href="#" class="search-icon"> <i class="fa fa-search"></i> </a> </div>
+        <div class="col-10">
+          <div class="d-flex bd-highlight" id="ProfileBox">
+            <div  class="p-2 flex-grow-1 bd-highlight">
+              <div class="jumbotron">
+                <h1 class="display-3">
+                  DBMS
+                </h1>
+                <p class="lead">
+                  <%=courseid%>
+                </p>
+              </div>
+            </div>
+            <!-- <div class="p-2 bd-highlight">Flex item</div>
+            <div class="p-2 bd-highlight">Third flex item</div> -->
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-2 pl-auto">
+          <div class="btn-group-vertical btn-group-lg">
+            <a href="/displaycourses?username=<%=username%>" class="btn sidebarr pl-1 pr-1">Courses</a>
+          </div>
+        </div>
+        <div class="col-10">
+          <%if(course){%>
+            <% for(var i=0;i< course.length ;i++) { %>
+              <div class="card-deck">
+                  <div class="card">
+                    <div class="card-body">
+                      <a class="card-title" href="/coursepage?courseid=<%=course[i].course_id %>&username=<%=username%>"><%=course[i].course_id %></a>
                     </div>
-                </div>
-            </div>
-        </div>
-    </div> -->
-    <br>
-    <hr>
-    <br>
-    <div class="container mt-2">
-        <div class="row d-flex">
-            <a class="display-4" href="/displaycourses?username=<%=username%>">Courses</a>
-            <!-- <p class="display-4">Courses</p> -->
-        </div>
-        <%if(course){%>
-          <% for(var i=0;i< course.length ;i++) { %>
-            <div class="card-deck">
-                <div class="card">
-                  <div class="card-body">
-                    <a class="card-title" href="/coursepage?courseid=<%=course[i].course_id %>&username=<%=username%>"><%=course[i].course_id %></a>
                   </div>
                 </div>
-              </div>
-              <% } %>
-        <%}%>
-        
+                <% } %>
+          <%}%>  
+        </div>
     </div>
     
     <script src="../js/jquery.js"></script>
