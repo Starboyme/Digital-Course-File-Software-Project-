@@ -65,11 +65,11 @@
             <form action="http://localhost:3000/login" method="POST" class="box">
               <!-- <div class="form-group first"> -->
                 <!-- <label for="username">Username</label> -->
-                <input type="text" placeholder="Username" id="username" name="username">
+                <input type="text" placeholder="Username" id="username" name="username" required>
               <!-- </div> -->
               <!-- <div class="form-group last mb-4"> -->
                 <!-- <label for="password">Password</label> -->
-                <input type="password" placeholder="Password" id="password" name="password">
+                <input type="password" placeholder="Password" id="password" name="password" required>
               <!-- </div> -->
               
               <!-- <div class="d-flex mb-5 align-items-center">
@@ -81,15 +81,15 @@
               </div> -->
               <div class="d-flex mb-3 ml-2 justify-content-center mb-2 LoginType">
                 <label>
-                  <input type="radio" id="admin" name="logintype" value="admin">
+                  <input type="radio" id="admin" name="logintype" value="admin" required>
                   <span>Admin</span>  
                 </label>
                 <label>
-                  <input type="radio" id="faculty" name="logintype" value="faculty">
+                  <input type="radio" id="faculty" name="logintype" value="faculty" required>
                   <span>Faculty</span>  
                 </label>
                 <label>
-                  <input type="radio" id="student" name="logintype" value="student">
+                  <input type="radio" id="student" name="logintype" value="student" required>
                   <span>Student</span>  
                 </label>
                 <!-- <input type="radio" id="admin" name="logintype" value="admin">
