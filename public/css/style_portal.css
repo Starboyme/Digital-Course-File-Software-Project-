@@ -88,7 +88,7 @@
     font-family: 'Roboto', sans-serif;
     font-weight: 800;
     text-align: center;
-    font-size: 60px;
+    font-size: 40px;
     padding-top:15px
 }
 .card
@@ -132,7 +132,7 @@
 .about-content{
     padding-top:1.5%;
     font-size: 25px;
-    font-family: "CustomFont";
+    font-family: 'Titillium Web', sans-serif;
     color:whitesmoke;
 }
 /* #about .container
