@@ -37,7 +37,7 @@
                 <!--<button type="button" class="navbar-toggle">
                   <span class="glyphicon glyphicon-menu-hamburger"></span>
                 </button>!-->
-                <a id="logo" class="navbar-brand" href="#">FilesPro</a>
+                <a id="logo" class="navbar-brand" href="../html/portal.html">FilesPro</a>
             </div>
             <div id="navbarCollapse" class="collapse navbar-collapse">
                 <ul class="nav navbar-nav ml-auto">
@@ -55,6 +55,8 @@
             </div>
         </div>
     </div>
+    <a href="/facultyback?username=<%= profdetails[0].faculty_id %>" class="btn btn-primary">Back</a>
+    
     <div class="container mt-5">
         <div class="d-flex bd-highlight" id="ProfileBox">
             <div  class="p-2 flex-grow-1 bd-highlight">
@@ -99,7 +101,7 @@
                     <input class="form-control" type="text" name="address" id="address" value="<%= profdetails[0].address %>">
                 </div>
             </div>
-            <input type="submit" class="btn btn-violet" value="Save">
+            <input type="submit" class="btn btn-dark" value="Save">
         </form>
     </div>
                 <!-- <div class="row ml-3">

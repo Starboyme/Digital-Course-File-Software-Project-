@@ -5,7 +5,11 @@ var path = require('path');
 var bodyParser = require('body-parser');
 var m1=require('./email.js');
 const { urlencoded } = require('express');
+var crypto = require('crypto');
+var assert = require('assert');
 
+var algorithm = 'aes256';
+var key = 'password';
 
 var con = mysql.createConnection({
     host: "127.0.0.1",
@@ -31,9 +35,11 @@ app.use(express.json());
 module.exports = function(app){
 
     app.post('/login', urlencodedParser, function (req, res) {
-        console.log(req.body);
+        // console.log(req.body);
+        var cipher = crypto.createCipher(algorithm, key);   
+        var encrypted = cipher.update(req.body.password, 'utf8', 'hex') + cipher.final('hex');
         con.connect(function(err){
-            con.query(`select * from login where ( username='${req.body.username}' && password='${req.body.password}' && role='${req.body.logintype}'); `,function(err,results){
+            con.query(`select * from login where ( username='${req.body.username}' && password='${encrypted}' && role='${req.body.logintype}'); `,function(err,results){
                 if(results.length == 0){res.send("No admin records with this credentials");}
                 else{
                     let role;
@@ -67,9 +73,11 @@ module.exports = function(app){
     app.post('/newpasswordreset', urlencodedParser, function (req, res) {  
     
         con.connect(function(err){
-            console.log(req.body.newpassword);
-            console.log(req.body.username);
-            con.query(`update login set password='${req.body.newpassword}' where username="${req.body.username}";`,function(){
+            // console.log(req.body.newpassword);
+            // console.log(req.body.username);
+            var cipher = crypto.createCipher(algorithm, key);   
+            var encrypted = cipher.update(req.body.newpassword, 'utf8', 'hex') + cipher.final('hex');
+            con.query(`update login set password='${encrypted}' where username="${req.body.username}";`,function(){
                 res.render('forgotpassword',{flag:4});
             });
         });

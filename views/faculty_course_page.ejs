@@ -42,9 +42,9 @@
             <span class="glyphicon glyphicon-menu-hamburger"></span>
           </button>!-->
           <!-- <form action=""></form> -->
-          <a id="logo" class="navbar-brand" href="#">FilesPro</a>
+          <a id="logo" class="navbar-brand" href="../html/portal.html">FilesPro</a>
         </div>
-        <a href="/facultyback?username=<%=username%>" class="btn btn-primary">Back</a>
+        
         <div id="navbarCollapse" class="collapse navbar-collapse">
             <ul class="nav navbar-nav ml-auto">
                 <!-- <li class="nav-item dropdown">
@@ -59,7 +59,7 @@
                       <!-- <a href="/logout">Sign Out</a> -->
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                      <a class="dropdown-item" href="#">Profile</a>
+                      <a class="dropdown-item" href="/facultyprofile?username=<%=username%>">Profile</a>
                       <div class="dropdown-divider"></div>
                       <a class="dropdown-item" href="/logout">Sign Out</a>
                     </div>
@@ -68,6 +68,7 @@
         </div>
       </div>
     </div>
+    <a href="/facultyback?username=<%=username%>" class="btn btn-primary">Back</a>
     <!-- <div class="content">
         <div class="container">
           <div class="row">
