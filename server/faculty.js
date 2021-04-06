@@ -237,4 +237,30 @@ module.exports = function(app){
      
     });
 
+    app.get('/facultyprofile',function(req,res){
+      console.log(req.param('username'));
+      con.connect(function(err){
+          con.query(`select faculty_id,firstName,lastName,phoneNo,address from personaldetails_f where faculty_id='${req.param('username')}';`,function(err,results){
+              console.log(results);
+              res.render('faculty_profile',{profdetails:results});
+          });
+        });
+    });
+
+    app.post('/editprofile', urlencodedParser,function(req,res){
+      console.log(req.param('username'));
+      console.log(req.body);
+      con.connect(function(err){
+        con.query(`UPDATE personaldetails_f SET phoneNo = '${req.param('PhoneNo')}' ,address= '${req.param('address')}' WHERE faculty_id='${req.param('username')}';`,function(err,results){
+        });
+        res.redirect('/facultyprofile?username='+req.param('username'));
+      });
+
+      
+  });
+
+  app.get('/coursepage',function(req,res){
+      console.log(req.param('courseid'));
+  });
+
 }
