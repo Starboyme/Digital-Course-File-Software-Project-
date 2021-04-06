@@ -126,7 +126,7 @@
       </div>
       <div class="row">
         <div class="col-2 pl-auto">
-              <div class="btn-group-vertical">
+              <div class="btn-group-vertical btn-group-lg">
                 <!-- <form action="/type?courseid=<%=courseid %>&username=<%=username%>">
                   <input type="radio" class="btn-check" name="type" id="btnradio" autocomplete="off" onchange="theForm.submit()">
                   <label class="btn btn-outline" for="btnradio1">Project Material</label>
@@ -141,11 +141,10 @@
                   <label class="btn btn-outline" for="btnradio3">Grades</label>
                   <input type="submit">
                 </form> -->
-
-                <a href="/type?courseid=<%=courseid %>&username=<%=username%>&a=1" class="btn btn-primary">Question Papers</a>
-                <a href="/type?courseid=<%=courseid %>&username=<%=username%>&a=2" class="btn btn-primary">Project Material</a>
-                <a href="/type?courseid=<%=courseid %>&username=<%=username%>&a=3" class="btn btn-primary">Class Materials</a>
-                <a href="/type?courseid=<%=courseid %>&username=<%=username%>&a=4" class="btn btn-primary">Grades</a>
+                <a href="/type?courseid=<%=courseid %>&username=<%=username%>&a=1" class="btn sidebarr">Question Papers</a>
+                <a href="/type?courseid=<%=courseid %>&username=<%=username%>&a=2" class="btn sidebarr">Project Material</a>
+                <a href="/type?courseid=<%=courseid %>&username=<%=username%>&a=3" class="btn sidebarr">Class Materials</a>
+                <a href="/type?courseid=<%=courseid %>&username=<%=username%>&a=4" class="btn sidebarr">Grades</a>
                   
               </div>
         </div>
@@ -164,12 +163,14 @@
 
                 <% if(files){ %>
                   <% files.forEach(function(file) { %>
+                    <div class="container">
                     <div class="card card-body mb-3">
                           <a href="file/<%= file.filename %>" target="_blank">Read more</a>
                           <%= file.filename %>
                             <form method="POST" action="/files/<%= file._id %>?operation=Delete&courseid=<%=courseid %>&username=<%=username%>&type=1">
                               <button class="btn btn-danger btn-block mt-4">Delete</button>
                             </form>
+                    </div>
                     </div>
                     <% }) %>
                       <% } else { %>
@@ -178,6 +179,7 @@
 
 
                 <% } else if(type==2){ %>
+                <div class="container">
                 <h1 class="text-center display-4 my-4">Project Materials</h1>
                 <form action="/uploadprojectmaterial?courseid=<%=courseid %>&username=<%=username%>" method="POST" enctype="multipart/form-data">
                   <div class="custom-file mb-3">
@@ -186,15 +188,18 @@
                   </div>
                   <input type="submit" value="Submit" class="btn btn-primary btn-block">
                 </form>
+                </div>
 
                 <% if(files){ %>
                   <% files.forEach(function(file) { %>
+                    <div class="container">
                     <div class="card card-body mb-3">
                           <a href="file/<%= file.filename %>" target="_blank">Read more</a>
                           <%= file.filename %>
                             <form method="POST" action="/files/<%= file._id %>?operation=Delete&courseid=<%=courseid %>&username=<%=username%>&type=2">
                               <button class="btn btn-danger btn-block mt-4">Delete</button>
                             </form>
+                    </div>
                     </div>
                     <% }) %>
                       <% } else { %>
@@ -203,6 +208,7 @@
 
 
                 <% } else if(type==3){ %>
+                <div class="container">
                 <h1 class="text-center display-4 my-4">Class Materials</h1>
                 <form action="/uploadclassmaterial?courseid=<%=courseid %>&username=<%=username%>" method="POST" enctype="multipart/form-data">
                   <div class="custom-file mb-3">
@@ -211,15 +217,17 @@
                   </div>
                   <input type="submit" value="Submit" class="btn btn-primary btn-block">
                 </form>
-
+                </div>
                 <% if(files){ %>
                   <% files.forEach(function(file) { %>
+                    <div class="container">
                     <div class="card card-body mb-3">
                           <a href="file/<%= file.filename %>" target="_blank">Read more</a>
                           <%= file.filename %>
                             <form method="POST" action="/files/<%= file._id %>?operation=Delete&courseid=<%=courseid %>&username=<%=username%>&type=3">
                               <button class="btn btn-danger btn-block mt-4">Delete</button>
                             </form>
+                    </div>
                     </div>
                     <% }) %>
                       <% } else { %>
@@ -228,6 +236,7 @@
 
 
                 <% } else if(type==4){ %>
+                <div class="container">
                 <h1 class="text-center display-4 my-4">Grades</h1>
                 <form action="/uploadgrades?courseid=<%=courseid %>&username=<%=username%>" method="POST" enctype="multipart/form-data">
                   <div class="custom-file mb-3">
@@ -236,15 +245,17 @@
                   </div>
                   <input type="submit" value="Submit" class="btn btn-primary btn-block">
                 </form>
-
+                </div>
                 <% if(files){ %>
                   <% files.forEach(function(file) { %>
+                    <div class="container">
                     <div class="card card-body mb-3">
                           <a href="file/<%= file.filename %>" target="_blank">Read more</a>
                           <%= file.filename %>
                             <form method="POST" action="/files/<%= file._id %>?operation=Delete&courseid=<%=courseid %>&username=<%=username%>&type=4">
                               <button class="btn btn-danger btn-block mt-4">Delete</button>
                             </form>
+                    </div>
                     </div>
                     <% }) %>
                       <% } else { %>

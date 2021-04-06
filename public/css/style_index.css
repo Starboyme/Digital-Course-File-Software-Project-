@@ -13,6 +13,11 @@ body{
     padding-bottom: 25px;
     /* height:400px; */
 }
+.g-signin2
+{
+    margin-left:110px;
+    margin-top:20px;
+}
 .filespro
 {
     color:black;
