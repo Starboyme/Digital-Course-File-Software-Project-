@@ -5,7 +5,6 @@ body
     background-size: 100%;
 }
 .box input[type="text"],.box input[type="password"]{
-    border:0;
     background:none;
     display: block;
     margin: 20px auto;
@@ -37,7 +36,6 @@ body
     border: 2px solid skyblue;
     background-color:skyblue;
     padding: 8px 8px;
-    margin-left: 20px;
     width:100px;
     outline: none;
     color:black;

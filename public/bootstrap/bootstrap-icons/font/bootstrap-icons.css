@@ -3,7 +3,7 @@
   src: url("./fonts/bootstrap-icons.woff2?231ce25e89ab5804f9a6c427b8d325c9") format("woff2"),
 url("./fonts/bootstrap-icons.woff?231ce25e89ab5804f9a6c427b8d325c9") format("woff");
 }
-
+/* 
 [class^="bi-"]::before,
 [class*=" bi-"]::before {
   display: inline-block;
@@ -16,7 +16,7 @@ url("./fonts/bootstrap-icons.woff?231ce25e89ab5804f9a6c427b8d325c9") format("wof
   vertical-align: -.125em;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-}
+} */
 
 .bi-alarm-fill::before { content: "\f101"; }
 .bi-alarm::before { content: "\f102"; }

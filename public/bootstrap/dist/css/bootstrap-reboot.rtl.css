@@ -391,9 +391,6 @@ legend + * {
   padding: 0;
 }
 
-::file-selector-button {
-  font: inherit;
-}
 
 ::-webkit-file-upload-button {
   font: inherit;

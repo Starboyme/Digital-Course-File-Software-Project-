@@ -1,20 +1,28 @@
 var express = require('express');
 var app = express();
-var mysql = require('mysql');
+app.disable("x-powered-by");
+
+let helmet = require("helmet");
+let app2 = express();
+app2.use(helmet.hidePoweredBy());
+
+
+const mysql = require('mysql');
 const cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 const { urlencoded } = require('express');
 
+require('dotenv').config();
 
 const {OAuth2Client} = require('google-auth-library');
 const CLIENT_ID = '702568242650-7mth13f0ce7gfdbp3jqkn731dquqi45q.apps.googleusercontent.com';
 const client = new OAuth2Client(CLIENT_ID);
 
-var con = mysql.createConnection({
-    host: "127.0.0.1",
-    user: "root",
-    password: "password",
-    database: "digitalcoursefile_db"
+const mycon = mysql.createConnection({
+    host     : process.env.MYSQL_URL,
+    user     : process.env.MYSQL_USERNAME,
+    password : process.env.MYSQL_PASSWORD,
+    database : process.env.MYSQL_DATABASE_ACC
   });
 
   var urlencodedParser = bodyParser.urlencoded({ extended: true });
@@ -30,8 +38,8 @@ var con = mysql.createConnection({
 app.get('/dashboard', checkAuthenticated, function(req,res)
 {
     let user = req.user;
-    con.connect(function(err){
-        con.query(`select * from login where email='${user.email}';`,function(err,results){
+    mycon.connect(function(err){
+        mycon.query(`select * from login where email=?`,[user.email],function(err1,results){
             if(results.length==0){res.redirect('/loginpage');}
             else{
                 if(results[0].role=="admin"){res.render('admin', {username: results[0].username});}

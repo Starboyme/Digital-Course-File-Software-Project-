@@ -5,12 +5,13 @@ var bodyParser = require('body-parser');
 var fs = require('fs');
 var path = require('path');
 
+require('dotenv').config();
+
 require('./server/login.js')(app);
 require('./server/faculty.js')(app);
 require('./server/student.js')(app);
-// require('./server/googlelogin.js')(app);
 const { urlencoded } = require('express');
-var mysql = require('mysql');
+const mysql = require('mysql');
 
 // Google Auth library - checks the integrity of the token_ID sent to your server
 const {OAuth2Client} = require('google-auth-library');
@@ -18,11 +19,11 @@ const CLIENT_ID = '702568242650-7mth13f0ce7gfdbp3jqkn731dquqi45q.apps.googleuser
 const client = new OAuth2Client(CLIENT_ID);
 
 
-var con = mysql.createConnection({
-    host: "127.0.0.1",
-    user: "root",
-    password: "password",
-    database: "digitalcoursefile_db"
+const mycon = mysql.createConnection({
+    host     : process.env.MYSQL_URL,
+    user     : process.env.MYSQL_USERNAME,
+    password : process.env.MYSQL_PASSWORD,
+    database : process.env.MYSQL_DATABASE_ACC
   });
 
 var urlencodedParser = bodyParser.urlencoded({ extended: true });
@@ -48,7 +49,6 @@ app.post('/googlelogin', urlencodedParser, function(req,res)
             audience: CLIENT_ID, 
         });
         const payload = ticket.getPayload(); //payload stores user details
-        const userid = payload['sub'];
         console.log(payload);
     }
     verify()
@@ -62,12 +62,12 @@ app.post('/googlelogin', urlencodedParser, function(req,res)
 app.get('/dashboard', checkAuthenticated, function(req,res)
 {
     let user = req.user;
-    con.connect(function(err){
-        con.query(`select * from login where email='${user.email}';`,function(err,results){
+    mycon.connect(function(err){
+        mycon.query(`select * from login where email= ?`,[user.email],function(err1,results){
             if(results.length==0){res.redirect('/loginpage');}
             else{
                 if(results[0].role=="admin"){res.render('admin', {username: results[0].username});}
-                else if(results[0].role=="faculty"){res.render('faculty_portal_page', {username: results[0].username,course:false});}
+                else if(results[0].role=="faculty"){res.render('faculty_portal_page', {username: results[0].username,course:false,addcourse:false});}
                 else{res.render('student', {username: results[0].username});}
             }
         });

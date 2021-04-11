@@ -68,7 +68,7 @@
         </div>
       </div>
     </div>
-    <a href="/facultyback?username=<%=username%>" class="btn btn-primary">Back</a>
+    <a href="/facultyback?username=<%=username%>" id="back" class="btn btn-primary">Back</a>
     <!-- <div class="content">
         <div class="container">
           <div class="row">
@@ -90,7 +90,7 @@
           <div class="d-flex bd-highlight" id="ProfileBox">
             <div  class="p-2 flex-grow-1 bd-highlight">
               <div class="jumbotron">
-                <h1 class="display-3">
+                <h1 class="display-3" id="dbms">
                   DBMS
                 </h1>
                 <p class="lead">
@@ -120,10 +120,10 @@
                   <label class="btn btn-outline" for="btnradio3">Grades</label>
                   <input type="submit">
                 </form> -->
-                <a href="/type?courseid=<%=courseid %>&username=<%=username%>&a=1" class="btn sidebarr pl-1 pr-1">Question Papers</a>
-                <a href="/type?courseid=<%=courseid %>&username=<%=username%>&a=2" class="btn sidebarr pl-1 pr-1">Project Material</a>
-                <a href="/type?courseid=<%=courseid %>&username=<%=username%>&a=3" class="btn sidebarr pl-1 pr-1">Class Materials</a>
-                <a href="/type?courseid=<%=courseid %>&username=<%=username%>&a=4" class="btn sidebarr pl-1 pr-1">Grades</a>
+                <a href="/type?courseid=<%=courseid %>&username=<%=username%>&a=1" id="questionpaper" class="btn sidebarr pl-1 pr-1">Question Papers</a>
+                <a href="/type?courseid=<%=courseid %>&username=<%=username%>&a=2" id="projectmaterial" class="btn sidebarr pl-1 pr-1">Project Material</a>
+                <a href="/type?courseid=<%=courseid %>&username=<%=username%>&a=3" id="coursematerial" class="btn sidebarr pl-1 pr-1">Class Material</a>
+                <a href="/type?courseid=<%=courseid %>&username=<%=username%>&a=4" id="grades" class="btn sidebarr pl-1 pr-1">Grades</a>
                   
               </div>
         </div>
@@ -131,24 +131,25 @@
           <div class="d-flex bd-highlight" id="ProfileBox">
             <div  class="p-2 flex-grow-1 bd-highlight">
               <% if(type==1){ %>
-                <h1 class="text-center display-4 my-4">Question paper</h1>
+                <h1 class="text-center display-4 my-4" id="inputquestionpaper">Question paper</h1>
                 <form action="/uploadquestionpaper?courseid=<%=courseid %>&username=<%=username%>" method="POST" enctype="multipart/form-data">
                   <div class="custom-file mb-3">
-                    <input type="file" name="file" id="file" class="custom-file-input">
-                    <label for="file" id="fileInput" class="custom-file-label">Choose File</label>
+                    <input type="file" id="fileInput" name="file" id="file" class="custom-file-input">
+                    <label for="file" class="custom-file-label">Choose File</label>
                   </div>
-                  <input type="submit" value="Submit" class="btn btn-primary btn-block">
+                  <input type="submit" value="Submit" id="filesubmit" class="btn btn-primary btn-block">
                 </form>
 
                 <% if(files){ %>
                   <% files.forEach(function(file) { %>
                     <div class="container">
                     <div class="card card-body mb-3">
-                          <a href="file/<%= file.filename %>" target="_blank">Read more</a>
-                          <%= file.filename %>
-                            <form method="POST" action="/files/<%= file._id %>?operation=Delete&courseid=<%=courseid %>&username=<%=username%>&type=1">
-                              <button class="btn btn-danger btn-block mt-4">Delete</button>
-                            </form>
+                          <a href="file/<%= file.filename %>" target="_blank" >Read more</a>
+                          <span  id="showquestionpaper"><%= file.filename %></span>
+                            <!-- <form method="POST" action="/files/<%= file._id %>?operation=Delete&courseid=<%=courseid %>&username=<%=username%>&type=1">
+                              <button id="deletefile" class="btn btn-danger btn-block mt-4">Delete</button>
+                            </form> -->
+                            <a id='deletefile' href="/files/<%= file._id %>?operation=Delete&courseid=<%=courseid %>&username=<%=username%>&type=1">Delete</a>
                     </div>
                     </div>
                     <% }) %>
@@ -159,13 +160,13 @@
 
                 <% } else if(type==2){ %>
                 <div class="container">
-                <h1 class="text-center display-4 my-4">Project Materials</h1>
+                <h1 class="text-center display-4 my-4" id="inputprojectmaterial">Project Materials</h1>
                 <form action="/uploadprojectmaterial?courseid=<%=courseid %>&username=<%=username%>" method="POST" enctype="multipart/form-data">
                   <div class="custom-file mb-3">
-                    <input type="file" name="file" id="file" class="custom-file-input">
-                    <label for="file" id="fileInput" class="custom-file-label">Choose File</label>
+                    <input type="file" id="fileInput" name="file" id="file" class="custom-file-input">
+                    <label for="file" class="custom-file-label">Choose File</label>
                   </div>
-                  <input type="submit" value="Submit" class="btn btn-primary btn-block">
+                  <input type="submit" value="Submit" id="filesubmit" class="btn btn-primary btn-block">
                 </form>
                 </div>
 
@@ -174,10 +175,11 @@
                     <div class="container">
                     <div class="card card-body mb-3">
                           <a href="file/<%= file.filename %>" target="_blank">Read more</a>
-                          <%= file.filename %>
-                            <form method="POST" action="/files/<%= file._id %>?operation=Delete&courseid=<%=courseid %>&username=<%=username%>&type=2">
-                              <button class="btn btn-danger btn-block mt-4">Delete</button>
-                            </form>
+                           <span id="showprojectmaterial"><%= file.filename %></span> 
+                            <!-- <form method="POST" action="/files/<%= file._id %>?operation=Delete&courseid=<%=courseid %>&username=<%=username%>&type=2">
+                              <button id="deletefile" class="btn btn-danger btn-block mt-4">Delete</button>
+                            </form> -->
+                            <a id="deletefile" href="/files/<%= file._id %>?operation=Delete&courseid=<%=courseid %>&username=<%=username%>&type=2">Delete</a>
                     </div>
                     </div>
                     <% }) %>
@@ -185,16 +187,15 @@
                         <p>No files to show</p>
                         <% } %>
 
-
                 <% } else if(type==3){ %>
                 <div class="container">
-                <h1 class="text-center display-4 my-4">Class Materials</h1>
+                <h1 class="text-center display-4 my-4" id="inputclassmaterial">Class Materials</h1>
                 <form action="/uploadclassmaterial?courseid=<%=courseid %>&username=<%=username%>" method="POST" enctype="multipart/form-data">
                   <div class="custom-file mb-3">
-                    <input type="file" name="file" id="file" class="custom-file-input">
-                    <label for="file" id="fileInput" class="custom-file-label">Choose File</label>
+                    <input type="file" id="fileInput" name="file" id="file" class="custom-file-input">
+                    <label for="file" class="custom-file-label">Choose File</label>
                   </div>
-                  <input type="submit" value="Submit" class="btn btn-primary btn-block">
+                  <input type="submit" value="Submit" id="filesubmit" class="btn btn-primary btn-block">
                 </form>
                 </div>
                 <% if(files){ %>
@@ -202,10 +203,11 @@
                     <div class="container">
                     <div class="card card-body mb-3">
                           <a href="file/<%= file.filename %>" target="_blank">Read more</a>
-                          <%= file.filename %>
-                            <form method="POST" action="/files/<%= file._id %>?operation=Delete&courseid=<%=courseid %>&username=<%=username%>&type=3">
-                              <button class="btn btn-danger btn-block mt-4">Delete</button>
-                            </form>
+                          <span id="showclassmaterial"><%= file.filename %></span>
+                            <!-- <form method="POST" action="/files/<%= file._id %>?operation=Delete&courseid=<%=courseid %>&username=<%=username%>&type=3">
+                              <button id="deletefile" class="btn btn-danger btn-block mt-4">Delete</button>
+                            </form> -->
+                            <a id="deletefile" href="/files/<%= file._id %>?operation=Delete&courseid=<%=courseid %>&username=<%=username%>&type=3">Delete</a>
                     </div>
                     </div>
                     <% }) %>
@@ -216,13 +218,13 @@
 
                 <% } else if(type==4){ %>
                 <div class="container">
-                <h1 class="text-center display-4 my-4">Grades</h1>
+                <h1 class="text-center display-4 my-4" id="inputgrades">Grades</h1>
                 <form action="/uploadgrades?courseid=<%=courseid %>&username=<%=username%>" method="POST" enctype="multipart/form-data">
                   <div class="custom-file mb-3">
-                    <input type="file" name="file" id="file" class="custom-file-input">
-                    <label for="file" id="fileInput" class="custom-file-label">Choose File</label>
+                    <input type="file" id="fileInput" name="file" id="file" class="custom-file-input">
+                    <label for="file" class="custom-file-label">Choose File</label>
                   </div>
-                  <input type="submit" value="Submit" class="btn btn-primary btn-block">
+                  <input type="submit" value="Submit" id="filesubmit" class="btn btn-primary btn-block">
                 </form>
                 </div>
                 <% if(files){ %>
@@ -230,10 +232,11 @@
                     <div class="container">
                     <div class="card card-body mb-3">
                           <a href="file/<%= file.filename %>" target="_blank">Read more</a>
-                          <%= file.filename %>
-                            <form method="POST" action="/files/<%= file._id %>?operation=Delete&courseid=<%=courseid %>&username=<%=username%>&type=4">
-                              <button class="btn btn-danger btn-block mt-4">Delete</button>
-                            </form>
+                          <span id="showgrades"><%= file.filename %></span>
+                            <!-- <form method="POST" action="/files/<%= file._id %>?operation=Delete&courseid=<%=courseid %>&username=<%=username%>&type=4">
+                              <button id="deletefile" class="btn btn-danger btn-block mt-4">Delete</button>
+                            </form> -->
+                            <a id="deletefile" href="/files/<%= file._id %>?operation=Delete&courseid=<%=courseid %>&username=<%=username%>&type=4">Delete</a>
                     </div>
                     </div>
                     <% }) %>

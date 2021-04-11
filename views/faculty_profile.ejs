@@ -88,7 +88,7 @@
                 <input type="text" readonly class="form-control-plaintext" id="staticLName" value="<%=profdetails[0].lastName%>">
             </div>
         </div>
-        <form action="/editprofile?username=<%= profdetails[0].faculty_id %>" method="POST">
+        <form action="/editprofile?username=<%= profdetails[0].faculty_id %>&changep=false" method="POST">
             <div class="form-group row">
                 <label for="phno" class="col-sm-2 col-form-label">Phone No</label>
                 <div class="col-sm-10">
@@ -103,6 +103,16 @@
             </div>
             <input type="submit" class="btn btn-dark" value="Save">
         </form>
+        <a href="/changepasswordbutton?username=<%=profdetails[0].faculty_id%>" class="btn sidebarr pl-1 pr-1">Change Password</a>
+        <% if(changep=="true"){ %>
+            <form action="/changepassword?username=<%= profdetails[0].faculty_id %>" method="POST">
+                Old password
+                <input class="form-control" type="text" name="oldpassword" id="oldpassword">
+                New password
+                <input class="form-control" type="text" name="newpassword" id="newpassword">
+                <input type="submit" class="btn btn-dark" value="Save">
+            </form>
+          <%}else{}%> 
     </div>
                 <!-- <div class="row ml-3">
                     <div class="d-flex bd-highlight" id="namee">

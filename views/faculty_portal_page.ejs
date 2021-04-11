@@ -47,7 +47,7 @@
                       <!-- <a href="/logout">Sign Out</a> -->
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                      <a class="dropdown-item" href="/facultyprofile?username=<%=username%>">Profile</a>
+                      <a class="dropdown-item" href="/facultyprofile?username=<%=username%>&changep=false">Profile</a>
                       <div class="dropdown-divider"></div>
                       <a class="dropdown-item" href="/logout">Sign Out</a>
                     </div>
@@ -80,7 +80,8 @@
       <div class="row">
         <div class="col-2 pl-auto">
           <div class="btn-group-vertical btn-group-lg">
-            <a href="/displaycourses?username=<%=username%>" class="btn sidebarr pl-1 pr-1">Courses</a>
+            <a href="/displaycourses?username=<%=username%>" id="courses" class="btn sidebarr pl-1 pr-1">Courses</a><br>
+            <a href="/showcourses?username=<%=username%>" class="btn sidebarr pl-1 pr-1">Add Courses</a>
           </div>
         </div>
         <div class="col-10">
@@ -89,7 +90,19 @@
               <div class="card-deck">
                   <div class="card">
                     <div class="card-body">
-                      <a class="card-title" href="/coursepage?courseid=<%=course[i].course_id %>&username=<%=username%>"><%=course[i].course_id %></a>
+                      <a class="card-title" id="courseid" href="/coursepage?courseid=<%=course[i].course_id %>&username=<%=username%>"><%=course[i].course_id %></a>
+                    </div>
+                  </div>
+                </div>
+                <% } %>
+          <%}%>  
+
+          <%if(addcourse){%>
+            <% for(var i=0;i< addcourse.length ;i++) { %>
+              <div class="card-deck">
+                  <div class="card">
+                    <div class="card-body">
+                      <a class="card-title" href="/addcourse?courseid=<%=addcourse[i].course_id %>&username=<%=username%>"><%=addcourse[i].course_id %></a>
                     </div>
                   </div>
                 </div>

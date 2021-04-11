@@ -1,27 +1,38 @@
 var express = require('express');
 var app = express();
-var mysql = require('mysql');
+app.disable("x-powered-by");
+
+let helmet = require("helmet");
+let app2 = express();
+app2.use(helmet.hidePoweredBy());
+
+const mysql = require('mysql');
 var path = require('path');
 var bodyParser = require('body-parser');
 var m1=require('./email.js');
 const { urlencoded } = require('express');
 var crypto = require('crypto');
 var assert = require('assert');
+const digitGenerator = require('crypto-secure-random-digit');
+require('dotenv').config();
 
 var algorithm = 'aes256';
 var key = 'password';
 
-var con = mysql.createConnection({
-    host: "127.0.0.1",
-    user: "root",
-    password: "password",
-    database: "digitalcoursefile_db"
+const mycon = mysql.createConnection({
+    host     : process.env.MYSQL_URL,
+    user     : process.env.MYSQL_USERNAME,
+    password : process.env.MYSQL_PASSWORD,
+    database : process.env.MYSQL_DATABASE_ACC
   });
 
-var otp=0;
-function getRndInteger(min, max) {
-    return Math.floor(Math.random() * (max - min + 1) ) + min;
-}  
+const randomDigits = digitGenerator.randomDigits(6);
+var otp = 0;
+for(var i=0;i<randomDigits.length;i++){
+    otp = (otp*10) + randomDigits[i];
+}
+
+
 
 var urlencodedParser = bodyParser.urlencoded({ extended: true });
 app.set('view engine','ejs');
@@ -35,30 +46,28 @@ app.use(express.json());
 module.exports = function(app){
 
     app.post('/login', urlencodedParser, function (req, res) {
-        // console.log(req.body);
         var cipher = crypto.createCipher(algorithm, key);   
         var encrypted = cipher.update(req.body.password, 'utf8', 'hex') + cipher.final('hex');
-        con.connect(function(err){
-            con.query(`select * from login where ( username='${req.body.username}' && password='${encrypted}' && role='${req.body.logintype}'); `,function(err,results){
+        mycon.connect(function(err){
+            mycon.query(`select * from login where ( username=? && password=? && role=?); `,[req.body.username,encrypted,req.body.logintype],function(err1,results){
                 if(results.length == 0){res.send("No admin records with this credentials");}
                 else{
                     let role;
                     if(req.body.logintype=="admin"){role="admin";}
                     else if(req.body.logintype=="faculty"){role="faculty_portal_page"}
                     else{role="student"}   
-                    res.render(role,{username: req.body.username,course:false});             
+                    res.render(role,{username: req.body.username,course:false,addcourse:false});             
                 }
             });
         });        
     });
     
     app.post('/f1submit', urlencodedParser, function (req, res) {
-        con.connect(function(err){
-            con.query(`select * from login where ( username='${req.body.username}' && email='${req.body.email}'); `,function(err,results){
+        mycon.connect(function(err){
+            mycon.query(`select * from login where ( username=? && email=?); `,[req.body.username,req.body.email],function(err1,results){
                 if(results.length == 0){res.render('forgotpassword',{flag:2.2});}
                 else{
-                    x=getRndInteger(111111,999999);
-                    m1.sendmail(req.body.email,x);
+                    m1.sendmail(req.body.email,otp);
                     res.render('forgotpassword',{flag:2});
                 }
             });
@@ -66,18 +75,16 @@ module.exports = function(app){
     });
     
     app.post('/f2submit', urlencodedParser, function (req, res) {
-        if(req.body.otp==x){res.render('forgotpassword',{flag:3});}
+        if(req.body.otp==otp){res.render('forgotpassword',{flag:3});}
         else{res.render('forgotpassword',{flag:3.3});}
     });
     
     app.post('/newpasswordreset', urlencodedParser, function (req, res) {  
     
-        con.connect(function(err){
-            // console.log(req.body.newpassword);
-            // console.log(req.body.username);
+        mycon.connect(function(err){
             var cipher = crypto.createCipher(algorithm, key);   
             var encrypted = cipher.update(req.body.newpassword, 'utf8', 'hex') + cipher.final('hex');
-            con.query(`update login set password='${encrypted}' where username="${req.body.username}";`,function(){
+            mycon.query(`update login set password=? where username=?`,[encrypted,req.body.username],function(){
                 res.render('forgotpassword',{flag:4});
             });
         });

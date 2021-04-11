@@ -11,6 +11,9 @@ import * as Popper from '@popperjs/core';
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
  * --------------------------------------------------------------------------
  */
+
+ var crypto = require('crypto');
+
 const MAX_UID = 1000000;
 const MILLISECONDS_MULTIPLIER = 1000;
 const TRANSITION_END = 'transitionend'; // Shoutout AngusCroll (https://goo.gl/pxwQGp)
@@ -31,7 +34,7 @@ const toType = obj => {
 
 const getUID = prefix => {
   do {
-    prefix += Math.floor(Math.random() * MAX_UID);
+    prefix += Math.floor(crypto.getRandomValues() * MAX_UID);
   } while (document.getElementById(prefix));
 
   return prefix;

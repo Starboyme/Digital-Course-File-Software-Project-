@@ -1,6 +1,12 @@
 var express = require('express');
 var app = express();
-var mysql = require('mysql');
+app.disable("x-powered-by");
+
+let helmet = require("helmet");
+let app2 = express();
+app2.use(helmet.hidePoweredBy());
+
+const mysql = require('mysql');
 var path = require('path');
 var bodyParser = require('body-parser');
 const { urlencoded } = require('express');
@@ -12,14 +18,20 @@ const Grid = require('gridfs-stream');
 const methodOverride = require('method-override');
 const { type } = require('os');
 const { Console } = require('console');
+var crypto = require('crypto');
+var assert = require('assert');
 
+require('dotenv').config();
 
-var con = mysql.createConnection({
-    host: "127.0.0.1",
-    user: "root",
-    password: "password",
-    database: "digitalcoursefile_db"
-  });
+var algorithm = 'aes256';
+var key = 'password';
+
+const mycon = mysql.createConnection({
+  host     : process.env.MYSQL_URL,
+  user     : process.env.MYSQL_USERNAME,
+  password : process.env.MYSQL_PASSWORD,
+  database : process.env.MYSQL_DATABASE_ACC
+});
 
 const mongoURI='mongodb://127.0.0.1:27017';
 const conn = mongoose.createConnection("mongodb://localhost:27017/test", { useNewUrlParser: true });
@@ -42,19 +54,18 @@ conn.once('open', () => {
 
 
 var urlencodedParser = bodyParser.urlencoded({ extended: true });
-app.set('view engine','ejs');
-app.use(bodyParser.urlencoded({extended: true}));
-app.use(express.static(path.join(__dirname,'public')));
-app.use(bodyParser.json());
-app.use(require('express-post-redirect'));
-app.use(express.json());
-app.use(methodOverride('_method'));
+app2.set('view engine','ejs');
+app2.use(bodyParser.urlencoded({extended: true}));
+app2.use(express.static(path.join(__dirname,'public')));
+app2.use(bodyParser.json());
+app2.use(require('express-post-redirect'));
+app2.use(express.json());
+app2.use(methodOverride('_method'));
 
 
 const storage1 = new GridFsStorage({
   url: mongoURI,
   file: (req, file) => {
-    // console.log("raj");
     return new Promise((resolve, reject) => {
         const filename = file.originalname;
         const fileInfo = {
@@ -68,7 +79,6 @@ const storage1 = new GridFsStorage({
 const storage2 = new GridFsStorage({
   url: mongoURI,
   file: (req, file) => {
-    // console.log("hi");
     return new Promise((resolve, reject) => {
         const filename = file.originalname;
         const fileInfo = {
@@ -82,7 +92,6 @@ const storage2 = new GridFsStorage({
 const storage3 = new GridFsStorage({
   url: mongoURI,
   file: (req, file) => {
-    // console.log("hi");
     return new Promise((resolve, reject) => {
         const filename = file.originalname;
         const fileInfo = {
@@ -96,7 +105,6 @@ const storage3 = new GridFsStorage({
 const storage4 = new GridFsStorage({
   url: mongoURI,
   file: (req, file) => {
-    // console.log("hi");
     return new Promise((resolve, reject) => {
         const filename = file.originalname;
         const fileInfo = {
@@ -107,50 +115,63 @@ const storage4 = new GridFsStorage({
     });
   }
 });
-const upload1 = multer({ storage: storage1 });
-const upload2 = multer({ storage: storage2});
-const upload3 = multer({ storage: storage3});
-const upload4 = multer({ storage: storage4});
+const upload1 = multer({ storage: storage1, limits: { fileSize: 8000000} });
+const upload2 = multer({ storage: storage2, limits: { fileSize: 8000000}});
+const upload3 = multer({ storage: storage3, limits: { fileSize: 8000000}});
+const upload4 = multer({ storage: storage4, limits: { fileSize: 8000000}});
 
 
-module.exports = function(app){
-    app.get('/displaycourses',function(req,res){
+module.exports = function(app2){
+    app2.get('/displaycourses',function(req,res){
         console.log(req.param('username'));
-        con.connect(function(err){
-        con.query(`select * from fc_conn where faculty_id='F.001';`,function(err,results){
+        mycon.connect(function(err){
+        mycon.query(`select * from fc_conn where faculty_id=?`,[req.param('username')],function(err1,results){
             console.log(results);
-            res.render('faculty_portal_page',{username:req.param('username'),course:results,type:0,files:false});
+            res.render('faculty_portal_page',{username:req.param('username'),course:results,addcourse:false});
         });
       });
     });
 
-    app.get('/coursepage',function(req,res){
+    app2.get('/showcourses',function(req,res){
+      mycon.connect(function(err){
+        mycon.query(`SELECT t1.course_id FROM course t1 LEFT JOIN (select * from fc_conn where faculty_id=?) t2 ON t2.course_id = t1.course_id WHERE t2.course_id IS NULL`,[req.param('username')],function(err1,results){
+            console.log(results);
+            res.render('faculty_portal_page',{username:req.param('username'),course:false,addcourse:results});
+            });
+          });
+      });
+
+    app2.get('/addcourse',function(req,res){
+      console.log("hi");
+      mycon.connect(function(err){
+        mycon.query(`insert into fc_conn values (?,?);`,[req.param('courseid'),req.param('username')],function(err1,results){
+               res.redirect('/showcourses?username='+req.param('username'));
+            });
+          });
+      });
+
+    app2.get('/coursepage',function(req,res){
         res.render('faculty_course_page',{username:req.param('username'),courseid:req.param('courseid'),type:0,files:false});
     });
 
-    app.get('/type',function(req,res){
+    app2.get('/type',function(req,res){
       res.redirect('/displayfiles?username='+req.param('username')+'&courseid='+req.param('courseid')+'&type='+req.param('a'));
-      // res.render('faculty_course_page',{username:req.param('username'),courseid:req.param('courseid'),type:req.param('a'),files:false});
     });
 
-    app.post('/uploadquestionpaper',upload1.single('file'),(req, res) => {
+    app2.post('/uploadquestionpaper',upload1.single('file'),(req, res) => {
         res.redirect('/displayfiles?username='+req.param('username')+'&courseid='+req.param('courseid')+'&type=1');
-        // res.render('faculty_course_page',{username:req.param('username'),courseid:req.param('courseid'),type:1});
     });
-    app.post('/uploadprojectmaterial', upload2.single('file'), (req, res) => {
+    app2.post('/uploadprojectmaterial', upload2.single('file'), (req, res) => {
         res.redirect('/displayfiles?username='+req.param('username')+'&courseid='+req.param('courseid')+'&type=2');
-        // res.render('faculty_course_page',{username:req.param('username'),courseid:req.param('courseid'),type:2});
     });
-    app.post('/uploadclassmaterial', upload3.single('file'), (req, res) => {
+    app2.post('/uploadclassmaterial', upload3.single('file'), (req, res) => {
         res.redirect('/displayfiles?username='+req.param('username')+'&courseid='+req.param('courseid')+'&type=3');
-        // res.render('faculty_course_page',{username:req.param('username'),courseid:req.param('courseid'),type:3});
     });
-    app.post('/uploadgrades', upload4.single('file'), (req, res) => {
+    app2.post('/uploadgrades', upload4.single('file'), (req, res) => {
          res.redirect('/displayfiles?username='+req.param('username')+'&courseid='+req.param('courseid')+'&type=4');
-        // res.render('faculty_course_page',{username:req.param('username'),courseid:req.param('courseid'),type:4});
     });
 
-    app.get('/displayfiles', (req, res) => {
+    app2.get('/displayfiles', (req, res) => {
 
       if(req.param('type')==1){
           gfs1.files.find().toArray((err, files) => {
@@ -189,18 +210,18 @@ module.exports = function(app){
       
     });
 
-    app.get('/file/:filename', (req, res) => {
+    app2.get('/file/:filename', (req, res) => {
       gfs1.files.findOne({ filename: req.params.filename }, (err, file) => {
           const readstream = gfs1.createReadStream(file.filename);
           readstream.pipe(res);
       });
     });
 
-    app.get('/facultyback', (req, res) => {
-       res.render('faculty_portal_page',{username:req.param('username'),course:false});
+    app2.get('/facultyback', (req, res) => {
+       res.render('faculty_portal_page',{username:req.param('username'),course:false,addcourse:false});
     });
 
-    app.post('/files/:id', (req, res) => {
+    app2.get('/files/:id', (req, res) => {
 
       if(req.param('type')==1){
         gfs1.remove({ _id: req.params.id, root: 'Questionpaper' }, (err, gridStore) => {
@@ -237,30 +258,64 @@ module.exports = function(app){
      
     });
 
-    app.get('/facultyprofile',function(req,res){
-      console.log(req.param('username'));
-      con.connect(function(err){
-          con.query(`select faculty_id,firstName,lastName,phoneNo,address from personaldetails_f where faculty_id='${req.param('username')}';`,function(err,results){
+    app2.get('/facultyprofile',function(req,res){
+      
+      mycon.connect(function(err){
+          mycon.query(`select faculty_id,firstName,lastName,phoneNo,address from personaldetails_f where faculty_id=?`,[req.param('username')],function(err1,results){
               console.log(results);
-              res.render('faculty_profile',{profdetails:results});
+              console.log(req.param('changep')); 
+              console.log(typeof(req.param('changep')));     
+              res.render('faculty_profile',{profdetails:results,changep:req.param('changep')});
           });
         });
     });
 
-    app.post('/editprofile', urlencodedParser,function(req,res){
+    app2.post('/changepassword', urlencodedParser,function(req,res){
+      mycon.connect(function(err){
+        var cipher = crypto.createCipher(algorithm, key);   
+        var encrypted = cipher.update(req.param('oldpassword'), 'utf8', 'hex') + cipher.final('hex');
+        console.log(encrypted);
+        var x;
+        var str;
+        str=`select * from login where (username='${req.param('username')}' and password='${encrypted}');`;
+        console.log(str);
+        mycon.query(`select * from login where (username=? and password=?);`,[req.param('username'),encrypted],function(err1,results){
+          x=results;
+          console.log(x);
+          if(x.length==0){res.send("password did not match");}
+          else{
+            var cipher1 = crypto.createCipher(algorithm, key);   
+            var encrypted1 = cipher1.update(req.param('newpassword'), 'utf8', 'hex') + cipher1.final('hex');
+            mycon.query(`update login set password=? where username=?`,[encrypted1,req.param('username')],function(err2,results1){
+              res.send("new password changed");
+            });
+          }
+        });
+        
+      });
+    });
+
+    app2.get('/changepasswordbutton',function(req,res){
+      res.redirect('/facultyprofile?username='+req.param('username')+'&changep=true');
+    });
+
+    app2.post('/editprofile', urlencodedParser,function(req,res){
       console.log(req.param('username'));
       console.log(req.body);
-      con.connect(function(err){
-        con.query(`UPDATE personaldetails_f SET phoneNo = '${req.param('PhoneNo')}' ,address= '${req.param('address')}' WHERE faculty_id='${req.param('username')}';`,function(err,results){
+      mycon.connect(function(err){
+        mycon.query(`UPDATE personaldetails_f SET phoneNo =? ,address=? WHERE faculty_id=?`,[req.param('PhoneNo'),req.param('address'),req.param('username')],function(err1,results){
         });
-        res.redirect('/facultyprofile?username='+req.param('username'));
+        res.redirect('/facultyprofile?username='+req.param('username')+'&changep=false');
       });
 
       
   });
 
-  app.get('/coursepage',function(req,res){
+  app2.get('/coursepage',function(req,res){
       console.log(req.param('courseid'));
   });
+
+
+  
 
 }
