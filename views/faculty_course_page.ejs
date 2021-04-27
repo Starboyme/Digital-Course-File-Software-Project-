@@ -33,6 +33,13 @@
     line-height: 25px;
 }
     </style>
+    <script>
+      function filename()
+                    {
+                        var x=document.getElementById("file").value.split(/(\\|\/)/g).pop();
+                        document.getElementById("fileInput").innerHTML=x;
+                    }
+    </script>
   </head>
   <body>
     <div class="navbar navbar-expand-lg navbar-fixed-top">
@@ -124,6 +131,7 @@
                 <a href="/type?courseid=<%=courseid %>&username=<%=username%>&a=2" id="projectmaterial" class="btn sidebarr pl-1 pr-1">Project Material</a>
                 <a href="/type?courseid=<%=courseid %>&username=<%=username%>&a=3" id="coursematerial" class="btn sidebarr pl-1 pr-1">Class Material</a>
                 <a href="/type?courseid=<%=courseid %>&username=<%=username%>&a=4" id="grades" class="btn sidebarr pl-1 pr-1">Grades</a>
+                <a href="/type?courseid=<%=courseid %>&username=<%=username%>&a=5" id="searchfiles" class="btn sidebarr pl-1 pr-1">Search Files</a>
                   
               </div>
         </div>
@@ -134,8 +142,8 @@
                 <h1 class="text-center display-4 my-4" id="inputquestionpaper">Question paper</h1>
                 <form action="/uploadquestionpaper?courseid=<%=courseid %>&username=<%=username%>" method="POST" enctype="multipart/form-data">
                   <div class="custom-file mb-3">
-                    <input type="file" id="fileInput" name="file" id="file" class="custom-file-input">
-                    <label for="file" class="custom-file-label">Choose File</label>
+                    <input type="file" name="file" id="file" class="custom-file-input" onchange="filename()">
+                    <label for="file"  id="fileInput" class="custom-file-label" >Choose File</label>
                   </div>
                   <input type="submit" value="Submit" id="filesubmit" class="btn btn-primary btn-block">
                 </form>
@@ -163,8 +171,8 @@
                 <h1 class="text-center display-4 my-4" id="inputprojectmaterial">Project Materials</h1>
                 <form action="/uploadprojectmaterial?courseid=<%=courseid %>&username=<%=username%>" method="POST" enctype="multipart/form-data">
                   <div class="custom-file mb-3">
-                    <input type="file" id="fileInput" name="file" id="file" class="custom-file-input">
-                    <label for="file" class="custom-file-label">Choose File</label>
+                    <input type="file"  name="file" id="file" class="custom-file-input" onchange="filename()">
+                    <label for="file" id="fileInput" class="custom-file-label" >Choose File</label>
                   </div>
                   <input type="submit" value="Submit" id="filesubmit" class="btn btn-primary btn-block">
                 </form>
@@ -192,8 +200,8 @@
                 <h1 class="text-center display-4 my-4" id="inputclassmaterial">Class Materials</h1>
                 <form action="/uploadclassmaterial?courseid=<%=courseid %>&username=<%=username%>" method="POST" enctype="multipart/form-data">
                   <div class="custom-file mb-3">
-                    <input type="file" id="fileInput" name="file" id="file" class="custom-file-input">
-                    <label for="file" class="custom-file-label">Choose File</label>
+                    <input type="file"  name="file" id="file" class="custom-file-input" onchange="filename()">
+                    <label for="file" id="fileInput" class="custom-file-label" >Choose File</label>
                   </div>
                   <input type="submit" value="Submit" id="filesubmit" class="btn btn-primary btn-block">
                 </form>
@@ -221,9 +229,8 @@
                 <h1 class="text-center display-4 my-4" id="inputgrades">Grades</h1>
                 <form action="/uploadgrades?courseid=<%=courseid %>&username=<%=username%>" method="POST" enctype="multipart/form-data">
                   <div class="custom-file mb-3">
-                    <input type="file" id="fileInput" name="file" id="file" class="custom-file-input">
-                    <label for="file" class="custom-file-label">Choose File</label>
-                  </div>
+                    <input type="file" name="file" id="file" class="custom-file-input" onchange="filename()">
+                    <label for="file"  id="fileInput" class="custom-file-label" >Choose File</label>
                   <input type="submit" value="Submit" id="filesubmit" class="btn btn-primary btn-block">
                 </form>
                 </div>
@@ -245,7 +252,30 @@
                         <% } %>
 
 
-                <% } %>
+                <% } else if(type==5){ %>
+
+                  <!-- <div class="container">
+                    <h1 class="text-center display-4 my-4" id="inputgrades">Search Files</h1>
+                    <form action="/uploadgrades?courseid=<%=courseid %>&username=<%=username%>" method="POST" enctype="multipart/form-data">
+                      <div class="custom-file mb-3">
+                        <input type="file" id="fileInput" name="file" id="file" class="custom-file-input">
+                        <label for="file" class="custom-file-label" onchange="filename()">Choose File</label>
+                        <script>
+              function filename()
+              {
+                  var x=document.getElementById("file").value.split(/(\\|\/)/g).pop();
+                  document.getElementById("fileInput").innerHTML=x;
+              }
+              </script>
+                      </div>
+                      <input type="submit" value="Submit" id="filesubmit" class="btn btn-primary btn-block">
+                    </form>
+                    </div> -->
+
+
+                  <% } else { %>
+
+                    <% } %>
               </div>   
             </div>
             <!-- <div class="p-2 bd-highlight">Flex item</div>

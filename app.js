@@ -72,7 +72,6 @@ app.get('/dashboard', checkAuthenticated, function(req,res)
             }
         });
     });
-    
 });
 app.get('/logout', function(req,res)
 {
@@ -109,3 +108,4 @@ function checkAuthenticated(req, res, next)
 }
 
 var server = app.listen(3000, function () {});
+// module.exports.app = app;

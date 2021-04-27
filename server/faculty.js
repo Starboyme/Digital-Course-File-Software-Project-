@@ -35,6 +35,9 @@ const mycon = mysql.createConnection({
 
 const mongoURI='mongodb://127.0.0.1:27017';
 const conn = mongoose.createConnection("mongodb://localhost:27017/test", { useNewUrlParser: true });
+const promise = mongoose.connect(mongoURI, { useNewUrlParser: true });
+
+
 let gfs1;
 let gfs2;
 let gfs3;
@@ -64,6 +67,7 @@ app2.use(methodOverride('_method'));
 
 
 const storage1 = new GridFsStorage({
+  db: promise,
   url: mongoURI,
   file: (req, file) => {
     return new Promise((resolve, reject) => {
@@ -197,13 +201,18 @@ module.exports = function(app2){
             res.render('faculty_course_page',{username:req.param('username'),courseid:req.param('courseid'),type:3,files:x});
           });
       }
-      else{
+      else if(req.param('type')==4){
           gfs4.files.find().toArray((err, files) => {
             var x;
             if (!files || files.length === 0) {x=false}
             else {x=files}
             res.render('faculty_course_page',{username:req.param('username'),courseid:req.param('courseid'),type:4,files:x});
           });
+      }
+      else if(req.param('type')==5){
+        res.render('faculty_course_page',{username:req.param('username'),courseid:req.param('courseid'),type:5,files:false});
+      }
+      else{
       }
 
      

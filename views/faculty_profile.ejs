@@ -107,9 +107,9 @@
         <% if(changep=="true"){ %>
             <form action="/changepassword?username=<%= profdetails[0].faculty_id %>" method="POST">
                 Old password
-                <input class="form-control" type="text" name="oldpassword" id="oldpassword">
+                <input class="form-control" type="text" name="oldpassword" id="oldpassword" required>
                 New password
-                <input class="form-control" type="text" name="newpassword" id="newpassword">
+                <input class="form-control" type="text" name="newpassword" id="newpassword" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" required>
                 <input type="submit" class="btn btn-dark" value="Save">
             </form>
           <%}else{}%> 
