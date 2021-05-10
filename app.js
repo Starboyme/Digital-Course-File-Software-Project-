@@ -4,6 +4,7 @@ var app = express();
 var bodyParser = require('body-parser');
 var fs = require('fs');
 var path = require('path');
+const cors= require('cors');
 
 require('dotenv').config();
 
@@ -35,6 +36,7 @@ app.use(bodyParser.json());
 app.use(require('express-post-redirect'));
 app.use(express.json());
 app.use(cookieParser());
+app.use(cors());
 
 app.post('/googlelogin', urlencodedParser, function(req,res)
 {

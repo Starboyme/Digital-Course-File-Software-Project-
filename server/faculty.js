@@ -20,6 +20,8 @@ const { type } = require('os');
 const { Console } = require('console');
 var crypto = require('crypto');
 var assert = require('assert');
+const cors=require('cors');
+var ObjectId = require('mongodb').ObjectID;
 
 require('dotenv').config();
 
@@ -36,7 +38,7 @@ const mycon = mysql.createConnection({
 const mongoURI='mongodb://127.0.0.1:27017';
 const conn = mongoose.createConnection("mongodb://localhost:27017/test", { useNewUrlParser: true });
 const promise = mongoose.connect(mongoURI, { useNewUrlParser: true });
-
+var MongoClient = require('mongodb').MongoClient;
 
 let gfs1;
 let gfs2;
@@ -64,6 +66,7 @@ app2.use(bodyParser.json());
 app2.use(require('express-post-redirect'));
 app2.use(express.json());
 app2.use(methodOverride('_method'));
+app2.use(cors());
 
 
 const storage1 = new GridFsStorage({
@@ -163,51 +166,181 @@ module.exports = function(app2){
     });
 
     app2.post('/uploadquestionpaper',upload1.single('file'),(req, res) => {
+
+        MongoClient.connect(mongoURI, function(err, db) {
+          if (err) throw err;
+          var dbo = db.db("FilesDetails");
+          var myobj = { fileid: req.file.id, filename: req.file.filename,courseid: req.param('courseid') };
+          dbo.collection("questionpaper").insertOne(myobj, function(err, res) {
+            if (err) throw err;
+            console.log("1 document inserted");
+            db.close();
+          });
+        });
+
+
         res.redirect('/displayfiles?username='+req.param('username')+'&courseid='+req.param('courseid')+'&type=1');
     });
     app2.post('/uploadprojectmaterial', upload2.single('file'), (req, res) => {
+
+        MongoClient.connect(mongoURI, function(err, db) {
+          if (err) throw err;
+          var dbo = db.db("FilesDetails");
+          var myobj = { fileid: req.file.id, filename: req.file.filename,courseid: req.param('courseid') };
+          dbo.collection("projectmaterial").insertOne(myobj, function(err, res) {
+            if (err) throw err;
+            console.log("1 document inserted");
+            db.close();
+          });
+        });
+
         res.redirect('/displayfiles?username='+req.param('username')+'&courseid='+req.param('courseid')+'&type=2');
     });
     app2.post('/uploadclassmaterial', upload3.single('file'), (req, res) => {
+
+      MongoClient.connect(mongoURI, function(err, db) {
+        if (err) throw err;
+        var dbo = db.db("FilesDetails");
+        var myobj = { fileid: req.file.id, filename: req.file.filename,courseid: req.param('courseid') };
+        dbo.collection("classmaterial").insertOne(myobj, function(err, res) {
+          if (err) throw err;
+          console.log("1 document inserted");
+          db.close();
+        });
+      });
+
         res.redirect('/displayfiles?username='+req.param('username')+'&courseid='+req.param('courseid')+'&type=3');
     });
     app2.post('/uploadgrades', upload4.single('file'), (req, res) => {
+
+      MongoClient.connect(mongoURI, function(err, db) {
+        if (err) throw err;
+        var dbo = db.db("FilesDetails");
+        var myobj = { fileid: req.file.id, filename: req.file.filename,courseid: req.param('courseid') };
+        dbo.collection("grades").insertOne(myobj, function(err, res) {
+          if (err) throw err;
+          console.log("1 document inserted");
+          db.close();
+        });
+      });
+
          res.redirect('/displayfiles?username='+req.param('username')+'&courseid='+req.param('courseid')+'&type=4');
+    });
+    app2.post('/search', upload4.single('file'), (req, res) => {
+        console.log(req.filename);
+        //  res.redirect('/displayfiles?username='+req.param('username')+'&courseid='+req.param('courseid')+'&type=4');
     });
 
     app2.get('/displayfiles', (req, res) => {
 
       if(req.param('type')==1){
-          gfs1.files.find().toArray((err, files) => {
-            var x;
-            if (!files || files.length === 0) {x=false}
-            else {x=files}
-            res.render('faculty_course_page',{username:req.param('username'),courseid:req.param('courseid'),type:1,files:x});
+
+        MongoClient.connect(mongoURI, function(err, db) {
+            if (err) throw err;
+            var dbo = db.db("FilesDetails");
+            dbo.collection("questionpaper").find({courseid:req.param('courseid')}).toArray(function(err, result) {
+                var fileid=[]
+                result.forEach(user=>{
+                fileid.push(ObjectId(user.fileid));
+              });
+
+              console.log(fileid);
+
+              gfs1.files.find({"_id" : {"$in" : fileid}}).toArray((err, files) => {
+                var x;
+                if (!files || files.length === 0) {x=false}
+                else {x=files}
+                res.render('faculty_course_page',{username:req.param('username'),courseid:req.param('courseid'),type:1,files:x});
+              });
+
+
+            });
+            db.close();
           });
+
       }
       else if(req.param('type')==2){
-          gfs2.files.find().toArray((err, files) => {
-            var x;
-            if (!files || files.length === 0) {x=false}
-            else {x=files}
-            res.render('faculty_course_page',{username:req.param('username'),courseid:req.param('courseid'),type:2,files:x});
+
+        
+        MongoClient.connect(mongoURI, function(err, db) {
+          if (err) throw err;
+          var dbo = db.db("FilesDetails");
+          dbo.collection("projectmaterial").find({courseid:req.param('courseid')}).toArray(function(err, result) {
+              var fileid=[]
+              result.forEach(user=>{
+              fileid.push(ObjectId(user.fileid));
+            });
+
+            console.log(fileid);
+
+            gfs2.files.find({"_id" : {"$in" : fileid}}).toArray((err, files) => {
+              var x;
+              if (!files || files.length === 0) {x=false}
+              else {x=files}
+              res.render('faculty_course_page',{username:req.param('username'),courseid:req.param('courseid'),type:2,files:x});
+            });
+
+
           });
+          db.close();
+        });
+
       }
       else if(req.param('type')==3){
-          gfs3.files.find().toArray((err, files) => {
-            var x;
-            if (!files || files.length === 0) {x=false}
-            else {x=files}
-            res.render('faculty_course_page',{username:req.param('username'),courseid:req.param('courseid'),type:3,files:x});
+
+
+        MongoClient.connect(mongoURI, function(err, db) {
+          if (err) throw err;
+          var dbo = db.db("FilesDetails");
+          dbo.collection("classmaterial").find({courseid:req.param('courseid')}).toArray(function(err, result) {
+              var fileid=[]
+              result.forEach(user=>{
+              fileid.push(ObjectId(user.fileid));
+            });
+
+            console.log(fileid);
+
+            gfs3.files.find({"_id" : {"$in" : fileid}}).toArray((err, files) => {
+              var x;
+              if (!files || files.length === 0) {x=false}
+              else {x=files}
+              res.render('faculty_course_page',{username:req.param('username'),courseid:req.param('courseid'),type:3,files:x});
+            });
+
+
           });
+          db.close();
+        });
+
+
+        
       }
       else if(req.param('type')==4){
-          gfs4.files.find().toArray((err, files) => {
-            var x;
-            if (!files || files.length === 0) {x=false}
-            else {x=files}
-            res.render('faculty_course_page',{username:req.param('username'),courseid:req.param('courseid'),type:4,files:x});
+
+
+        MongoClient.connect(mongoURI, function(err, db) {
+          if (err) throw err;
+          var dbo = db.db("FilesDetails");
+          dbo.collection("grades").find({courseid:req.param('courseid')}).toArray(function(err, result) {
+              var fileid=[]
+              result.forEach(user=>{
+              fileid.push(ObjectId(user.fileid));
+            });
+
+            console.log(fileid);
+
+            gfs4.files.find({"_id" : {"$in" : fileid}}).toArray((err, files) => {
+              var x;
+              if (!files || files.length === 0) {x=false}
+              else {x=files}
+              res.render('faculty_course_page',{username:req.param('username'),courseid:req.param('courseid'),type:4,files:x});
+            });
+
+
           });
+          db.close();
+        });
+        
       }
       else if(req.param('type')==5){
         res.render('faculty_course_page',{username:req.param('username'),courseid:req.param('courseid'),type:5,files:false});
@@ -322,6 +455,35 @@ module.exports = function(app2){
 
   app2.get('/coursepage',function(req,res){
       console.log(req.param('courseid'));
+  });
+
+  app2.get('/autocomplete',function(req,res,next){
+
+    var regex=new RegExp(req.query["term"],'i');
+    console.log(regex);
+    console.log(req.param('courseid'));
+    
+    MongoClient.connect(mongoURI, function(err, db) {
+      if (err) throw err;
+      var dbo = db.db("FilesDetails");
+      dbo.collection("questionpaper").find({filename:regex,courseid:req.param('courseid')}).toArray(function(err, result) {
+        
+        if(result && result.length && result.length>0){
+          var results=[];
+          result.forEach(user=>{
+            let obj={
+              id:user._id,
+              label: user.filename
+            };
+            results.push(obj);
+          });
+          res.jsonp(results);
+        }
+        db.close();
+      });
+
+    });
+  
   });
 
 
