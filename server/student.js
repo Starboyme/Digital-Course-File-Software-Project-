@@ -16,8 +16,17 @@ const multer = require('multer');
 const GridFsStorage = require('multer-gridfs-storage');
 const Grid = require('gridfs-stream');
 const methodOverride = require('method-override');
+const { type } = require('os');
+const { Console } = require('console');
+var crypto = require('crypto');
+var assert = require('assert');
+const cors=require('cors');
+var ObjectId = require('mongodb').ObjectID;
 
 require('dotenv').config();
+
+var algorithm = 'aes256';
+var key = 'password';
 
 const mycon = mysql.createConnection({
   host     : process.env.MYSQL_URL,
@@ -26,90 +35,107 @@ const mycon = mysql.createConnection({
   database : process.env.MYSQL_DATABASE_ACC
 });
 
-const mongoURI='mongodb://127.0.0.1:27017';
-const conn = mongoose.createConnection("mongodb://localhost:27017/test", { useNewUrlParser: true });
-let gfs;
+const mongoURI='mongodb://localhost:27017/DigitalCourseFile';
+const conn = mongoose.createConnection("mongodb://localhost:27017/DigitalCourseFile", { useNewUrlParser: true });
+const promise = mongoose.connect(mongoURI, { useNewUrlParser: true });
+var MongoClient = require('mongodb').MongoClient;
+
+let gfs
 
 conn.once('open', () => {
   gfs = Grid(conn.db, mongoose.mongo);
-  gfs.collection('Questionpaper');
-  gfs.collection('ProjectMaterials');
-  gfs.collection('ClassMaterials');
-  gfs.collection('Grades');
+  gfs.collection('originalfile');
 });
-
 
 
 var urlencodedParser = bodyParser.urlencoded({ extended: true });
-app.set('view engine','ejs');
-app.use(bodyParser.urlencoded({extended: true}));
-app.use(express.static(path.join(__dirname,'public')));
-app.use(bodyParser.json());
-app.use(require('express-post-redirect'));
-app.use(express.json());
-app.use(methodOverride('_method'));
+app2.set('view engine','ejs');
+app2.use(bodyParser.urlencoded({extended: true}));
+app2.use(express.static(path.join(__dirname,'public')));
+app2.use(express.json());
+app2.use(require('express-post-redirect'));
+app2.use(bodyParser.json());
+app2.use(methodOverride('_method'));
+app2.use(cors());
+
+module.exports = function(app2){
+
+    app2.get('/student_displaycourses',function(req,res){
+      console.log(req.param('username'));
+      mycon.connect(function(err){
+      mycon.query(`select s1.course_id,s1.faculty_id,s2.firstName from sc_conn s1,personaldetails_f s2 where s1.faculty_id=s2.faculty_id and student_id=?;`,[req.param('username')],function(err1,results){
+          console.log(results);
+          res.render('student_portal_page',{username:req.param('username'),course:results});
+          });
+        });
+      });
+
+      app2.get('/student_coursepage',function(req,res){
+          res.render('student_course_page',{username:req.param('username'),courseid:req.param('courseid'),faculty_id:req.param('faculty_id'),type:0,files:false});
+      });
+
+      app2.get('/student_displayfiles', (req, res) => {
+
+        MongoClient.connect("mongodb://localhost:27017/", function(err, db) {
+            if (err) throw err;
+            var dbo = db.db("DigitalCourseFile");
+            dbo.collection("FileDetails").find({courseid:req.param('courseid'),facultyid:req.param('faculty_id'),filetype:req.param('filetype')}).toArray(function(err, result) {
+                var fileid=[]
+                result.forEach(user=>{
+                fileid.push(ObjectId(user.fileid));
+              });
+              gfs.files.find({"_id" : {"$in" : fileid}}).toArray((err, files) => {
+                var x;
+                if (!files || files.length === 0) {x=false}
+                else {x=files}
+                res.render('student_course_page',{username:req.param('username'),courseid:req.param('courseid'),faculty_id:req.param('faculty_id'),type:req.param('type'),files:x});
+              });
+            });
+            db.close();
+          });
+
+    });
 
 
-const storage1 = new GridFsStorage({
-  url: mongoURI,
-  file: (req, file) => {
-    console.log("raj");
-    return new Promise((resolve, reject) => {
-        const filename = file.originalname;
-        const fileInfo = {
-          filename: filename,
-          bucketName: 'Questionpaper'
-        };
-        resolve(fileInfo);
+    app2.post('/student_search', urlencodedParser,(req, res) => {
+      MongoClient.connect("mongodb://localhost:27017/", function(err, db) {
+        if (err) throw err;
+        var dbo = db.db("DigitalCourseFile");
+        dbo.collection("FileDetails").find({courseid:req.param('courseid'),facultyid:req.param('username'),filename:req.body.fname}).toArray(function(err, result) {
+            var fileid=[]
+            result.forEach(user=>{
+            fileid.push(ObjectId(user.fileid));
+          });
+          gfs.files.find({"_id" : {"$in" : fileid}}).toArray((err, files) => {
+            var x;
+            if (!files || files.length === 0) {x=false}
+            else {x=files}
+            res.render('student_course_page',{username:req.param('username'),courseid:req.param('courseid'),faculty_id:req.param('faculty_id'),type:req.param('type'),files:x});
+          });
+        });
+        db.close();
+      });
     });
-  }
-});
-const storage2 = new GridFsStorage({
-  url: mongoURI,
-  file: (req, file) => {
-    return new Promise((resolve, reject) => {
-        const filename = file.originalname;
-        const fileInfo = {
-          filename: filename,
-          bucketName: 'ProjectMaterials'
-        };
-        resolve(fileInfo);
-    });
-  }
-});
-const storage3 = new GridFsStorage({
-  url: mongoURI,
-  file: (req, file) => {
-    return new Promise((resolve, reject) => {
-        const filename = file.originalname;
-        const fileInfo = {
-          filename: filename,
-          bucketName: 'ClassMaterials'
-        };
-        resolve(fileInfo);
-    });
-  }
-});
-const storage4 = new GridFsStorage({
-  url: mongoURI,
-  file: (req, file) => {
-    return new Promise((resolve, reject) => {
-        const filename = file.originalname;
-        const fileInfo = {
-          filename: filename,
-          bucketName: 'Grades'
-        };
-        resolve(fileInfo);
-    });
-  }
-});
-const upload1 = multer({ storage: storage1, limits: { fileSize: 8000000} });
-const upload2 = multer({ storage: storage2, limits: { fileSize: 8000000} });
-const upload3 = multer({ storage: storage3, limits: { fileSize: 8000000} });
-const upload4 = multer({ storage: storage4, limits: { fileSize: 8000000} });
+  
+    app2.get('/studentback', (req, res) => {
+      res.render('student_portal_page',{username:req.param('username'),course:false});
+   });
 
+   app2.get('/student_profile',function(req,res){
+      
+    mycon.connect(function(err){
+        mycon.query(`select student_id,firstName,lastName,phoneNo,address from personaldetails_s where student_id=?`,[req.param('username')],function(err1,results){
+            console.log(results);
+            console.log(req.param('changep')); 
+            console.log(typeof(req.param('changep')));     
+            res.render('student_profile',{profdetails:results,changep:req.param('changep')});
+           });
+        });
+     });
 
-module.exports = function(app){
+      app2.get('/student_changepasswordbutton',function(req,res){
+      res.redirect('/student_profile?username='+req.param('username')+'&changep=true');
+    });
 
 
 

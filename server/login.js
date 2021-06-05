@@ -51,23 +51,11 @@ module.exports = function(app){
         mycon.connect(function(err){
             mycon.query(`select * from login where ( username=? && password=? && role=?); `,[req.body.username,encrypted,req.body.logintype],function(err1,results){
                 if(results.length == 0){res.send("No admin records with this credentials");}
-                else{
-                    let role;
-                    if(req.body.logintype=="admin")
-                    {
-                        role="admin";
-                        res.render(role,{username: req.body.username,course:false,addcourse:false,removecourse:false});
-                    }
-                    else if(req.body.logintype=="faculty")
-                    {
-                        role="faculty_portal_page";
-                        res.render(role,{username: req.body.username,course:false,addcourse:false,removecourse:false});
-                    }
-                    else
-                    {
-                        role="student";
-                        res.render(role,{username: req.body.username,course:false,addcourse:false,removecourse:false});
-                    }               
+                else{              
+                    if(req.body.logintype=="admin"){role="admin";}
+                    else if(req.body.logintype=="faculty"){role="faculty_portal_page";res.render(role,{username: req.body.username,course:false,addcourse:false,removecourse:false});}
+                    else{role="student_portal_page";res.render(role,{username: req.body.username,course:false});}   
+                                 
                 }
             });
         });        

@@ -70,7 +70,7 @@ app.get('/dashboard', checkAuthenticated, function(req,res)
             else{
                 if(results[0].role=="admin"){res.render('admin', {username: results[0].username});}
                 else if(results[0].role=="faculty"){res.render('faculty_portal_page', {username: results[0].username,course:false,addcourse:false});}
-                else{res.render('student', {username: results[0].username});}
+                else{res.render('student_portal_page', {username: results[0].username});}
             }
         });
     });

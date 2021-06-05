@@ -208,8 +208,8 @@ module.exports = function(app2){
     });
 
     app2.get('/file/:filename', (req, res) => {
-      gfs1.files.findOne({ filename: req.params.filename }, (err, file) => {
-          const readstream = gfs1.createReadStream(file.filename);
+      gfs.files.findOne({ filename: req.params.filename }, (err, file) => {
+          const readstream = gfs.createReadStream(file.filename);
           readstream.pipe(res);
       });
     });
@@ -280,7 +280,7 @@ module.exports = function(app2){
     });
 
     app2.get('/changepasswordbutton',function(req,res){
-      res.redirect('/facultyprofile?username='+req.param('username')+'&changep=true');
+      res.redirect('/faculty_profile?username='+req.param('username')+'&changep=true');
     });
 
     app2.post('/editprofile', urlencodedParser,function(req,res){
