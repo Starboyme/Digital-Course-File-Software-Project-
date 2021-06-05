@@ -53,10 +53,21 @@ module.exports = function(app){
                 if(results.length == 0){res.send("No admin records with this credentials");}
                 else{
                     let role;
-                    if(req.body.logintype=="admin"){role="admin";}
-                    else if(req.body.logintype=="faculty"){role="faculty_portal_page"}
-                    else{role="student"}   
-                    res.render(role,{username: req.body.username,course:false,addcourse:false});             
+                    if(req.body.logintype=="admin")
+                    {
+                        role="admin";
+                        res.render(role,{username: req.body.username,course:false,addcourse:false,removecourse:false});
+                    }
+                    else if(req.body.logintype=="faculty")
+                    {
+                        role="faculty_portal_page";
+                        res.render(role,{username: req.body.username,course:false,addcourse:false,removecourse:false});
+                    }
+                    else
+                    {
+                        role="student";
+                        res.render(role,{username: req.body.username,course:false,addcourse:false,removecourse:false});
+                    }               
                 }
             });
         });        

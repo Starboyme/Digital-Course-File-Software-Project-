@@ -21,6 +21,8 @@
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="../css/faculty.css">
     <link rel="shortcut icon" type="image/x-icon" href="../icon.ico" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
     <title>Portal</title>
   </head>
   <body>
@@ -80,8 +82,9 @@
       <div class="row">
         <div class="col-2 pl-auto">
           <div class="btn-group-vertical btn-group-lg">
-            <a href="/displaycourses?username=<%=username%>" id="courses" class="btn sidebarr pl-1 pr-1">Courses</a><br>
-            <a href="/showcourses?username=<%=username%>" class="btn sidebarr pl-1 pr-1">Add Courses</a>
+            <a href="/displaycourses?username=<%=username%>&type=1" id="courses" class="btn sidebarr pl-1 pr-1">Courses</a><br>
+            <a href="/showcourses?username=<%=username%>" class="btn sidebarr pl-1 pr-1">Add Course</a><br>
+            <a href="/displaycourses?username=<%=username%>&type=2" id="courses" class="btn sidebarr pl-1 pr-1">Remove Course</a><br>
           </div>
         </div>
         <div class="col-10">
@@ -107,7 +110,21 @@
                   </div>
                 </div>
                 <% } %>
-          <%}%>  
+          <%}%> 
+          
+          <%if(removecourse){%>
+            <% for(var i=0;i< removecourse.length ;i++) { %>
+              <div class="card-deck">
+                  <div class="card">
+                    <div class="card-body">
+                      <a class="card-title" id="courseid" href="#"><%=removecourse[i].course_id %></a>
+                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                      <a href="/removecourse?courseid=<%=removecourse[i].course_id %>&username=<%=username%>"><button class="btn" style="color: red;"><i class="fa fa-close"></i></button></a>
+                    </div>
+                  </div>
+                </div>
+                <% } %>
+          <%}%>
         </div>
     </div>
     
