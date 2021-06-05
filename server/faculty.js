@@ -53,9 +53,9 @@ var urlencodedParser = bodyParser.urlencoded({ extended: true });
 app2.set('view engine','ejs');
 app2.use(bodyParser.urlencoded({extended: true}));
 app2.use(express.static(path.join(__dirname,'public')));
-app2.use(bodyParser.json());
-app2.use(require('express-post-redirect'));
 app2.use(express.json());
+app2.use(require('express-post-redirect'));
+app2.use(bodyParser.json());
 app2.use(methodOverride('_method'));
 app2.use(cors());
 
@@ -126,9 +126,32 @@ module.exports = function(app2){
         res.redirect('/displayfiles?username='+req.param('username')+'&courseid='+req.param('courseid')+'&type='+req.param('type')+'&filetype='+req.param('filetype'));
     });
     
-    app2.post('/search',(req, res) => {
-        console.log(req.param('fname'));
-        
+    app2.post('/search', urlencodedParser,(req, res) => {
+
+
+          MongoClient.connect("mongodb://localhost:27017/", function(err, db) {
+            if (err) throw err;
+            var dbo = db.db("DigitalCourseFile");
+            dbo.collection("FileDetails").find({courseid:req.param('courseid'),facultyid:req.param('username'),filename:req.body.fname}).toArray(function(err, result) {
+                var fileid=[]
+                result.forEach(user=>{
+                fileid.push(ObjectId(user.fileid));
+              });
+
+              // console.log(fileid);
+
+              gfs.files.find({"_id" : {"$in" : fileid}}).toArray((err, files) => {
+                var x;
+                if (!files || files.length === 0) {x=false}
+                else {x=files}
+                res.render('faculty_course_page',{username:req.param('username'),courseid:req.param('courseid'),type:req.param('type'),files:x});
+              });
+
+            });
+            db.close();
+          });
+
+
     });
 
     app2.get('/displayfiles', (req, res) => {

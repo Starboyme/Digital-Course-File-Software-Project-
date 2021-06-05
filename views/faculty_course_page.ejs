@@ -268,9 +268,10 @@
                   <div class="container">
                     <h1 class="text-center display-4 my-4" id="inputgrades">Search Files</h1>
                     
-                    <form action="/search?courseid=<%=courseid %>&username=<%=username%>" method="POST" enctype="multipart/form-data">
+                    <form action="/search?courseid=<%=courseid %>&username=<%=username%>&type=5" method="POST">
                       <div class="custom-file mb-3">
                         <input type="text" id="searchName" class="form-control" class="filtrname" name="fname" placeholder="filename">
+                        <!-- <input type="text" name="p1"> -->
                         <!-- <label for="file" class="custom-file-label" onchange="filename()">Choose File</label> -->
                         <script>
                         function filename()
