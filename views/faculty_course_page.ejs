@@ -138,6 +138,7 @@
                   <label class="btn btn-outline" for="btnradio3">Grades</label>
                   <input type="submit">
                 </form> -->
+                <a href="/feedbacks?courseid=<%=courseid %>&username=<%=username%>&type=6" id="feedback" class="btn sidebarr pl-1 pr-1">Feedback</a>
                 <a href="/displayfiles?courseid=<%=courseid %>&username=<%=username%>&type=2&filetype=p" id="projectmaterial" class="btn sidebarr pl-1 pr-1">Project Material</a>
                 <a href="/displayfiles?courseid=<%=courseid %>&username=<%=username%>&type=1&filetype=q" id="questionpaper" class="btn sidebarr pl-1 pr-1">Question Papers</a>
                 <a href="/displayfiles?courseid=<%=courseid %>&username=<%=username%>&type=3&filetype=c" id="coursematerial" class="btn sidebarr pl-1 pr-1">Class Material</a>
@@ -304,6 +305,36 @@
                             <p>No files to show</p>
                             <% } %>
 
+                  <% } else if(type==6){ %>
+                    <h1 class="text-black-50 display-4 text-center mt-4" style="font-family: 'Ravi Prakash', cursive;">View Feedbacks</h1>
+                    <div class="container-fluid w-75 m-auto">
+                        <table class="table text-white" style="margin-top: 10px;">
+                            <thead class="thead-dark">
+                              <th scope="col">Date</th>
+                              <th scope="col">Time</th>
+                              <th scope="col">Student_ID</th>
+                              <th scope="col">Feedback</th>
+                              <th scope="col">Course_ID</th>
+                              <th scope="col">Faculty_ID</th>
+                            </thead>
+                            <% if(results){ %>
+                              <% results.forEach(function(result) { %>
+                                  <tbody style="color: black;">
+                                      <td><%= result.curdate %></td>
+                                      <td><%= result.curtime %></td>
+                                      <td><%= result.student_id %></td>
+                                      <td><%= result.message %></td>
+                                      <td><%= result.course_id %></td>
+                                      <td><%= result.faculty_id %></td>
+                                  </tbody>
+                                  <% }) %>
+                                <% } else { %>
+                                  <tbody style="color: black;">
+                                    <td colspan="6" class="text-center" style="color: black;font-weight: bolder;">No feedbacks available</td>
+                                  </tbody>
+                                  <% } %>
+                        </table>
+                    </div>
                   <% } else { %>
 
                     <% } %>

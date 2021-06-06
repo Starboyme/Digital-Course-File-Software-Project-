@@ -145,6 +145,7 @@
                   <label class="btn btn-outline" for="btnradio3">Grades</label>
                   <input type="submit">
                 </form> -->
+                <a href="/studentfeedback?courseid=<%=courseid %>&username=<%=username%>&faculty_id=<%=faculty_id%>&type=6" id="feedback" class="btn sidebarr pl-1 pr-1">Feedback</a>
                 <a href="/student_displayfiles?courseid=<%=courseid %>&username=<%=username%>&faculty_id=<%=faculty_id%>&type=2&filetype=p" id="projectmaterial" class="btn sidebarr pl-1 pr-1">Project Material</a>
                 <a href="/student_displayfiles?courseid=<%=courseid %>&username=<%=username%>&faculty_id=<%=faculty_id%>&type=1&filetype=q" id="questionpaper" class="btn sidebarr pl-1 pr-1">Question Papers</a>
                 <a href="/student_displayfiles?courseid=<%=courseid %>&username=<%=username%>&faculty_id=<%=faculty_id%>&type=3&filetype=c" id="coursematerial" class="btn sidebarr pl-1 pr-1">Class Material</a>
@@ -279,7 +280,7 @@
 
                     <div class="container">
                     <h1 class="text-center display-4 my-4" id="inputgrades">Search Files</h1>
-                    <form action="/student_search?courseid=<%=courseid %>&username=<%=faculty_id%>&type=5&faculty_id=<%=faculty_id %>" method="POST">
+                    <form action="/student_search?courseid=<%=courseid %>&username=<%=username%>&type=5&faculty_id=<%=faculty_id %>" method="POST">
                       <div class="custom-file mb-3">
                         <input type="text" id="searchName" class="form-control" class="filtrname" name="fname" placeholder="filename">
                         <!-- <input type="text" name="p1"> -->
@@ -315,6 +316,18 @@
                             <p>No files to show</p>
                             <% } %>
 
+                  <% } else if(type==6){ %>
+                    <div>
+                      <form action="/feedbackupdate?courseid=<%=courseid %>&username=<%=username%>&type=7&faculty_id=<%=faculty_id%>" method="POST">
+                        <textarea class="w-75" name="feedbackmsg" id="feedbackmsg"></textarea><br>
+                        <button class="btn btn-dark" type="submit">Send</button>
+                      </form>
+                    </div>
+                  
+                  <% } else if(type==7){ %>
+                    <div>
+                      <h2><%=results %></h2>
+                    </div>
                   <% } else { %>
 
                     <% } %>

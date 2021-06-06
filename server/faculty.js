@@ -177,6 +177,27 @@ module.exports = function(app2){
 
     });
 
+    app2.get('/feedbacks', (req, res) => {
+      // console.log("Im in bro");
+      // console.log(req.param('courseid'));
+      // console.log(req.param('username'));
+      mycon.connect(function(err){
+          mycon.query(`select * from feedback where course_id=? and faculty_id=?;`,[req.param('courseid'),req.param('username')],function(err1,result){
+            console.log(result);
+            if(result.length != 0)
+            {
+              res.render('faculty_course_page',{username:req.param('username'),courseid:req.param('courseid'),type:req.param('type'),results:result});
+            }
+            else
+            {
+              // console.log("Nothing");
+              res.render('faculty_course_page',{username:req.param('username'),courseid:req.param('courseid'),type:req.param('type'),results:false});
+            }
+            
+              });
+          });
+    });
+
     app2.get('/displayfiles', (req, res) => {
 
         MongoClient.connect("mongodb://localhost:27017/", function(err, db) {

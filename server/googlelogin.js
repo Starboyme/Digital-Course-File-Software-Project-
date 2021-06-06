@@ -43,8 +43,8 @@ app.get('/dashboard', checkAuthenticated, function(req,res)
             if(results.length==0){res.redirect('/loginpage');}
             else{
                 if(results[0].role=="admin"){res.render('admin', {username: results[0].username});}
-                else if(results[0].role=="faculty"){res.render('faculty_portal_page', {username: results[0].username});}
-                else{res.render('student', {username: results[0].username});}
+                else if(results[0].role=="faculty"){res.render('faculty_portal_page', {username: results[0].username,course:false,addcourse:false,removecourse:false});}
+                else{res.render('student', {username: results[0].username,course:false});}
             }
         });
     });

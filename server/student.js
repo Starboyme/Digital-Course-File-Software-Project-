@@ -22,6 +22,7 @@ var crypto = require('crypto');
 var assert = require('assert');
 const cors=require('cors');
 var ObjectId = require('mongodb').ObjectID;
+var date = new Date()
 
 require('dotenv').config();
 
@@ -72,6 +73,25 @@ module.exports = function(app2){
 
       app2.get('/student_coursepage',function(req,res){
           res.render('student_course_page',{username:req.param('username'),courseid:req.param('courseid'),faculty_id:req.param('faculty_id'),type:0,files:false});
+      });
+
+      app2.get('/studentfeedback', (req, res) => {
+        res.render('student_course_page',{username:req.param('username'),courseid:req.param('courseid'),faculty_id:req.param('faculty_id'),type:req.param('type'),files:false});
+      });
+
+      app2.post('/feedbackupdate',urlencodedParser, (req, res) => {
+        message = req.param('feedbackmsg');
+        curdate = date.toLocaleDateString();
+        curtime = date.toLocaleTimeString();
+        // console.log(message);
+        // console.log(req.param('courseid'));
+        // console.log(req.param('username'));
+        // console.log(req.param('faculty_id'));
+        mycon.connect(function(err){
+          mycon.query(`insert into feedback values(?,?,?,?,?,?);`,[req.param('courseid'),req.param('faculty_id'),req.param('username'),message,curdate,curtime],function(err1,result){
+            res.render('student_course_page',{username:req.param('username'),courseid:req.param('courseid'),faculty_id:req.param('faculty_id'),type:req.param('type'),files:false,results:"Thank you for the feedback!"});
+              });
+          });
       });
 
       app2.get('/student_displayfiles', (req, res) => {
