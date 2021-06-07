@@ -79,9 +79,26 @@
         <div class="col-2 pl-auto">
           <div class="btn-group-vertical btn-group-lg">
             <a href="/admin_displaycourses?username=<%=username%>" id="courses" class="btn sidebarr pl-1 pr-1">Courses</a><br>
+            <a id="courses" class="btn sidebarr pl-1 pr-1" onclick="fun1()">Search Files</a><br>
+            <script>
+              function fun1()
+                    {
+                        document.getElementById("col-10").innerHTML="\
+                        <form action='/admin_filesfromdates' method='GET'>\
+                          <label for='fromdate'>From: </label>\
+                          <input type='date' name='fromdate' id='fromdate'><br>\
+                          <label for='todate'>To: </label>\
+                          <input type='date' name='todate' id='todate'>\
+                          <input type='submit'>\
+                        </form>\
+                        ";
+
+                    }
+            </script>
+
           </div>
         </div>
-        <div class="col-10">
+        <div class="col-10" id="col-10">
           <%if(course){%>
             <% for(var i=0;i< course.length ;i++) { %>
               <div class="card-deck">
@@ -92,7 +109,33 @@
                   </div>
                 </div>
                 <% } %>
-          <% } %>          
+          <% } %>      
+          
+          <%if(faculty){%>
+            <% for(var i=0;i< faculty.length ;i++) { %>
+              <div class="card-deck">
+                  <div class="card">
+                    <div class="card-body">
+                      <a class="card-title" id="courseid" href="#"><%=faculty[i].faculty_id %> -- <%=faculty[i].firstName %> -- <%=faculty[i].lastName %></a>
+                    </div>
+                  </div>
+                </div>
+                <% } %>
+          <% } %> 
+
+          <%if(filedetails){%>
+            <% for(var i=0;i<filedetails.length ;i++) { %>
+              <div class="card-deck">
+                  <div class="card">
+                    <div class="card-body">
+                      <a class="card-title" id="courseid" href="/file/<%= filedetails[i].filename %>" target="_blank"><%=filedetails[i].facultyid %>         <%=filedetails[i].courseid %>         <%=filedetails[i].filename %>         <%=filedetails[i].filetype %>         <%=filedetails[i].date %>         <%=filedetails[i].time %></a>
+                    </div>
+                  </div>
+                </div>
+                <% } %>
+          <% } %> 
+
+
        </div>
     </div>
     

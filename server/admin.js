@@ -65,18 +65,37 @@ module.exports = function(app2){
         mycon.connect(function(err){
         mycon.query(`select * from course`,function(err1,results){
             console.log(results);
-            res.render('admin_portal_page',{username:req.param('username'),course:results});
+            res.render('admin_portal_page',{username:req.param('username'),course:results,faculty:false,filedetails:false});
         });
       });
     });
 
     app2.get('/admin_coursepage',function(req,res){
+        console.log(req.param('courseid'));
         mycon.connect(function(err){
-          mycon.query(`select t1.faculty_id,t2.firstName,t2.lastName from fc_conn t1,personaldetails_f t2 where t1.course_id="?";`,[req.params('courseid')],function(err1,results){
+          mycon.query(`select t1.faculty_id,t2.firstName,t2.lastName from fc_conn t1,personaldetails_f t2 where t1.course_id=? and t1.faculty_id=t2.faculty_id;`,[req.param('courseid')],function(err1,results){
               console.log(results);
-              // res.render('admin_portal_page',{username:req.param('username'),course:results});
+              res.render('admin_portal_page',{username:req.param('username'),faculty:results,course:false,filedetails:false});
           });
         });
+    });
+
+    // app2.get('/adminback',function(req,res){
+    //     res.render('admin_portal_page',{username:req.param('username'),course:false});
+    // });
+
+    app2.get('/admin_filesfromdates',function(req,res){
+  
+            MongoClient.connect("mongodb://localhost:27017/", function(err, db) {
+              if (err) throw err;
+              var dbo = db.db("DigitalCourseFile");
+              dbo.collection("FileDetails").find({date:{ $gt: req.param('fromdate'), $lt: req.param('todate')}}).toArray(function(err, result) {
+                  console.log(result);
+                  res.render('admin_portal_page',{username:req.param('username'),faculty:false,course:false,filedetails:result});
+                db.close();
+              });
+          });
+
     });
 
     

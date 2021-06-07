@@ -103,6 +103,9 @@
               <input type="submit" id="submit" value="Log In" class="loginn">
               <div class="g-signin2" id="google" data-onsuccess="onSignIn"></div>
             </form>
+            <%if(success){%>
+                <h5><%=success%></h5>
+              <%}%>
             <hr>
             <form action="http://localhost:3000/forgotpassword" method="POST" style="margin-left: 88px;" target="_blank">
               <span class="ml-auto"><button class="forgot-pass" target="_blank">Forgot Password</button></span> 

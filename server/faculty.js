@@ -147,7 +147,7 @@ module.exports = function(app2){
         let minutes = date_ob.getMinutes();
         let seconds = date_ob.getSeconds();
         var curtime = hours + ":" + minutes + ":" + seconds ; 
-        var curdate = date + "-" + month + "-" + year; 
+        var curdate = year + "-" + month + "-" + date; 
         console.log(curdate);
         console.log(curtime);
 

@@ -50,12 +50,12 @@ module.exports = function(app){
         mycon.connect(function(err){
             mycon.query(`select * from login where ( username=? && password=? && role=?); `,[req.body.username,encrypted,req.body.logintype],function(err1,results){
                 if(results.length == 0){
-                    if(req.body.logintype=="admin"){res.send("No admin records with this credentials");}
-                    else if(req.body.logintype=="faculty"){res.send("No faculty records with this credentials");}
-                    else{res.send("No student records with this credentials");}
+                    if(req.body.logintype=="admin"){res.render('login',{success:"No admin records with this credentials"});}
+                    else if(req.body.logintype=="faculty"){res.render('login',{success:"No faculty records with this credentials"});}
+                    else{res.render('login',{success:"No student records with this credentials"});}
                 }
                 else{              
-                    if(req.body.logintype=="admin"){role="admin_portal_page";res.render(role,{username:req.body.username,course:false});}
+                    if(req.body.logintype=="admin"){role="admin_portal_page";res.render(role,{username:req.body.username,course:false,faculty:false,filedetails:false});}
                     else if(req.body.logintype=="faculty"){role="faculty_portal_page";res.render(role,{username: req.body.username,course:false,addcourse:false,removecourse:false});}
                     else{role="student_portal_page";res.render(role,{username: req.body.username,course:false});}      
                 }
@@ -97,6 +97,6 @@ module.exports = function(app){
     });
     
     app.get('/loginpage',function(req,res){
-        res.render('login');
+        res.render('login',{success:false});
     });
 }

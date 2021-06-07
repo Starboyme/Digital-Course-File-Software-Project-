@@ -194,7 +194,7 @@
                   <% files.forEach(function(file) { %>
                     <div class="container">
                     <div class="card card-body mb-3">
-                          <a href="file/<%= file.filename %>" target="_blank">Read more</a>
+                          <a href="/file/<%= file.filename %>" target="_blank">Read more</a>
                            <span id="showprojectmaterial"><%= file.filename %></span> 
                             <!-- <form method="POST" action="/files/<%= file._id %>?operation=Delete&courseid=<%=courseid %>&username=<%=username%>&type=2">
                               <button id="deletefile" class="btn btn-danger btn-block mt-4">Delete</button>
