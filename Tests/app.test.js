@@ -34,8 +34,6 @@ describe("GET / ", () => {
   });
 });
 
-
-
 describe("GET / ", () => {
   test("It should respond with Google Login Page", async () => {
     const response = await request(x.app).get("/googlelogin");
@@ -72,18 +70,18 @@ describe("GET / ", () => {
     expect(response.statusCode).toBe(200);
   });
 });
-// describe("GET / ", () => {
-//   test("It should respond with List of Courses of the Faculty", async () => {
-//     const response = await request(x.app).get("/showcourses");
-//     expect(response.statusCode).toBe(200);
-//   });
-// });
-// describe("GET / ", () => {
-//   test("It should respond with List of Courses offered by the University", async () => {
-//     const response = await request(x.app).get("/displaycourses");
-//     expect(response.statusCode).toBe(200);
-//   });
-// });
+describe("GET / ", () => {
+  test("It should respond with List of Courses of the Faculty", async () => {
+    const response = await request(x.app).get("/showcourses");
+    expect(response.statusCode).toBe(200);
+  });
+});
+describe("GET / ", () => {
+  test("It should respond with List of Courses offered by the University", async () => {
+    const response = await request(x.app).get("/displaycourses");
+    expect(response.statusCode).toBe(200);
+  });
+});
 describe("GET / ", () => {
   test("It should respond with rendering of Faculty course page", async () => {
     const response = await request(x.app).get("/coursepage");
@@ -94,6 +92,20 @@ describe("GET / ", () => {
 describe("GET / ", () => {
   test("It should respond with Displaying Files of a Course", async () => {
     const response = await request(x.app).get("/displayfiles");
+    expect(response.statusCode).toBe(200);
+  });
+});
+
+describe("GET / ", () => {
+  test("It should respond with faculty's feedbacks", async () => {
+    const response = await request(x.app).get("/feedbacks");
+    expect(response.statusCode).toBe(200);
+  });
+});
+
+describe("GET / ", () => {
+  test("It should respond with Username on Portal Page", async () => {
+    const response = await request(x.app).get("/facultyback");
     expect(response.statusCode).toBe(200);
   });
 });
@@ -111,21 +123,21 @@ describe("GET / ", () => {
   });
 });
 
-// describe('POST /f1submit', () => {
-//   jest.setTimeout(30000);
-//   test('It sends a mail to user for a forgot password request', async () => {
-//     const response = await request(x.app)
-//       .post('/f1submit')
-//       .query({
-//         username: "F.001",
-//         email: `ashwithjason@gmail.com`,
-//       });
-//     // console.log(response.body);
-//     // expect(response.body).toHaveProperty('customer');
-//     // expect(response.body).toHaveProperty('accessToken');
-//     expect(response.statusCode).toBe(200);
-//   });
-// });
+describe('POST /f1submit', () => {
+  jest.setTimeout(30000);
+  test('It sends a mail to user for a forgot password request', async () => {
+    const response = await request(x.app)
+      .post('/f1submit')
+      .query({
+        username: "F.001",
+        email: `ashwithjason@gmail.com`,
+      });
+    // console.log(response.body);
+    // expect(response.body).toHaveProperty('customer');
+    // expect(response.body).toHaveProperty('accessToken');
+    expect(response.statusCode).toBe(200);
+  });
+});
 
 describe('POST /f2submit', () => {
   jest.setTimeout(30000);
