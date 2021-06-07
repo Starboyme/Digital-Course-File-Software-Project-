@@ -110,5 +110,5 @@ function checkAuthenticated(req, res, next)
     });
 }
 
-// var server = app.listen(3000, function () {});
-module.exports.app = app;
+var server = app.listen(3000, function () {});
+// module.exports.app = app;
