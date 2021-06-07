@@ -11,6 +11,7 @@ require('dotenv').config();
 require('./server/login.js')(app);
 require('./server/faculty.js')(app);
 require('./server/student.js')(app);
+require('./server/admin.js')(app);
 const { urlencoded } = require('express');
 const mysql = require('mysql');
 
@@ -92,7 +93,7 @@ function checkAuthenticated(req, res, next)
             idToken: token_id,
             audience: CLIENT_ID, 
         });
-        const payload = ticket.getPayload(); //stores user details
+        const payload = ticket.getPayload();
         user.name = payload.name;
         user.email = payload.email;
         user.picture = payload.picture;

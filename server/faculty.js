@@ -6,6 +6,7 @@ let helmet = require("helmet");
 let app2 = express();
 app2.use(helmet.hidePoweredBy());
 
+
 const mysql = require('mysql');
 var path = require('path');
 var bodyParser = require('body-parser');
@@ -22,6 +23,7 @@ var crypto = require('crypto');
 var assert = require('assert');
 const cors=require('cors');
 var ObjectId = require('mongodb').ObjectID;
+
 
 require('dotenv').config();
 
@@ -79,6 +81,7 @@ const upload = multer({ storage: storage, limits: { fileSize: 8000000} });
 
 
 module.exports = function(app2){
+
     app2.get('/displaycourses',function(req,res){
         console.log(req.param('username'));
         mycon.connect(function(err){
@@ -136,10 +139,23 @@ module.exports = function(app2){
 
     app2.post('/upload',upload.single('file'),(req, res) => {
 
+        var date_ob=new Date();
+        let date = ("0" + date_ob.getDate()).slice(-2);
+        let month = ("0" + (date_ob.getMonth() + 1)).slice(-2);
+        let year = date_ob.getFullYear();
+        let hours = date_ob.getHours();
+        let minutes = date_ob.getMinutes();
+        let seconds = date_ob.getSeconds();
+        var curtime = hours + ":" + minutes + ":" + seconds ; 
+        var curdate = date + "-" + month + "-" + year; 
+        console.log(curdate);
+        console.log(curtime);
+
+
         MongoClient.connect(mongoURI, function(err, db) {
           if (err) throw err;
           var dbo = db.db("DigitalCourseFile");
-          var myobj = { facultyid: req.param('username'),courseid: req.param('courseid'),filename: req.file.filename,filetype: req.param('filetype'),fileid: req.file.id };
+          var myobj = { facultyid: req.param('username'),courseid: req.param('courseid'),filename: req.file.filename,filetype: req.param('filetype'),fileid: req.file.id,date: curdate,time: curtime };
           dbo.collection("FileDetails").insertOne(myobj, function(err, res) {
             if (err) throw err;
             console.log("1 document inserted");
