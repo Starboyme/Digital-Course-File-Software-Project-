@@ -11,6 +11,7 @@ body{
     background-color: white;
     padding-top: 25px;
     padding-bottom: 25px;
+    border-radius: 50px;
     /* height:400px; */
 }
 .g-signin2
