@@ -50,7 +50,7 @@ module.exports = function(app){
         var encrypted = cipher.update(req.body.password, 'utf8', 'hex') + cipher.final('hex');
         mycon.connect(function(err){
             mycon.query(`select * from login where ( username=? && password=? && role=?); `,[req.body.username,encrypted,req.body.logintype],function(err1,results){
-                if(results.length == 0){res.send("No admin records with this credentials");}
+                if(results.length == 0){res.send("No records with this credentials");}
                 else{              
                     if(req.body.logintype=="admin"){role="admin";}
                     else if(req.body.logintype=="faculty"){role="faculty_portal_page";res.render(role,{username: req.body.username,course:false,addcourse:false,removecourse:false});}
