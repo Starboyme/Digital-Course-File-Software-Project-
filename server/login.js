@@ -99,4 +99,31 @@ module.exports = function(app){
     app.get('/loginpage',function(req,res){
         res.render('login',{success:false});
     });
+    app.get('/page1',function(req,res){
+        res.render('page1');
+    });
+    app.get('/page2',function(req,res){
+        res.render('page2');
+    });
+    app.get('/page3',function(req,res){
+        res.render('page3');
+    });
+    app.get('/page4',function(req,res){
+        res.render('page4');
+    });
+    app.get('/googlelogin',function(req,res){
+        res.render('glogin');
+    });
+    app.get('/otpgen',function(req,res){
+        res.render('otppage');
+    });
+    app.get('/passreset',function(req,res){
+        res.render('passwordreset');
+    });
+    app.get('/alterpro',function(req,res){
+        res.render('alterprofile');
+    });
+    app.get('/qpaper',function(req,res){
+        res.render('questionpaper');
+    });
 }

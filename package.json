@@ -1,4 +1,7 @@
 {
+  "scripts": {
+    "test": "jest --detectOpenHandles"
+  },
   "dependencies": {
     "assert": "^2.0.0",
     "bootstrap": "^5.0.0-beta3",
@@ -25,6 +28,8 @@
     "path": "^0.12.7"
   },
   "devDependencies": {
-    "nodemon": "^2.0.7"
+    "jest": "^27.0.4",
+    "nodemon": "^2.0.7",
+    "supertest": "^6.1.3"
   }
 }
