@@ -110,5 +110,7 @@ function checkAuthenticated(req, res, next)
     });
 }
 
+// const PORT = process.env.PORT || 1337;
+// let server = app.listen(PORT, () => log('server listening on :' + PORT));
 var server = app.listen(3000, function () {});
 // module.exports.app = app;

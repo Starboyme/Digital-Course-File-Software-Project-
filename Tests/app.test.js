@@ -126,6 +126,11 @@ describe("GET / ", () => {
 describe('POST /f1submit', () => {
   jest.setTimeout(30000);
   test('It sends a mail to user for a forgot password request', async () => {
+    function setTimeoutPromise(delay) {
+      return new Promise((resolve) => {
+        setTimeout(() => resolve(), delay);
+      });
+    }
     const response = await request(x.app)
       .post('/f1submit')
       .query({
@@ -136,6 +141,7 @@ describe('POST /f1submit', () => {
     // expect(response.body).toHaveProperty('customer');
     // expect(response.body).toHaveProperty('accessToken');
     expect(response.statusCode).toBe(200);
+    await setTimeoutPromise(0);
   });
 });
 
