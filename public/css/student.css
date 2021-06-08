@@ -1,0 +1,15 @@
+#nav{
+    background-color: black;
+}
+#logo{
+    color: white;
+}
+#logo:hover{
+    color:rgb(0, 110, 255);
+}
+#username{
+    color:white;
+}
+#username:hover{
+    color:rgb(0, 110, 255);
+}

@@ -1,0 +1,84 @@
+.navbar
+{
+    background-color: #000000;
+    opacity: 0.9;
+}
+#logo
+{
+    color:white;
+}
+#navbarDropdown
+{
+    color:white;
+    font-weight: 300;
+}
+#ProfileBox
+{
+    border-color:black;
+    border-left-style: solid;
+    border-left-width: 3px;
+    justify-content: center;
+    align-items: center;
+    /* background-color: white; */
+}
+#namee
+{
+    font-size: 1.5rem;
+}
+#username
+{
+    /* border:1px solid gray; */
+    /* border-radius: 15px; */
+    /* background-color: whitesmoke; */
+    margin-left: 8px;
+    padding-left:20px;
+    padding-right:10px;
+}
+
+.sidebarr
+{
+    background-color: #0099ff;
+    color:white;
+    font-style: bold;
+}
+#PofileBox h2 {
+    position:relative;
+    font-size : 35px;
+    color: #000000;
+    -webkit-text-stroke: 0.5vw #f3f0f0;
+    text-transform:  uppercase;
+}
+.curved svg{
+    display: block;
+}
+#glowh1 {
+    font-size: 5em;
+    letter-spacing: 12px;
+    color: black;
+    text-transform: uppercase;
+    width: 100%;
+    text-align: center;
+    -webkit-box-reflect: below 1px linear-gradient(transparent, #0004);
+    line-height:0.7em;
+    outline: none;
+    animation: animate 3s linear infinite;
+}
+@keyframes animate
+{
+    /* 0%,18%,20%,50.1%,60%,65.1%,80%,90.1%,92% */
+    0%
+    {
+        color: #fff;
+        box-shadow: none;
+    }
+    /* 18.1%,20.1%,30%,50%,60.1%,65%,80.1%,90%,92.1%,100% */
+    100%
+    {
+        color:black;
+        text-shadow: 0 0 10px #03bcf4,
+        0 0 20px #03bcf4,
+        0 0 40px #03bcf4,
+        0 0 80px #03bcf4,
+        0 0 160px #03bcf4;
+    }
+}
