@@ -1,6 +1,7 @@
 {
   "scripts":{
-    "test": "jest --forceExit"
+    "test": "jest --forceExit",
+    "start": "node app.js"
   },
   "dependencies": {
     "assert": "^2.0.0",
