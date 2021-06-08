@@ -11,7 +11,7 @@ pipeline {
         }
         stage('Cloning Git') {
             steps {
-                git 'https://github.com/Starboyme/Digital-Course-File-Software-Project-.git'
+                git 'https://github.com/rajpradeep01/Digital-Course-File-Software-Project-.git'
             }
         }
         stage('Install dependencies') {
