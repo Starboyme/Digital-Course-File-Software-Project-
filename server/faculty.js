@@ -286,7 +286,7 @@ module.exports = function(app2){
               console.log(results);
               console.log(req.param('changep')); 
               console.log(typeof(req.param('changep')));     
-              res.render('faculty_profile',{profdetails:results,changep:req.param('changep')});
+              res.render('faculty_profile',{username: req.param('username'),profdetails:results,changep:req.param('changep')});
           });
         });
     });

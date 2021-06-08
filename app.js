@@ -62,20 +62,22 @@ app.post('/googlelogin', urlencodedParser, function(req,res)
     }).
     catch(console.error);
 });
+
 app.get('/dashboard', checkAuthenticated, function(req,res)
 {
     let user = req.user;
     mycon.connect(function(err){
-        mycon.query(`select * from login where email= ?`,[user.email],function(err1,results){
+        mycon.query(`select * from login where email=?`,[user.email],function(err1,results){
             if(results.length==0){res.redirect('/loginpage');}
             else{
-                if(results[0].role=="admin"){res.render('admin', {username: results[0].username});}
-                else if(results[0].role=="faculty"){res.render('faculty_portal_page', {username: results[0].username,course:false,addcourse:false});}
-                else{res.render('student_portal_page', {username: results[0].username});}
+                if(results[0].role=="admin"){role="admin_portal_page";res.render(role,{username: results[0].username,course:false,faculty:false,filedetails:false});}
+                else if(results[0].role=="faculty"){role="faculty_portal_page";res.render(role,{username: results[0].username,course:false,addcourse:false,removecourse:false});}
+                else{role="student_portal_page";res.render(role,{username: results[0].username,course:false});}
             }
         });
     });
 });
+
 app.get('/logout', function(req,res)
 {
     res.clearCookie('session-token');

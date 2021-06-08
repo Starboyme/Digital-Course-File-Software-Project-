@@ -42,9 +42,9 @@ app.get('/dashboard', checkAuthenticated, function(req,res)
         mycon.query(`select * from login where email=?`,[user.email],function(err1,results){
             if(results.length==0){res.redirect('/loginpage');}
             else{
-                if(results[0].role=="admin"){res.render('admin', {username: results[0].username});}
-                else if(results[0].role=="faculty"){res.render('faculty_portal_page', {username: results[0].username,course:false,addcourse:false,removecourse:false});}
-                else{res.render('student', {username: results[0].username,course:false});}
+                if(results[0].role=="admin"){role="admin_portal_page";res.render(role,{username:req.body.username,course:false,faculty:false,filedetails:false});}
+                else if(results[0].role=="faculty"){role="faculty_portal_page";res.render(role,{username: req.body.username,course:false,addcourse:false,removecourse:false});}
+                else{console.log("hello");role="student_portal_page";res.render(role,{username: req.body.username,course:false});}
             }
         });
     });
