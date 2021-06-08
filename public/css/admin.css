@@ -1,0 +1,18 @@
+.curved {
+    display:block;
+}
+.navbar {
+    background-color: black;
+}
+.navbar-brand{
+    color:white;
+}
+#courses{
+    color:white;
+}
+#username{
+    color:white;
+}
+#username:hover{
+    color: rgb(0, 110, 255);
+}
