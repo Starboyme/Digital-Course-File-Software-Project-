@@ -1,26 +1,38 @@
 pipeline {
-  agent any
-    
-  tools {nodejs "node"}
-    
-  stages {
-        
-    stage('Cloning Git') {
-      steps {
-        git 'https://github.com/rajpradeep01/Digital-Course-File-Software-Project-'
-      }
+    agent {
+        docker {
+            image 'node:16'
+            args '-p 3000:3000'
+        }
     }
-        
-    stage('Install dependencies') {
-      steps {
-        sh 'npm install'
-      }
+    environment {
+        CI = 'true'
     }
-     
-    stage('Test') {
-      steps {
-         sh 'npm test'
-      }
-    }      
-  }
+    stages {
+        stage('Hello') {
+            steps {
+                echo 'Hello World'
+            }
+        }
+        stage('Cloning Git') {
+            steps {
+                git 'https://github.com/rajpradeep01/Digital-Course-File-Software-Project-'
+            }
+        }
+        stage('Install dependencies') {
+            steps {
+                sh 'npm install'
+            }
+        }
+        stage('Jest test'){
+            steps{
+                sh 'npm run test'
+            }
+        }
+        stage('Docker image creation') {
+            steps {
+                echo 'Hello World'
+            }
+        }
+    }
 }
