@@ -26,7 +26,10 @@ pipeline {
         }
         stage('Docker image creation') {
             steps {
-                echo 'Hello World'
+                sh '''docker login --username ashwith433 --password docker@123321
+                docker build . -t ashwith433/digital_course_file --pull=true
+                '''
+                echo "Completed docker image building"
             }
         }
     }
