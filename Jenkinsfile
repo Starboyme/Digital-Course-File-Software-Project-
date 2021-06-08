@@ -1,10 +1,5 @@
 pipeline {
-    agent {
-        docker {
-            image 'node:16'
-            args '-p 3000:3000'
-        }
-    }
+    agent any
     environment {
         CI = 'true'
     }
@@ -16,7 +11,7 @@ pipeline {
         }
         stage('Cloning Git') {
             steps {
-                git 'https://github.com/rajpradeep01/Digital-Course-File-Software-Project-'
+                git 'https://github.com/Starboyme/Digital-Course-File-Software-Project-.git'
             }
         }
         stage('Install dependencies') {
