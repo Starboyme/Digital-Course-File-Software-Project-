@@ -34,22 +34,7 @@ const mycon = mysql.createConnection({
   app.use(cookieParser());
 
  module.exports = function(app){
-   
-app.get('/dashboard', checkAuthenticated, function(req,res)
-{
-    let user = req.user;
-    mycon.connect(function(err){
-        mycon.query(`select * from login where email=?`,[user.email],function(err1,results){
-            if(results.length==0){res.redirect('/loginpage');}
-            else{
-                if(results[0].role=="admin"){role="admin_portal_page";res.render(role,{username:req.body.username,course:false,faculty:false,filedetails:false});}
-                else if(results[0].role=="faculty"){role="faculty_portal_page";res.render(role,{username: req.body.username,course:false,addcourse:false,removecourse:false});}
-                else{console.log("hello");role="student_portal_page";res.render(role,{username: req.body.username,course:false});}
-            }
-        });
-    });
-    
-});
+
 
 app.get('/logout', function(req,res)
 {
