@@ -36,8 +36,8 @@ const mycon = mysql.createConnection({
   database : process.env.MYSQL_DATABASE_ACC
 });
 
-const mongoURI='mongodb://localhost:27017/DigitalCourseFile';
-const conn = mongoose.createConnection("mongodb://localhost:27017/DigitalCourseFile", { useNewUrlParser: true });
+const mongoURI='mongodb://127.0.0.1:27017/DigitalCourseFile';
+const conn = mongoose.createConnection("mongodb://127.0.0.1:27017/DigitalCourseFile", { useNewUrlParser: true });
 const promise = mongoose.connect(mongoURI, { useNewUrlParser: true });
 var MongoClient = require('mongodb').MongoClient;
 
