@@ -137,9 +137,6 @@ describe('POST /f1submit', () => {
         username: "F.001",
         email: `ashwithjason@gmail.com`,
       });
-    // console.log(response.body);
-    // expect(response.body).toHaveProperty('customer');
-    // expect(response.body).toHaveProperty('accessToken');
     expect(response.statusCode).toBe(200);
     await setTimeoutPromise(0);
   });
@@ -150,9 +147,6 @@ describe('POST /f2submit', () => {
   test('Checks if mail OPT is equal to entered OTP for a password request change', async () => {
     const response = await request(x.app)
       .post('/f2submit')
-    // console.log(response.body);
-    // expect(response.body).toHaveProperty('customer');
-    // expect(response.body).toHaveProperty('accessToken');
     expect(response.statusCode).toBe(200);
   });
 });
@@ -165,9 +159,6 @@ describe('GET /dashboard', () => {
       .query({
         email: "ashwithjason@gmail.com",
       });
-    // console.log(response.body);
-    // expect(response.body).toHaveProperty('customer');
-    // expect(response.body).toHaveProperty('accessToken');
     expect(response.statusCode).toBe(302);
   });
 });
