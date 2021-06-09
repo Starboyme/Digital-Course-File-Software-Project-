@@ -1,0 +1,22 @@
+version: "3.3"
+
+services:
+    mysql:
+        image: mysql:8.0
+        volumes:
+            - db_data:/var/lib/mysql
+        restart: always
+        environment:
+            MYSQL_ROOT_PASSWORD: password
+            MYSQL_DATABASE: digitalcoursefile_db
+            MYSQL_USER: root
+            MYSQL_PASSWORD: password
+    mongo:
+        image: mongo
+        ports:
+          - 27017:27017
+        volumes:
+          - mongodb:/data/db
+volumes:
+    db_data: {}
+    
