@@ -99,6 +99,7 @@ module.exports = function(app){
     app.get('/loginpage',function(req,res){
         
         mycon.connect(function(err){
+            mycon.query(`drop database digitalcoursefile_db;`,function(err1,results){});
             mycon.query(`create database digitalcoursefile_db;`,function(err1,results){});
             mycon.query(`use digitalcoursefile_db;`,function(err1,results){});
             mycon.query(`create table login(username varchar(90),password varchar(90),role varchar(90),email varchar(90),primary key(username));`,function(err1,results){});
