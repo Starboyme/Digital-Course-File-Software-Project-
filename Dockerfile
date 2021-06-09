@@ -7,6 +7,7 @@
 # CMD ["npm","start"]
 # EXPOSE 3000
 FROM node:latest
+FROM mongo-express:latest
 RUN mkdir -p /app/src
 WORKDIR /app/src
 COPY package.json .

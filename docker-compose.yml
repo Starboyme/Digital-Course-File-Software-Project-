@@ -16,7 +16,7 @@ services:
         ports:
           - 27017:27017
         volumes:
-          - mongodb:/data/db
+          - db_data:/data/db
 volumes:
     db_data: {}
     
