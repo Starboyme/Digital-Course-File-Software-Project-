@@ -1,6 +1,6 @@
 var express = require('express');
-var app = express();
-app.disable("x-powered-by");
+var app1 = express();
+app1.disable("x-powered-by");
 
 let helmet = require("helmet");
 let app2 = express();
@@ -26,12 +26,12 @@ const mycon = mysql.createConnection({
   });
 
   var urlencodedParser = bodyParser.urlencoded({ extended: true });
-  app.set('view engine','ejs');
-  app.use(bodyParser.urlencoded({extended: true}));
-  app.use(bodyParser.json());
-  app.use(require('express-post-redirect'));
-  app.use(express.json());
-  app.use(cookieParser());
+  app2.set('view engine','ejs');
+  app2.use(bodyParser.urlencoded({extended: true}));
+  app2.use(bodyParser.json());
+  app2.use(require('express-post-redirect'));
+  app2.use(express.json());
+  app2.use(cookieParser());
 
  module.exports = function(app){
 
@@ -43,32 +43,4 @@ app.get('/logout', function(req,res)
 });
 
 
-function checkAuthenticated(req, res, next)
-{
-    let token_id = req.cookies['session-token'];
-
-    let user = {};
-    async function verify() 
-    {
-        const ticket = await client.verifyIdToken(
-        {
-            idToken: token_id,
-            audience: CLIENT_ID, 
-        });
-        const payload = ticket.getPayload(); //stores user details
-        user.name = payload.name;
-        user.email = payload.email;
-        user.picture = payload.picture;
-    }
-    verify()
-    .then(function()
-    {
-        req.user = user;
-        next();
-    }).
-    catch(function(err)
-    {
-        res.redirect('/loginpage');
-    });
 }
- }

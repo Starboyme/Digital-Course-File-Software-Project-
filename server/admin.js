@@ -3,8 +3,8 @@ var app = express();
 app.disable("x-powered-by");
 
 let helmet = require("helmet");
-let app2 = express();
-app2.use(helmet.hidePoweredBy());
+let app1 = express();
+app1.use(helmet.hidePoweredBy());
 
 const mysql = require('mysql');
 var path = require('path');
@@ -47,16 +47,19 @@ conn.once('open', () => {
   gfs.collection('originalfile');
 });
 
+let corsOptions = {
+  origin: 'trustedwebsite.com' // Compliant
+};
 
 var urlencodedParser = bodyParser.urlencoded({ extended: true });
-app2.set('view engine','ejs');
-app2.use(bodyParser.urlencoded({extended: true}));
-app2.use(express.static(path.join(__dirname,'public')));
-app2.use(express.json());
-app2.use(require('express-post-redirect'));
-app2.use(bodyParser.json());
-app2.use(methodOverride('_method'));
-app2.use(cors());
+app1.set('view engine','ejs');
+app1.use(bodyParser.urlencoded({extended: true}));
+app1.use(express.static(path.join(__dirname,'public')));
+app1.use(express.json());
+app1.use(require('express-post-redirect'));
+app1.use(bodyParser.json());
+app1.use(methodOverride('_method'));
+app1.use(cors(corsOptions));
 
 module.exports = function(app2){
 
@@ -80,16 +83,12 @@ module.exports = function(app2){
         });
     });
 
-    // app2.get('/adminback',function(req,res){
-    //     res.render('admin_portal_page',{username:req.param('username'),course:false});
-    // });
-
     app2.get('/admin_filesfromdates',function(req,res){
   
             MongoClient.connect("mongodb://localhost:27017/", function(err, db) {
               if (err) throw err;
               var dbo = db.db("DigitalCourseFile");
-              dbo.collection("FileDetails").find({date:{ $gt: req.param('fromdate'), $lt: req.param('todate')}}).toArray(function(err, result) {
+              dbo.collection("FileDetails").find({date:{ $gt: req.param('fromdate'), $lt: req.param('todate')}}).toArray(function(err1, result) {
                   console.log(result);
                   res.render('admin_portal_page',{username:req.param('username'),faculty:false,course:false,filedetails:result});
                 db.close();

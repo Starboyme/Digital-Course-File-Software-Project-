@@ -3,8 +3,8 @@ var app = express();
 app.disable("x-powered-by");
 
 let helmet = require("helmet");
-let app2 = express();
-app2.use(helmet.hidePoweredBy());
+let app1 = express();
+app1.use(helmet.hidePoweredBy());
 
 const mysql = require('mysql');
 var path = require('path');
@@ -48,16 +48,19 @@ conn.once('open', () => {
   gfs.collection('originalfile');
 });
 
+let corsOptions = {
+  origin: 'trustedwebsite.com' // Compliant
+};
 
 var urlencodedParser = bodyParser.urlencoded({ extended: true });
-app2.set('view engine','ejs');
-app2.use(bodyParser.urlencoded({extended: true}));
-app2.use(express.static(path.join(__dirname,'public')));
-app2.use(express.json());
-app2.use(require('express-post-redirect'));
-app2.use(bodyParser.json());
-app2.use(methodOverride('_method'));
-app2.use(cors());
+app1.set('view engine','ejs');
+app1.use(bodyParser.urlencoded({extended: true}));
+app1.use(express.static(path.join(__dirname,'public')));
+app1.use(express.json());
+app1.use(require('express-post-redirect'));
+app1.use(bodyParser.json());
+app1.use(methodOverride('_method'));
+app1.use(cors(corsOptions));
 
 module.exports = function(app2){
 
@@ -88,13 +91,9 @@ module.exports = function(app2){
       });
 
       app2.post('/feedbackupdate',urlencodedParser, (req, res) => {
-        message = req.param('feedbackmsg');
-        curdate = date.toLocaleDateString();
-        curtime = date.toLocaleTimeString();
-        // console.log(message);
-        // console.log(req.param('courseid'));
-        // console.log(req.param('username'));
-        // console.log(req.param('faculty_id'));
+        let message = req.param('feedbackmsg');
+        let curdate = date.toLocaleDateString();
+        let curtime = date.toLocaleTimeString();
         mycon.connect(function(err){
           mycon.query(`insert into feedback values(?,?,?,?,?,?);`,[req.param('courseid'),req.param('faculty_id'),req.param('username'),message,curdate,curtime],function(err1,result){
             res.render('student_course_page',{username:req.param('username'),coursename:req.param('coursename'),studentname:req.param('studentname'),courseid:req.param('courseid'),faculty_id:req.param('faculty_id'),facultyname:req.param('facultyname'),type:req.param('type'),files:false,results:"Thank you for the feedback!"});
@@ -107,12 +106,12 @@ module.exports = function(app2){
         MongoClient.connect("mongodb://localhost:27017/", function(err, db) {
             if (err) throw err;
             var dbo = db.db("DigitalCourseFile");
-            dbo.collection("FileDetails").find({courseid:req.param('courseid'),facultyid:req.param('faculty_id'),filetype:req.param('filetype')}).toArray(function(err, result) {
+            dbo.collection("FileDetails").find({courseid:req.param('courseid'),facultyid:req.param('faculty_id'),filetype:req.param('filetype')}).toArray(function(err1, result) {
                 var fileid=[]
                 result.forEach(user=>{
                 fileid.push(ObjectId(user.fileid));
               });
-              gfs.files.find({"_id" : {"$in" : fileid}}).toArray((err, files) => {
+              gfs.files.find({"_id" : {"$in" : fileid}}).toArray((err2, files) => {
                 var x;
                 if (!files || files.length === 0) {x=false}
                 else {x=files}
@@ -129,6 +128,7 @@ module.exports = function(app2){
       console.log(req.body);
       mycon.connect(function(err){
         mycon.query(`UPDATE personaldetails_s SET phoneNo =? ,address=? WHERE student_id=?`,[req.param('PhoneNo'),req.param('address'),req.param('username')],function(err1,results){
+          console.log("success")
         });
         res.redirect('/student_profile?username='+req.param('username')+'&studentname='+req.param('studentname')+'&changep=false');
       });
@@ -140,12 +140,12 @@ module.exports = function(app2){
       MongoClient.connect("mongodb://localhost:27017/", function(err, db) {
         if (err) throw err;
         var dbo = db.db("DigitalCourseFile");
-        dbo.collection("FileDetails").find({courseid:req.param('courseid'),facultyid:req.param('faculty_id'),filename:req.body.fname}).toArray(function(err, result) {
+        dbo.collection("FileDetails").find({courseid:req.param('courseid'),facultyid:req.param('faculty_id'),filename:req.body.fname}).toArray(function(err1, result) {
             var fileid=[]
             result.forEach(user=>{
             fileid.push(ObjectId(user.fileid));
           });
-          gfs.files.find({"_id" : {"$in" : fileid}}).toArray((err, files) => {
+          gfs.files.find({"_id" : {"$in" : fileid}}).toArray((err2, files) => {
             var x;
             if (!files || files.length === 0) {x=false}
             else {x=files}

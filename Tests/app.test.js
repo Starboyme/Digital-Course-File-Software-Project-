@@ -83,8 +83,14 @@ describe("GET / ", () => {
   });
 });
 describe("GET / ", () => {
-  test("It should respond with rendering of Faculty course page", async () => {
-    const response = await request(x.app).get("/coursepage");
+  test("It should respond with rendering of Student Portal Page", async () => {
+    const response = await request(x.app).get("/studentback");
+    expect(response.statusCode).toBe(200);
+  });
+});
+describe("GET / ", () => {
+  test("It should respond with rendering of Faculty Portal Page", async () => {
+    const response = await request(x.app).get("/facultyback");
     expect(response.statusCode).toBe(200);
   });
 });

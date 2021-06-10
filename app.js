@@ -20,12 +20,14 @@ const {OAuth2Client} = require('google-auth-library');
 const CLIENT_ID = '702568242650-7mth13f0ce7gfdbp3jqkn731dquqi45q.apps.googleusercontent.com';
 const client = new OAuth2Client(CLIENT_ID);
 
+let corsOptions = {
+    origin: 'trustedwebsite.com' // Compliant
+  };
 
 const mycon = mysql.createConnection({
     host     : process.env.MYSQL_URL,
     user     : process.env.MYSQL_USERNAME,
-    password : process.env.MYSQL_PASSWORD,
-    database : process.env.MYSQL_DATABASE_ACC
+    password : process.env.MYSQL_PASSWORD
   });
 
 var urlencodedParser = bodyParser.urlencoded({ extended: true });
@@ -37,7 +39,7 @@ app.use(bodyParser.json());
 app.use(require('express-post-redirect'));
 app.use(express.json());
 app.use(cookieParser());
-app.use(cors());
+app.use(cors(corsOptions));
 
 app.post('/googlelogin', urlencodedParser, function(req,res)
 {
@@ -71,9 +73,9 @@ app.get('/dashboard', checkAuthenticated, function(req,res)
             if(results.length==0){res.redirect('/loginpage');}
             else{
                 mycon.query(`(select firstName from personaldetails_s where student_id=?) union (select firstName from personaldetails_f where faculty_id=?)`,[results[0].username,results[0].username],function(err1,results2){
-                    if(results[0].role=="admin"){role="admin_portal_page";res.render(role,{username:results[0].username,course:false,faculty:false,filedetails:false});}
-                    else if(results[0].role=="faculty"){role="faculty_portal_page";res.render(role,{username: results[0].username,facultyname:results2[0].firstName,course:false,addcourse:false,removecourse:false});}
-                    else{role="student_portal_page";res.render(role,{username: results[0].username,studentname:results2[0].firstName,course:false});}    
+                    if(results[0].role=="admin"){let role="admin_portal_page";res.render(role,{username:results[0].username,course:false,faculty:false,filedetails:false});}
+                    else if(results[0].role=="faculty"){let role="faculty_portal_page";res.render(role,{username: results[0].username,facultyname:results2[0].firstName,course:false,addcourse:false,removecourse:false});}
+                    else{let role="student_portal_page";res.render(role,{username: results[0].username,studentname:results2[0].firstName,course:false});}    
                 });  
             }
         });
@@ -114,7 +116,5 @@ function checkAuthenticated(req, res, next)
     });
 }
 
-// const PORT = process.env.PORT || 1337;
-// let server = app.listen(PORT, () => log('server listening on :' + PORT));
-var server = app.listen(3000, function () {});
+var server = app.listen(3000, function () {console.log("Connected Successfully")});
 module.exports.app = app;

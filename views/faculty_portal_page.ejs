@@ -95,7 +95,7 @@
         <div class="col-10">
           <%if(course){%>
             <% for(var i=0;i< course.length ;i++) { %>
-              <div class="card-deck">
+              <div class="card-deck mb-1">
                   <div class="card">
                     <div id="cardbody" class="card-body">
                       <a id="carddtext" class="card-title" id="courseid" href="/coursepage?courseid=<%=course[i].course_id %>&username=<%=username%>&facultyname=<%=facultyname%>"><%=course[i].course_id %></a>
@@ -107,7 +107,7 @@
 
           <%if(addcourse){%>
             <% for(var i=0;i< addcourse.length ;i++) { %>
-              <div class="card-deck">
+              <div class="card-deck mb-1">
                   <div class="card">
                     <div id="cardbody" class="card-body">
                       <a id="carddtext" class="card-title" href="/addcourse?courseid=<%=addcourse[i].course_id %>&username=<%=username%>&facultyname=<%=facultyname%>"><%=addcourse[i].course_id %></a>
@@ -119,7 +119,7 @@
           
           <%if(removecourse){%>
             <% for(var i=0;i< removecourse.length ;i++) { %>
-              <div class="card-deck">
+              <div class="card-deck mb-1">
                   <div class="card">
                     <div id="cardbody" class="card-body">
                       <a id="carddtext" class="card-title" id="courseid" href="#"><%=removecourse[i].course_id %></a>

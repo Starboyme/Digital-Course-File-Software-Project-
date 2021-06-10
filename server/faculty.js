@@ -3,8 +3,8 @@ var app = express();
 app.disable("x-powered-by");
 
 let helmet = require("helmet");
-let app2 = express();
-app2.use(helmet.hidePoweredBy());
+let app1 = express();
+app1.use(helmet.hidePoweredBy());
 
 
 const mysql = require('mysql');
@@ -49,17 +49,19 @@ conn.once('open', () => {
   gfs.collection('originalfile');
 });
 
-
+let corsOptions = {
+  origin: 'trustedwebsite.com' // Compliant
+};
 
 var urlencodedParser = bodyParser.urlencoded({ extended: true });
-app2.set('view engine','ejs');
-app2.use(bodyParser.urlencoded({extended: true}));
-app2.use(express.static(path.join(__dirname,'public')));
-app2.use(express.json());
-app2.use(require('express-post-redirect'));
-app2.use(bodyParser.json());
-app2.use(methodOverride('_method'));
-app2.use(cors());
+app1.set('view engine','ejs');
+app1.use(bodyParser.urlencoded({extended: true}));
+app1.use(express.static(path.join(__dirname,'public')));
+app1.use(express.json());
+app1.use(require('express-post-redirect'));
+app1.use(bodyParser.json());
+app1.use(methodOverride('_method'));
+app1.use(cors(corsOptions));
 
 
 const storage = new GridFsStorage({
@@ -126,7 +128,7 @@ module.exports = function(app2){
         mycon.connect(function(err){
           mycon.query(`SET SQL_SAFE_UPDATES = 0;`,function(err2,results)
           { 
-            mycon.query(`delete from fc_conn where course_id=? and faculty_id=?;`,[req.param('courseid'),req.param('username')],function(err1,results){
+            mycon.query(`delete from fc_conn where course_id=? and faculty_id=?;`,[req.param('courseid'),req.param('username')],function(err1,results1){
                   res.redirect('/displaycourses?username='+req.param('username')+'&facultyname='+req.param('facultyname')+'&type=2');
                 });
             });
@@ -161,8 +163,8 @@ module.exports = function(app2){
           if (err) throw err;
           var dbo = db.db("DigitalCourseFile");
           var myobj = { facultyid: req.param('username'),courseid: req.param('courseid'),filename: req.file.filename,filetype: req.param('filetype'),fileid: req.file.id,date: curdate,time: curtime };
-          dbo.collection("FileDetails").insertOne(myobj, function(err, res) {
-            if (err) throw err;
+          dbo.collection("FileDetails").insertOne(myobj, function(err1, res1) {
+            if (err1) throw err1;
             console.log("1 document inserted");
             db.close();
           });
@@ -176,15 +178,14 @@ module.exports = function(app2){
           MongoClient.connect("mongodb://localhost:27017/", function(err, db) {
             if (err) throw err;
             var dbo = db.db("DigitalCourseFile");
-            dbo.collection("FileDetails").find({courseid:req.param('courseid'),facultyid:req.param('username'),filename:req.body.fname}).toArray(function(err, result) {
+            dbo.collection("FileDetails").find({courseid:req.param('courseid'),facultyid:req.param('username'),filename:req.body.fname}).toArray(function(err1, result) {
                 var fileid=[]
                 result.forEach(user=>{
                 fileid.push(ObjectId(user.fileid));
               });
 
-              // console.log(fileid);
 
-              gfs.files.find({"_id" : {"$in" : fileid}}).toArray((err, files) => {
+              gfs.files.find({"_id" : {"$in" : fileid}}).toArray((err2, files) => {
                 var x;
                 if (!files || files.length === 0) {x=false}
                 else {x=files}
@@ -199,9 +200,6 @@ module.exports = function(app2){
     });
 
     app2.get('/feedbacks', (req, res) => {
-      // console.log("Im in bro");
-      // console.log(req.param('courseid'));
-      // console.log(req.param('username'));
       mycon.connect(function(err){
           mycon.query(`select * from feedback where course_id=? and faculty_id=?;`,[req.param('courseid'),req.param('username')],function(err1,result){
             console.log(result);
@@ -211,7 +209,6 @@ module.exports = function(app2){
             }
             else
             {
-              // console.log("Nothing");
               res.render('faculty_course_page',{username:req.param('username'),facultyname:req.param('facultyname'),courseid:req.param('courseid'),coursename:req.param('coursename'),type:req.param('type'),results:false});
             }
             
@@ -224,18 +221,13 @@ module.exports = function(app2){
         MongoClient.connect("mongodb://localhost:27017/", function(err, db) {
             if (err) throw err;
             var dbo = db.db("DigitalCourseFile");
-            // console.log(req.param('courseid'));
-            // console.log(req.param('username'));
-            // console.log(req.param('filetype'));
-            dbo.collection("FileDetails").find({courseid:req.param('courseid'),facultyid:req.param('username'),filetype:req.param('filetype')}).toArray(function(err, result) {
+            dbo.collection("FileDetails").find({courseid:req.param('courseid'),facultyid:req.param('username'),filetype:req.param('filetype')}).toArray(function(err1, result) {
                 var fileid=[]
                 result.forEach(user=>{
                 fileid.push(ObjectId(user.fileid));
               });
 
-              // console.log(fileid);
-
-              gfs.files.find({"_id" : {"$in" : fileid}}).toArray((err, files) => {
+              gfs.files.find({"_id" : {"$in" : fileid}}).toArray((err2, files) => {
                 var x;
                 if (!files || files.length === 0) {x=false}
                 else {x=files}
@@ -265,19 +257,17 @@ module.exports = function(app2){
 
         MongoClient.connect("mongodb://localhost:27017/", function(err, db) {
           var dbo = db.db("DigitalCourseFile");
-          // console.log("raj"+req.params.id);
-          // var myquery = { fileid: req.params.id };
-          dbo.collection("FileDetails").deleteOne({fileid:ObjectId(req.params.id)}, function(err, obj) {
-            if (err) throw err;
+          dbo.collection("FileDetails").deleteOne({fileid:ObjectId(req.params.id)}, function(err1, obj) {
+            if (err1) throw err1;
             console.log("1 document deleted");
             db.close();
           });
 
         });
 
-        gfs.remove({ _id: req.params.id, root: 'originalfile' }, (err, gridStore) => {
-          if (err) {
-            return res.status(404).json({ err: err });
+        gfs.remove({ _id: req.params.id, root: 'originalfile' }, (err2, gridStore) => {
+          if (err2) {
+            return res.status(404).json({ err2: err2 });
           }
           res.redirect('/displayfiles?username='+req.param('username')+'&courseid='+req.param('courseid')+'&type='+req.param('type')+'&filetype='+req.param('filetype'));
         });
@@ -326,7 +316,7 @@ module.exports = function(app2){
       console.log(req.body);
       mycon.connect(function(err){
         mycon.query(`UPDATE personaldetails_f SET phoneNo =? ,address=? WHERE faculty_id=?`,[req.param('PhoneNo'),req.param('address'),req.param('username')],function(err1,results){
-        });
+        console.log("success")});
         res.redirect('/facultyprofile?username='+req.param('username')+'&facultyname='+req.param('facultyname')+'&changep=false');
       });
 
@@ -346,7 +336,7 @@ module.exports = function(app2){
     MongoClient.connect(mongoURI, function(err, db) {
       if (err) throw err;
       var dbo = db.db("DigitalCourseFile");
-      dbo.collection("FileDetails").find({filename:regex,courseid:req.param('courseid'),facultyid:req.param('username')}).toArray(function(err, result) {
+      dbo.collection("FileDetails").find({filename:regex,courseid:req.param('courseid'),facultyid:req.param('username')}).toArray(function(err2, result) {
         
         if(result && result.length && result.length>0){
           var results=[];
