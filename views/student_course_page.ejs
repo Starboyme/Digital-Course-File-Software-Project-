@@ -164,8 +164,8 @@
           <div class="d-flex bd-highlight" id="ProfileBox">
             <div  class="p-2 flex-grow-1 bd-highlight">
               <% if(type==1){ %>
-                <!-- <h1 class="text-center display-4 my-4" id="inputquestionpaper">Question paper</h1>
-                <form action="/upload?courseid=<%=courseid %>&username=<%=username%>&coursename=<%=coursename%>&facultyname=<%=facultyname%>&studentname=<%=studentname%>&filetype=q&type=1" method="POST" enctype="multipart/form-data">
+                <h1 class="text-center display-4 my-4" id="inputquestionpaper">Question paper</h1>
+                <!-- <form action="/upload?courseid=<%=courseid %>&username=<%=username%>&coursename=<%=coursename%>&facultyname=<%=facultyname%>&studentname=<%=studentname%>&filetype=q&type=1" method="POST" enctype="multipart/form-data">
                   <div class="custom-file mb-3">
                     <input type="file" name="file" id="file" class="custom-file-input" onchange="filename()">
                     <label for="file"  id="fileInput" class="custom-file-label" >Choose File</label>
@@ -193,16 +193,16 @@
 
                 <% } else if(type==2){ %>
                     
-                <!-- <div class="container">
+                <div class="container">
                 <h1 class="text-center display-4 my-4" id="inputprojectmaterial">Project Materials</h1>
-                <form action="/upload?courseid=<%=courseid %>&username=<%=username%>&coursename=<%=coursename%>&facultyname=<%=facultyname%>&studentname=<%=studentname%>&filetype=p&type=2" method="POST" enctype="multipart/form-data">
+                <!-- <form action="/upload?courseid=<%=courseid %>&username=<%=username%>&coursename=<%=coursename%>&facultyname=<%=facultyname%>&studentname=<%=studentname%>&filetype=p&type=2" method="POST" enctype="multipart/form-data">
                   <div class="custom-file mb-3">
                     <input type="file"  name="file" id="file" class="custom-file-input" onchange="filename()">
                     <label for="file" id="fileInput" class="custom-file-label" >Choose File</label>
                   </div>
                   <input type="submit" value="Submit" id="filesubmit" class="btn btn-primary btn-block">
-                </form>
-                </div> -->
+                </form> -->
+                </div>
 
                 <% if(files){ %>
                   <% files.forEach(function(file) { %>
@@ -223,16 +223,16 @@
 
                 <% } else if(type==3){ %>
 
-                <!-- <div class="container">
+                <div class="container">
                 <h1 class="text-center display-4 my-4" id="inputclassmaterial">Class Materials</h1>
-                <form action="/upload?courseid=<%=courseid %>&username=<%=username%>&coursename=<%=coursename%>&facultyname=<%=facultyname%>&studentname=<%=studentname%>&filetype=c&type=3" method="POST" enctype="multipart/form-data">
+                <!-- <form action="/upload?courseid=<%=courseid %>&username=<%=username%>&coursename=<%=coursename%>&facultyname=<%=facultyname%>&studentname=<%=studentname%>&filetype=c&type=3" method="POST" enctype="multipart/form-data">
                   <div class="custom-file mb-3">
                     <input type="file"  name="file" id="file" class="custom-file-input" onchange="filename()">
                     <label for="file" id="fileInput" class="custom-file-label" >Choose File</label>
                   </div>
                   <input type="submit" value="Submit" id="filesubmit" class="btn btn-primary btn-block">
-                </form>
-                </div> -->
+                </form> -->
+                </div>
 
                 <% if(files){ %>
                   <% files.forEach(function(file) { %>
@@ -254,15 +254,15 @@
 
                 <% } else if(type==4){ %>
 
-                <!-- <div class="container">
+                <div class="container">
                 <h1 class="text-center display-4 my-4" id="inputgrades">Grades</h1>
-                <form action="/upload?courseid=<%=courseid %>&username=<%=username%>&coursename=<%=coursename%>&facultyname=<%=facultyname%>&studentname=<%=studentname%>&filetype=g&type=4" method="POST" enctype="multipart/form-data">
+                <!-- <form action="/upload?courseid=<%=courseid %>&username=<%=username%>&coursename=<%=coursename%>&facultyname=<%=facultyname%>&studentname=<%=studentname%>&filetype=g&type=4" method="POST" enctype="multipart/form-data">
                   <div class="custom-file mb-3">
                     <input type="file" name="file" id="file" class="custom-file-input" onchange="filename()"><br>
                     <label for="file"  id="fileInput" class="custom-file-label" >Choose File</label><br>
                   <input type="submit" value="Submit" id="filesubmit" class="btn btn-primary btn-block">
-                </form>
-                </div> -->
+                </form> -->
+                </div>
 
                 <% if(files){ %>
                   <% files.forEach(function(file) { %>
@@ -323,9 +323,12 @@
                             <% } %>
 
                   <% } else if(type==6){ %>
-                    <div>
-                      <form action="/feedbackupdate?courseid=<%=courseid %>&username=<%=username%>&coursename=<%=coursename%>&facultyname=<%=facultyname%>&studentname=<%=studentname%>&type=7&faculty_id=<%=faculty_id%>" method="POST">
-                        <textarea class="w-75" name="feedbackmsg" id="feedbackmsg"></textarea><br>
+                    <div class="container">
+                      <h1 class="ml-4 display-4" id="inputgrades">Feedback</h1>
+                    </div>
+                    <div>                    
+                      <form class="ml-5" action="/feedbackupdate?courseid=<%=courseid %>&username=<%=username%>&coursename=<%=coursename%>&facultyname=<%=facultyname%>&studentname=<%=studentname%>&type=7&faculty_id=<%=faculty_id%>" method="POST">
+                        <textarea class="w-75 ml-auto" name="feedbackmsg" id="feedbackmsg"></textarea><br>
                         <button class="btn btn-dark" type="submit">Send</button>
                       </form>
                     </div>
