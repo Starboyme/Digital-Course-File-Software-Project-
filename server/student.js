@@ -66,17 +66,22 @@ module.exports = function(app2){
       mycon.connect(function(err){
       mycon.query(`select s1.course_id,s1.faculty_id,s2.firstName from sc_conn s1,personaldetails_f s2 where s1.faculty_id=s2.faculty_id and student_id=?;`,[req.param('username')],function(err1,results){
           console.log(results);
-          res.render('student_portal_page',{username:req.param('username'),course:results});
+          res.render('student_portal_page',{username:req.param('username'),studentname:req.param('studentname'),course:results});
           });
         });
       });
 
       app2.get('/student_coursepage',function(req,res){
-          res.render('student_course_page',{username:req.param('username'),courseid:req.param('courseid'),faculty_id:req.param('faculty_id'),type:0,files:false});
+
+          mycon.connect(function(err){
+          mycon.query(`select firstName from personaldetails_f where faculty_id=?`,[req.param('faculty_id')],function(err1,results){
+                res.render('student_course_page',{username:req.param('username'),studentname:req.param('studentname'),courseid:req.param('courseid'),faculty_id:req.param('faculty_id'),facultyname:results[0].firstName,type:0,files:false});
+              });
+            });
       });
 
       app2.get('/studentfeedback', (req, res) => {
-        res.render('student_course_page',{username:req.param('username'),courseid:req.param('courseid'),faculty_id:req.param('faculty_id'),type:req.param('type'),files:false});
+        res.render('student_course_page',{username:req.param('username'),studentname:req.param('studentname'),courseid:req.param('courseid'),faculty_id:req.param('faculty_id'),facultyname:req.param('facultyname'),type:req.param('type'),files:false});
       });
 
       app2.post('/feedbackupdate',urlencodedParser, (req, res) => {
@@ -89,7 +94,7 @@ module.exports = function(app2){
         // console.log(req.param('faculty_id'));
         mycon.connect(function(err){
           mycon.query(`insert into feedback values(?,?,?,?,?,?);`,[req.param('courseid'),req.param('faculty_id'),req.param('username'),message,curdate,curtime],function(err1,result){
-            res.render('student_course_page',{username:req.param('username'),courseid:req.param('courseid'),faculty_id:req.param('faculty_id'),type:req.param('type'),files:false,results:"Thank you for the feedback!"});
+            res.render('student_course_page',{username:req.param('username'),studentname:req.param('studentname'),courseid:req.param('courseid'),faculty_id:req.param('faculty_id'),facultyname:req.param('facultyname'),type:req.param('type'),files:false,results:"Thank you for the feedback!"});
               });
           });
       });
@@ -108,7 +113,7 @@ module.exports = function(app2){
                 var x;
                 if (!files || files.length === 0) {x=false}
                 else {x=files}
-                res.render('student_course_page',{username:req.param('username'),courseid:req.param('courseid'),faculty_id:req.param('faculty_id'),type:req.param('type'),files:x});
+                res.render('student_course_page',{username:req.param('username'),studentname:req.param('studentname'),courseid:req.param('courseid'),faculty_id:req.param('faculty_id'),facultyname:req.param('facultyname'),type:req.param('type'),files:x});
               });
             });
             db.close();
@@ -116,12 +121,23 @@ module.exports = function(app2){
 
     });
 
+    app2.post('/student_editprofile', urlencodedParser,function(req,res){
+      console.log(req.param('username'));
+      console.log(req.body);
+      mycon.connect(function(err){
+        mycon.query(`UPDATE personaldetails_s SET phoneNo =? ,address=? WHERE student_id=?`,[req.param('PhoneNo'),req.param('address'),req.param('username')],function(err1,results){
+        });
+        res.redirect('/student_profile?username='+req.param('username')+'&studentname='+req.param('studentname')+'&changep=false');
+      });
+    });
+
+
 
     app2.post('/student_search', urlencodedParser,(req, res) => {
       MongoClient.connect("mongodb://localhost:27017/", function(err, db) {
         if (err) throw err;
         var dbo = db.db("DigitalCourseFile");
-        dbo.collection("FileDetails").find({courseid:req.param('courseid'),facultyid:req.param('username'),filename:req.body.fname}).toArray(function(err, result) {
+        dbo.collection("FileDetails").find({courseid:req.param('courseid'),facultyid:req.param('faculty_id'),filename:req.body.fname}).toArray(function(err, result) {
             var fileid=[]
             result.forEach(user=>{
             fileid.push(ObjectId(user.fileid));
@@ -130,7 +146,7 @@ module.exports = function(app2){
             var x;
             if (!files || files.length === 0) {x=false}
             else {x=files}
-            res.render('student_course_page',{username:req.param('username'),courseid:req.param('courseid'),faculty_id:req.param('faculty_id'),type:req.param('type'),files:x});
+            res.render('student_course_page',{username:req.param('username'),studentname:req.param('studentname'),courseid:req.param('courseid'),faculty_id:req.param('faculty_id'),facultyname:req.param('facultyname'),type:req.param('type'),files:x});
           });
         });
         db.close();
@@ -138,7 +154,7 @@ module.exports = function(app2){
     });
   
     app2.get('/studentback', (req, res) => {
-      res.render('student_portal_page',{username:req.param('username'),course:false});
+      res.render('student_portal_page',{username:req.param('username'),studentname:req.param('studentname'),course:false});
    });
 
    app2.get('/student_profile',function(req,res){
@@ -148,14 +164,10 @@ module.exports = function(app2){
             console.log(results);
             console.log(req.param('changep')); 
             console.log(typeof(req.param('changep')));     
-            res.render('student_profile',{username:req.param('username'),profdetails:results,changep:req.param('changep')});
+            res.render('student_profile',{username:req.param('username'),studentname:req.param('studentname'),studentdetails:results,changep:req.param('changep')});
            });
         });
      });
-
-      app2.get('/student_changepasswordbutton',function(req,res){
-      res.redirect('/student_profile?username='+req.param('username')+'&changep=true');
-    });
 
 
 

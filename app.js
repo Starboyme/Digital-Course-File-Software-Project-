@@ -70,9 +70,11 @@ app.get('/dashboard', checkAuthenticated, function(req,res)
         mycon.query(`select * from login where email=?`,[user.email],function(err1,results){
             if(results.length==0){res.redirect('/loginpage');}
             else{
-                if(results[0].role=="admin"){role="admin_portal_page";res.render(role,{username: results[0].username,course:false,faculty:false,filedetails:false});}
-                else if(results[0].role=="faculty"){role="faculty_portal_page";res.render(role,{username: results[0].username,course:false,addcourse:false,removecourse:false});}
-                else{role="student_portal_page";res.render(role,{username: results[0].username,course:false});}
+                mycon.query(`(select firstName from personaldetails_s where student_id=?) union (select firstName from personaldetails_f where faculty_id=?)`,[results[0].username,results[0].username],function(err1,results2){
+                    if(results[0].role=="admin"){role="admin_portal_page";res.render(role,{username:results[0].username,course:false,faculty:false,filedetails:false});}
+                    else if(results[0].role=="faculty"){role="faculty_portal_page";res.render(role,{username: results[0].username,facultyname:results2[0].firstName,course:false,addcourse:false,removecourse:false});}
+                    else{role="student_portal_page";res.render(role,{username: results[0].username,studentname:results2[0].firstName,course:false});}    
+                });  
             }
         });
     });

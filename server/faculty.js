@@ -90,11 +90,11 @@ module.exports = function(app2){
             console.log(typeof(req.param('type')));
             if(req.param('type')=='1')
             {
-              res.render('faculty_portal_page',{username:req.param('username'),course:results,addcourse:false,removecourse:false});
+              res.render('faculty_portal_page',{username:req.param('username'),facultyname:req.param('facultyname'),course:results,addcourse:false,removecourse:false});
             }
             else
             {
-              res.render('faculty_portal_page',{username:req.param('username'),removecourse:results,addcourse:false,course:false});
+              res.render('faculty_portal_page',{username:req.param('username'),facultyname:req.param('facultyname'),removecourse:results,addcourse:false,course:false});
             }
             
         });
@@ -105,7 +105,7 @@ module.exports = function(app2){
       mycon.connect(function(err){
         mycon.query(`SELECT t1.course_id FROM course t1 LEFT JOIN (select * from fc_conn where faculty_id=?) t2 ON t2.course_id = t1.course_id WHERE t2.course_id IS NULL`,[req.param('username')],function(err1,results){
             console.log(results);
-            res.render('faculty_portal_page',{username:req.param('username'),course:false,removecourse:false,addcourse:results});
+            res.render('faculty_portal_page',{username:req.param('username'),facultyname:req.param('facultyname'),course:false,removecourse:false,addcourse:results});
             });
           });
       });
@@ -114,7 +114,7 @@ module.exports = function(app2){
       console.log("hi");
       mycon.connect(function(err){
         mycon.query(`insert into fc_conn values (?,?);`,[req.param('courseid'),req.param('username')],function(err1,results){
-               res.redirect('/showcourses?username='+req.param('username'));
+               res.redirect('/showcourses?username='+req.param('username')+'&facultyname='+req.param('facultyname'));
             });
           });
       });
@@ -124,17 +124,22 @@ module.exports = function(app2){
         console.log(req.param('courseid'));
         console.log(req.param('username'));
         mycon.connect(function(err){
-          mycon.query(`SET SQL_SAFE_UPDATES = 0;`,function(err2,resultss)
+          mycon.query(`SET SQL_SAFE_UPDATES = 0;`,function(err2,results)
           { 
             mycon.query(`delete from fc_conn where course_id=? and faculty_id=?;`,[req.param('courseid'),req.param('username')],function(err1,results){
-                  res.redirect('/displaycourses?username='+req.param('username')+'&type=2');
+                  res.redirect('/displaycourses?username='+req.param('username')+'&facultyname='+req.param('facultyname')+'&type=2');
                 });
             });
           });
         });
 
     app2.get('/coursepage',function(req,res){
-        res.render('faculty_course_page',{username:req.param('username'),courseid:req.param('courseid'),type:0,files:false});
+      mycon.connect(function(err){
+        mycon.query(`select course_name from course where course_id = ?;`,[req.param('courseid')],function(err2,results)
+        { 
+           res.render('faculty_course_page',{username:req.param('username'),facultyname:req.param('facultyname'),courseid:req.param('courseid'),coursename:results[0].course_name,type:0,files:false});
+        });
+      });
     });
 
     app2.post('/upload',upload.single('file'),(req, res) => {
@@ -162,7 +167,7 @@ module.exports = function(app2){
             db.close();
           });
         });
-        res.redirect('/displayfiles?username='+req.param('username')+'&courseid='+req.param('courseid')+'&type='+req.param('type')+'&filetype='+req.param('filetype'));
+        res.redirect('/displayfiles?username='+req.param('username')+'&courseid='+req.param('courseid')+'&coursename='+req.param('coursename')+'&type='+req.param('type')+'&filetype='+req.param('filetype'));
     });
     
     app2.post('/search', urlencodedParser,(req, res) => {
@@ -183,7 +188,7 @@ module.exports = function(app2){
                 var x;
                 if (!files || files.length === 0) {x=false}
                 else {x=files}
-                res.render('faculty_course_page',{username:req.param('username'),courseid:req.param('courseid'),type:req.param('type'),files:x});
+                res.render('faculty_course_page',{username:req.param('username'),facultyname:req.param('facultyname'),courseid:req.param('courseid'),coursename:req.param('coursename'),type:req.param('type'),files:x});
               });
 
             });
@@ -202,12 +207,12 @@ module.exports = function(app2){
             console.log(result);
             if(result.length != 0)
             {
-              res.render('faculty_course_page',{username:req.param('username'),courseid:req.param('courseid'),type:req.param('type'),results:result});
+              res.render('faculty_course_page',{username:req.param('username'),facultyname:req.param('facultyname'),courseid:req.param('courseid'),coursename:req.param('coursename'),type:req.param('type'),results:result});
             }
             else
             {
               // console.log("Nothing");
-              res.render('faculty_course_page',{username:req.param('username'),courseid:req.param('courseid'),type:req.param('type'),results:false});
+              res.render('faculty_course_page',{username:req.param('username'),facultyname:req.param('facultyname'),courseid:req.param('courseid'),coursename:req.param('coursename'),type:req.param('type'),results:false});
             }
             
               });
@@ -234,7 +239,7 @@ module.exports = function(app2){
                 var x;
                 if (!files || files.length === 0) {x=false}
                 else {x=files}
-                res.render('faculty_course_page',{username:req.param('username'),courseid:req.param('courseid'),type:req.param('type'),files:x});
+                res.render('faculty_course_page',{username:req.param('username'),facultyname:req.param('facultyname'),courseid:req.param('courseid'),coursename:req.param('coursename'),type:req.param('type'),files:x});
               });
 
 
@@ -252,7 +257,7 @@ module.exports = function(app2){
     });
 
     app2.get('/facultyback', (req, res) => {
-       res.render('faculty_portal_page',{username:req.param('username'),course:false,addcourse:false,removecourse:false});
+       res.render('faculty_portal_page',{username:req.param('username'),facultyname:req.param('facultyname'),course:false,addcourse:false,removecourse:false});
     });
 
     app2.get('/files/:id', (req, res) => {
@@ -286,7 +291,7 @@ module.exports = function(app2){
               console.log(results);
               console.log(req.param('changep')); 
               console.log(typeof(req.param('changep')));     
-              res.render('faculty_profile',{username: req.param('username'),profdetails:results,changep:req.param('changep')});
+              res.render('faculty_profile',{username: req.param('username'),facultyname:req.param('facultyname'),profdetails:results,changep:req.param('changep')});
           });
         });
     });
@@ -316,17 +321,13 @@ module.exports = function(app2){
       });
     });
 
-    app2.get('/changepasswordbutton',function(req,res){
-      res.redirect('/faculty_profile?username='+req.param('username')+'&changep=true');
-    });
-
     app2.post('/editprofile', urlencodedParser,function(req,res){
       console.log(req.param('username'));
       console.log(req.body);
       mycon.connect(function(err){
         mycon.query(`UPDATE personaldetails_f SET phoneNo =? ,address=? WHERE faculty_id=?`,[req.param('PhoneNo'),req.param('address'),req.param('username')],function(err1,results){
         });
-        res.redirect('/facultyprofile?username='+req.param('username')+'&changep=false');
+        res.redirect('/facultyprofile?username='+req.param('username')+'&facultyname='+req.param('facultyname')+'&changep=false');
       });
 
       
