@@ -75,38 +75,38 @@
             </div>
         </div>
         <div class="form-group row">
-            <label for="staticID" class="col-sm-2 col-form-label">Student ID</label>
+            <label for="staticID" class="col-sm-2 col-form-label text-center font-weight-bold">Student ID</label>
             <div class="col-sm-10">
-                <input type="text" readonly class="form-control-plaintext" id="staticID" value="<%=studentdetails[0].student_id%>">
+                <input type="text" readonly class="form-control-plaintext font-italic text-capitalize" id="staticID" value="<%=studentdetails[0].student_id%>">
             </div>
         </div>
         <div class="form-group row">
-            <label for="staticFName" class="col-sm-2 col-form-label">First Name</label>
+            <label for="staticFName" class="col-sm-2 col-form-label text-center font-weight-bold">First Name</label>
             <div class="col-sm-10">
-                <input type="text" readonly class="form-control-plaintext" id="staticFName" value="<%=studentdetails[0].firstName%>">
+                <input type="text" readonly class="form-control-plaintext font-italic text-capitalize" id="staticFName" value="<%=studentdetails[0].firstName%>">
             </div>
         </div>
         <div class="form-group row">
-            <label for="staticLName" class="col-sm-2 col-form-label">Last Name</label>
+            <label for="staticLName" class="col-sm-2 col-form-label text-center font-weight-bold">Last Name</label>
             <div class="col-sm-10">
-                <input type="text" readonly class="form-control-plaintext" id="staticLName" value="<%=studentdetails[0].lastName%>">
+                <input type="text" readonly class="form-control-plaintext font-italic text-capitalize" id="staticLName" value="<%=studentdetails[0].lastName%>">
             </div>
         </div>
         <form action="/student_editprofile?username=<%= studentdetails[0].student_id %>&studentname=<%=studentname%>&changep=false" method="POST">
             <div class="form-group row">
-                <label for="phno" class="col-sm-2 col-form-label">Phone No</label>
+                <label for="phno" class="col-sm-2 col-form-label text-center font-weight-bold">Phone No</label>
                 <div class="col-sm-10">
-                    <input class="form-control" type="tel" name="PhoneNo" id="phno" value="<%= studentdetails[0].phoneNo %>">
+                    <input class="form-control text-capitalize" style="width:30%" type="tel" name="PhoneNo" id="phno" value="<%= studentdetails[0].phoneNo %>">
                 </div>
             </div>
             <div class="form-group row">
-                <label for="address" class="col-sm-2 col-form-label">Address</label>
+                <label for="address" class="col-sm-2 col-form-label text-center font-weight-bold">Address</label>
                 <div class="col-sm-10">
-                    <input class="form-control" type="text" name="address" id="address" value="<%= studentdetails[0].address %>">
+                    <input class="form-control text-capitalize" style="width:30%" type="text" name="address" id="address" value="<%= studentdetails[0].address %>">
                 </div>
             </div>
             <div class="form-group row">
-                <label class="col-sm-2 col-form-label"></label>
+                <label class="col-sm-2 col-form-label text-center font-weight-bold"></label>
                 <div class="col-sm-10">
                     <input type="submit" class="btn btn-primary" value="Save">
                 </div>
@@ -120,10 +120,10 @@
                         document.getElementById("changepasswordid").innerHTML="\
                         <form action='/changepassword?username=<%= studentdetails[0].student_id %>&studentname=<%= studentname%>' method='POST'>\
                             Old password\
-                            <input class='form-control' type='text' name='oldpassword' id='oldpassword' required>\
+                            <input class='form-control' style='width:30%' type='text' name='oldpassword' id='oldpassword' required>\
                             New password\
-                            <input class='form-control' type='text' name='newpassword' id='newpassword' pattern='(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}' required>\
-                            <input type='submit' class='btn btn-primary' value='Save'>\
+                            <input class='form-control' style='width:30%' type='text' name='newpassword' id='newpassword' pattern='(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}' required>\
+                            <input type='submit' class='btn btn-primary mt-2' value='Save'>\
                         </form>\
                     ";
                     }
