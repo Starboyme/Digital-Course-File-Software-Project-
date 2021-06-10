@@ -75,13 +75,16 @@ module.exports = function(app2){
 
           mycon.connect(function(err){
           mycon.query(`select firstName from personaldetails_f where faculty_id=?`,[req.param('faculty_id')],function(err1,results){
-                res.render('student_course_page',{username:req.param('username'),studentname:req.param('studentname'),courseid:req.param('courseid'),faculty_id:req.param('faculty_id'),facultyname:results[0].firstName,type:0,files:false});
+              mycon.query(`select course_name from course where course_id = ?;`,[req.param('courseid')],function(err2,results2)
+              { 
+                res.render('student_course_page',{username:req.param('username'),studentname:req.param('studentname'),coursename:results2[0].course_name,courseid:req.param('courseid'),faculty_id:req.param('faculty_id'),facultyname:results[0].firstName,type:0,files:false});
+              });
               });
             });
       });
 
       app2.get('/studentfeedback', (req, res) => {
-        res.render('student_course_page',{username:req.param('username'),studentname:req.param('studentname'),courseid:req.param('courseid'),faculty_id:req.param('faculty_id'),facultyname:req.param('facultyname'),type:req.param('type'),files:false});
+        res.render('student_course_page',{username:req.param('username'),coursename:req.param('coursename'),studentname:req.param('studentname'),courseid:req.param('courseid'),faculty_id:req.param('faculty_id'),facultyname:req.param('facultyname'),type:req.param('type'),files:false});
       });
 
       app2.post('/feedbackupdate',urlencodedParser, (req, res) => {
@@ -94,7 +97,7 @@ module.exports = function(app2){
         // console.log(req.param('faculty_id'));
         mycon.connect(function(err){
           mycon.query(`insert into feedback values(?,?,?,?,?,?);`,[req.param('courseid'),req.param('faculty_id'),req.param('username'),message,curdate,curtime],function(err1,result){
-            res.render('student_course_page',{username:req.param('username'),studentname:req.param('studentname'),courseid:req.param('courseid'),faculty_id:req.param('faculty_id'),facultyname:req.param('facultyname'),type:req.param('type'),files:false,results:"Thank you for the feedback!"});
+            res.render('student_course_page',{username:req.param('username'),coursename:req.param('coursename'),studentname:req.param('studentname'),courseid:req.param('courseid'),faculty_id:req.param('faculty_id'),facultyname:req.param('facultyname'),type:req.param('type'),files:false,results:"Thank you for the feedback!"});
               });
           });
       });
@@ -113,7 +116,7 @@ module.exports = function(app2){
                 var x;
                 if (!files || files.length === 0) {x=false}
                 else {x=files}
-                res.render('student_course_page',{username:req.param('username'),studentname:req.param('studentname'),courseid:req.param('courseid'),faculty_id:req.param('faculty_id'),facultyname:req.param('facultyname'),type:req.param('type'),files:x});
+                res.render('student_course_page',{username:req.param('username'),coursename:req.param('coursename'),studentname:req.param('studentname'),courseid:req.param('courseid'),faculty_id:req.param('faculty_id'),facultyname:req.param('facultyname'),type:req.param('type'),files:x});
               });
             });
             db.close();
@@ -146,7 +149,7 @@ module.exports = function(app2){
             var x;
             if (!files || files.length === 0) {x=false}
             else {x=files}
-            res.render('student_course_page',{username:req.param('username'),studentname:req.param('studentname'),courseid:req.param('courseid'),faculty_id:req.param('faculty_id'),facultyname:req.param('facultyname'),type:req.param('type'),files:x});
+            res.render('student_course_page',{username:req.param('username'),coursename:req.param('coursename'),studentname:req.param('studentname'),courseid:req.param('courseid'),faculty_id:req.param('faculty_id'),facultyname:req.param('facultyname'),type:req.param('type'),files:x});
           });
         });
         db.close();
@@ -168,7 +171,5 @@ module.exports = function(app2){
            });
         });
      });
-
-
 
 }
