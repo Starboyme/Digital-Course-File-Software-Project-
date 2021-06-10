@@ -97,8 +97,8 @@
             <% for(var i=0;i< course.length ;i++) { %>
               <div class="card-deck">
                   <div class="card">
-                    <div class="card-body">
-                      <a class="card-title" id="courseid" href="/coursepage?courseid=<%=course[i].course_id %>&username=<%=username%>&facultyname=<%=facultyname%>"><%=course[i].course_id %></a>
+                    <div id="cardbody" class="card-body">
+                      <a id="carddtext" class="card-title" id="courseid" href="/coursepage?courseid=<%=course[i].course_id %>&username=<%=username%>&facultyname=<%=facultyname%>"><%=course[i].course_id %></a>
                     </div>
                   </div>
                 </div>
@@ -109,8 +109,8 @@
             <% for(var i=0;i< addcourse.length ;i++) { %>
               <div class="card-deck">
                   <div class="card">
-                    <div class="card-body">
-                      <a class="card-title" href="/addcourse?courseid=<%=addcourse[i].course_id %>&username=<%=username%>&facultyname=<%=facultyname%>"><%=addcourse[i].course_id %></a>
+                    <div id="cardbody" class="card-body">
+                      <a id="carddtext" class="card-title" href="/addcourse?courseid=<%=addcourse[i].course_id %>&username=<%=username%>&facultyname=<%=facultyname%>"><%=addcourse[i].course_id %></a>
                     </div>
                   </div>
                 </div>
@@ -121,8 +121,8 @@
             <% for(var i=0;i< removecourse.length ;i++) { %>
               <div class="card-deck">
                   <div class="card">
-                    <div class="card-body">
-                      <a class="card-title" id="courseid" href="#"><%=removecourse[i].course_id %></a>
+                    <div id="cardbody" class="card-body">
+                      <a id="carddtext" class="card-title" id="courseid" href="#"><%=removecourse[i].course_id %></a>
                       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                       <a href="/removecourse?courseid=<%=removecourse[i].course_id %>&username=<%=username%>&facultyname=<%=facultyname%>"><button class="btn" style="color: red;"><i class="fa fa-close"></i></button></a>
                     </div>
