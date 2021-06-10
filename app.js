@@ -27,7 +27,8 @@ let corsOptions = {
 const mycon = mysql.createConnection({
     host     : process.env.MYSQL_URL,
     user     : process.env.MYSQL_USERNAME,
-    password : process.env.MYSQL_PASSWORD
+    password : process.env.MYSQL_PASSWORD,
+    database : process.env.MYSQL_DATABASE_ACC
   });
 
 var urlencodedParser = bodyParser.urlencoded({ extended: true });
